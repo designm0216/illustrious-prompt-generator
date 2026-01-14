@@ -834,6 +834,78 @@ const PROMPT_DATABASE = {
         { id: "na6", label: "産卵", value: "egg laying, oviposition", nsfw: true, weight: 1.3 }
     ],
 
+    // ==========================================
+    // ★ Phase 2: 質感・生理現象（最重要）
+    // ==========================================
+    physiology: [
+        { id: "phy1", label: "大量の汗", value: "heavy sweating, sweat drop", nsfw: true, weight: 1.2 },
+        { id: "phy2", label: "荒い息・蒸気", value: "heavy breathing, steam", nsfw: true, weight: 1.1 },
+        { id: "phy3", label: "全身紅潮", value: "flushed skin, red skin", nsfw: true, weight: 1.2 },
+        { id: "phy4", label: "よだれ・垂れ", value: "drooling, saliva trail", nsfw: true, weight: 1.2 },
+        { id: "phy5", label: "身体の震え", value: "trembling, shaking", nsfw: true },
+        { id: "phy6", label: "白目", value: "rolling eyes", nsfw: true, weight: 1.3 },
+        { id: "phy7", label: "お腹の膨らみ", value: "stomach bulge", nsfw: true, weight: 1.3 },
+        { id: "phy8", label: "鳥肌", value: "goosebumps", nsfw: true },
+        { id: "phy9", label: "愛液が糸を引く", value: "pussy juice trail, dripping", nsfw: true, weight: 1.3 },
+        { id: "phy10", label: "濡れた太もも", value: "wet thighs", nsfw: true }
+    ],
+
+    // ==========================================
+    // ★ Phase 3: 着衣の乱れ（破壊力大）
+    // ==========================================
+    clothing_disarray: [
+        { id: "cd1", label: "服をたくし上げ", value: "clothes lift, shirt lift", nsfw: true },
+        { id: "cd2", label: "服をずらす・引っ張る", value: "clothes pull, panty pull", nsfw: true },
+        { id: "cd3", label: "片方だけ脱ぐ", value: "partially undressed, asymmetrical clothes", nsfw: true },
+        { id: "cd4", label: "服がはだける", value: "open clothes, disheveled", nsfw: true },
+        { id: "cd5", label: "下着が見える", value: "underwear peek, panty peek", nsfw: true },
+        { id: "cd6", label: "足首にパンツ", value: "panties around ankles", nsfw: true },
+        { id: "cd7", label: "髪の乱れ", value: "messy hair, disheveled hair", nsfw: true, weight: 1.2 },
+        { id: "cd8", label: "濡れて透ける", value: "wet clothes, see-through", nsfw: true, weight: 1.3 }
+    ],
+
+    // ==========================================
+    // ★ Phase 4: エロ特化カメラアングル
+    // ==========================================
+    erotic_camera: [
+        { id: "ec1", label: "股間アップ", value: "crotch focus, close-up", nsfw: true, weight: 1.4 },
+        { id: "ec2", label: "胸アップ", value: "breast focus, close-up", nsfw: true, weight: 1.3 },
+        { id: "ec3", label: "尻アップ", value: "ass focus, close-up", nsfw: true, weight: 1.3 },
+        { id: "ec4", label: "下から見上げる", value: "from below, upskirt view", nsfw: true, weight: 1.3 },
+        { id: "ec5", label: "主観視点（POV）", value: "pov, first-person view", nsfw: true, weight: 1.2 },
+        { id: "ec6", label: "股の間から", value: "between legs view", nsfw: true, weight: 1.4 },
+        { id: "ec7", label: "鏡越し", value: "mirror view, reflection", nsfw: true },
+        { id: "ec8", label: "断面図", value: "cross-section, x-ray", nsfw: true, weight: 1.4 }
+    ],
+
+    // ==========================================
+    // ★ Phase 5: 表情の「ガチ度」強化
+    // ==========================================
+    intense_expressions: [
+        { id: "ie1", label: "恍惚の表情", value: "ecstasy, blissful expression", nsfw: true, weight: 1.3 },
+        { id: "ie2", label: "とろけ顔", value: "melting face, pleasure", nsfw: true, weight: 1.2 },
+        { id: "ie3", label: "涙目で感じる", value: "teary eyes, pleasure", nsfw: true },
+        { id: "ie4", label: "舌を出して喘ぐ", value: "tongue out, panting", nsfw: true, weight: 1.2 },
+        { id: "ie5", label: "目を見開いて絶頂", value: "wide-eyed, climax", nsfw: true, weight: 1.3 },
+        { id: "ie6", label: "虚ろな目（事後）", value: "empty eyes, afterglow", nsfw: true, weight: 1.2 },
+        { id: "ie7", label: "唇を噛む", value: "biting lip, aroused", nsfw: true },
+        { id: "ie8", label: "息切れ", value: "out of breath, panting heavily", nsfw: true }
+    ],
+
+    // ==========================================
+    // ★ Phase 6: 事後・余韻
+    // ==========================================
+    aftermath: [
+        { id: "af1", label: "事後", value: "after sex, post-coital", nsfw: true },
+        { id: "af2", label: "ぐったり", value: "exhausted, lying limply", nsfw: true },
+        { id: "af3", label: "ベッドの乱れ", value: "messy bed, rumpled sheets", nsfw: true },
+        { id: "af4", label: "汗だく", value: "sweaty, glistening skin", nsfw: true },
+        { id: "af5", label: "満足そう", value: "satisfied expression", nsfw: true },
+        { id: "af6", label: "体液まみれ", value: "covered in fluids", nsfw: true, weight: 1.3 }
+    ],
+
+    
+
     camera: [
         { id: "cam1", label: "正面", value: "straight-on" },
         { id: "cam2", label: "上から（俯瞰）", value: "from above" },
@@ -872,3 +944,4 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
