@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illustrious/NoobAI プロンプト生成ツール</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header">
+            <h1>🎨 Illustrious/NoobAI プロンプト生成ツール</h1>
+            <p>ひろき様専用 - Phase 1 拡張版 (Danbooru統合 + Team-C推奨)</p>
+        </header>
+
+        <!-- メイン2カラムレイアウト -->
+        <div class="main-layout">
+
+            <!-- 左カラム：タグ選択エリア -->
+            <div class="left-column">
+
+                <!-- 1. 品質・スタイル・評価 -->
+                <section class="card" id="section-1">
+                    <h2>1. 品質・スタイル・レーティング設定</h2>
+                    <div class="subsection">
+                        <h3>品質タグ</h3>
+                        <div id="quality-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>スタイル・時代</h3>
+                        <div id="style-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>レーティング（年齢制限）</h3>
+                        <div id="rating-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 2. 人数とインタラクション -->
+                <section class="card" id="section-2">
+                    <h2>2. 人数・キャラクター間の関係性</h2>
+                    <div class="subsection">
+                        <h3>人数</h3>
+                        <div id="count-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>インタラクション</h3>
+                        <div id="interaction-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 3. キャラクター管理 -->
+                <section class="card" id="section-3">
+                    <h2>3. キャラクター設定（BREAK自動挿入）</h2>
+                    <div id="characters-wrapper"></div>
+                    <button id="add-character" class="add-btn">+ キャラクター追加（BREAK区切り）</button>
+                </section>
+
+                <!-- 3.5 Danbooru拡張セクション (Phase 1) -->
+                <section class="card" id="section-danbooru">
+                    <h2>3.5 詳細設定・アクション・小道具 (Phase 1)</h2>
+
+                    <div class="subsection">
+                        <h3>感情・表情詳細</h3>
+                        <div id="emotions-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>アクション・動作</h3>
+                        <div id="actions-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>小道具・アイテム</h3>
+                        <div id="props-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>ファンタジー・人外要素</h3>
+                        <div id="fantasy-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 4. カメラ・背景 -->
+                <section class="card" id="section-4">
+                    <h2>4. カメラ・構図・背景</h2>
+                    <div class="subsection">
+                        <h3>カメラアングル・距離</h3>
+                        <div id="camera-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>背景</h3>
+                        <div id="background-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 5. 照明・詳細・仕上げ -->
+                <section class="card" id="section-5">
+                    <h2>5. 照明・詳細・仕上げ効果</h2>
+                    <div id="lighting-tags" class="tag-container"></div>
+                </section>
+
+                <!-- NSFW専用セクション -->
+                <section class="card nsfw-section" id="section-nsfw">
+                    <h2>🔞 NSFW専用セクション</h2>
+                    <div class="subsection">
+                        <h3>性的体位</h3>
+                        <div id="sexual-positions-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>性行為</h3>
+                        <div id="sex-acts-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>射精関連</h3>
+                        <div id="cum-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>ボンデージ</h3>
+                        <div id="bondage-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- Phase 2.0 拡張セクション -->
+                <section class="card" id="section-phase2">
+                    <h2>Phase 2.0 表現力拡張セクション</h2>
+
+                    <div class="subsection">
+                        <h3>身体的特徴・体型</h3>
+                        <div id="body-features-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>時間帯・天候・場所</h3>
+                        <div id="environment-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>画像効果・エフェクト</h3>
+                        <div id="visual-effects-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>手・指の詳細</h3>
+                        <div id="hand-details-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+            </div> <!-- /left-column -->
+
+            <!-- 右カラム：プロンプト出力エリア（固定表示） -->
+            <div class="right-column">
+                <div class="sticky-output">
+
+                    <!-- 重み調整パネル -->
+                    <div class="weight-adjustment-panel" id="weight-panel" style="display: none;">
+                        <div class="card">
+                            <h3>⚖️ 重み調整: <span id="current-tag-name" class="tag-highlight">選択してください</span></h3>
+                            <div class="weight-controls">
+                                <div class="weight-input-group">
+                                    <button onclick="adjustWeight(-0.1)" class="weight-btn decrease">－</button>
+                                    <input type="number" id="weight-input" value="1.0" step="0.1" min="0.1" max="3.0"
+                                        onchange="updateWeight()">
+                                    <button onclick="adjustWeight(0.1)" class="weight-btn increase">＋</button>
+                                </div>
+                                <div class="weight-presets">
+                                    <button onclick="setWeight(0.8)" class="preset-btn weak">0.8 弱</button>
+                                    <button onclick="setWeight(1.0)" class="preset-btn normal">1.0 標準</button>
+                                    <button onclick="setWeight(1.2)" class="preset-btn strong">1.2 強</button>
+                                    <button onclick="setWeight(1.4)" class="preset-btn very-strong">1.4 激</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- プロンプト出力エリア -->
+                    <div class="output-area">
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>📝 生成されたプロンプト</h3>
+                                <div class="controls">
+                                    <label>
+                                        <input type="checkbox" id="segment-mode" checked> セグメント表示
+                                    </label>
+                                    <button id="clear-all" class="clear-btn">🗑️ 全クリア</button>
+                                </div>
+                            </div>
+
+                            <div class="output-group">
+                                <h4>ポジティブプロンプト（英語）:</h4>
+                                <textarea id="positive-output" rows="10"
+                                    placeholder="タグを選択するとここに英語プロンプトが表示されます..."></textarea>
+                                <button onclick="copyToClipboard('positive-output')" class="copy-btn">📋
+                                    ポジティブをコピー</button>
+                            </div>
+
+                            <div class="output-group">
+                                <h4>ネガティブプロンプト（英語）:</h4>
+                                <textarea id="negative-output" rows="4"></textarea>
+                                <button onclick="copyToClipboard('negative-output')" class="copy-btn">📋
+                                    ネガティブをコピー</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 日本語訳確認エリア -->
+                    <div class="translation-verification-area">
+                        <div class="card">
+                            <div class="output-header">
+                                <h3>🇯🇵 選択内容確認（日本語）</h3>
+                                <div class="controls">
+                                    <button onclick="toggleTranslationArea()" id="toggle-translation"
+                                        class="preset-btn">表示/非表示</button>
+                                </div>
+                            </div>
+                            <div id="translation-display" class="translation-display">
+                                <div class="translation-content">
+                                    <p class="placeholder-text">タグを選択すると、ここに日本語で内容が表示されます...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- プリセット管理 -->
+                    <div class="preset-area card">
+                        <h3>💾 プリセット管理</h3>
+                        <div class="preset-controls">
+                            <input type="text" id="preset-name" placeholder="プリセット名を入力...">
+                            <div class="preset-buttons">
+                                <button id="save-preset" class="preset-btn">保存</button>
+                                <button id="load-preset" class="preset-btn">読み込み</button>
+                                <button id="delete-preset" class="preset-btn delete-btn">削除</button>
+                            </div>
+                            <select id="preset-list">
+                                <option value="">プリセットを選択...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div> <!-- /sticky-output -->
+            </div> <!-- /right-column -->
+
+        </div> <!-- /main-layout -->
+    </div>
+
+    <script src="database.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
