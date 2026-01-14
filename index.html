@@ -2,12 +2,6 @@
 <html lang="ja">
 
 <head>
-    <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#58a6ff">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Illustrious/NoobAI プロンプト生成ツール</title>
@@ -19,7 +13,7 @@
         <!-- ヘッダー -->
         <header class="header">
             <h1>🎨 Illustrious/NoobAI プロンプト生成ツール</h1>
-            <p>ひろき様専用 - Phase 1 拡張版 (Danbooru統合 + Team-C推奨)</p>
+            <p>ひろき様専用 - Phase 3 拡張版 (NSFW完全対応)</p>
         </header>
 
         <!-- メイン2カラムレイアウト -->
@@ -128,6 +122,33 @@
                         <h3>ボンデージ</h3>
                         <div id="bondage-tags" class="tag-container"></div>
                     </div>
+
+                    <!-- ★ Phase 1 NSFW拡張 ここから追加 -->
+                    <div class="subsection nsfw-subsection">
+                        <h3>シチュエーション・フェチ</h3>
+                        <div id="nsfw-context-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection nsfw-subsection">
+                        <h3>オナニー・セルフプレイ</h3>
+                        <div id="nsfw-masturbation-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection nsfw-subsection">
+                        <h3>おもちゃ・道具</h3>
+                        <div id="nsfw-toys-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection nsfw-subsection">
+                        <h3>体液・マーキング</h3>
+                        <div id="nsfw-fluids-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection nsfw-subsection">
+                        <h3>高度・特殊（上級者向け）</h3>
+                        <div id="nsfw-advanced-tags" class="tag-container"></div>
+                    </div>
+                    <!-- ★ Phase 1 NSFW拡張 ここまで追加 -->
                 </section>
 
                 <!-- Phase 2.0 拡張セクション -->
@@ -257,4 +278,3 @@
 </body>
 
 </html>
-
