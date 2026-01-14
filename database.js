@@ -767,6 +767,73 @@ const PROMPT_DATABASE = {
         { id: "bo7", label: "吊るし", value: "suspension", nsfw: true }
     ],
 
+    // ==========================================
+    // ★ Phase 1: NSFW拡張 (Danbooru準拠)
+    // ==========================================
+    
+    // シチュエーション・フェチ
+    nsfw_context: [
+        { id: "nc1", label: "露出プレイ", value: "exhibitionism, public nudity", nsfw: true, weight: 1.2 },
+        { id: "nc2", label: "覗き・盗撮", value: "voyeurism, being watched", nsfw: true },
+        { id: "nc3", label: "女攻め・逆レイプ", value: "femdom, dominant female", nsfw: true, weight: 1.2 },
+        { id: "nc4", label: "ご奉仕プレイ", value: "service, eager to please", nsfw: true },
+        { id: "nc5", label: "ラブホテル", value: "love hotel", nsfw: true },
+        { id: "nc6", label: "足フェチ", value: "foot fetish, foot focus", nsfw: true },
+        { id: "nc7", label: "太ももフェチ", value: "thigh fetish, thigh focus", nsfw: true },
+        { id: "nc8", label: "お尻フェチ", value: "ass fetish, ass focus", nsfw: true },
+        { id: "nc9", label: "催眠・洗脳", value: "hypnosis, mind control", nsfw: true, weight: 1.2 },
+        { id: "nc10", label: "調教・訓練", value: "training, sexual training", nsfw: true }
+    ],
+
+    // オナニー・セルフプレイ
+    nsfw_masturbation: [
+        { id: "nm1", label: "女性オナニー", value: "masturbation, female masturbation", nsfw: true },
+        { id: "nm2", label: "男性オナニー", value: "male masturbation", nsfw: true },
+        { id: "nm3", label: "指オナニー（膣）", value: "fingering, pussy fingering", nsfw: true },
+        { id: "nm4", label: "指オナニー（アナル）", value: "anal fingering", nsfw: true },
+        { id: "nm5", label: "乳首いじり", value: "nipple play, nipple stimulation", nsfw: true },
+        { id: "nm6", label: "クリ責め", value: "clit stimulation", nsfw: true },
+        { id: "nm7", label: "相互オナニー", value: "mutual masturbation", nsfw: true },
+        { id: "nm8", label: "見せ合いオナニー", value: "watching masturbation", nsfw: true }
+    ],
+
+    // おもちゃ・道具
+    nsfw_toys: [
+        { id: "nt1", label: "バイブレーター", value: "vibrator", nsfw: true },
+        { id: "nt2", label: "ディルド", value: "dildo", nsfw: true },
+        { id: "nt3", label: "電マ", value: "electric massager", nsfw: true },
+        { id: "nt4", label: "アナルビーズ", value: "anal beads", nsfw: true },
+        { id: "nt5", label: "リモコンバイブ", value: "remote vibrator", nsfw: true },
+        { id: "nt6", label: "コックリング", value: "cock ring", nsfw: true },
+        { id: "nt7", label: "ニプルクランプ", value: "nipple clamps", nsfw: true },
+        { id: "nt8", label: "拘束具", value: "restraints, bondage gear", nsfw: true },
+        { id: "nt9", label: "ローター", value: "rotor, egg vibrator", nsfw: true }
+    ],
+
+    // 体液・マーキング
+    nsfw_fluids: [
+        { id: "nf1", label: "中出し", value: "creampie, internal cumshot", nsfw: true, weight: 1.3 },
+        { id: "nf2", label: "大量射精", value: "excessive cum", nsfw: true, weight: 1.2 },
+        { id: "nf3", label: "精液まみれ", value: "cum covered", nsfw: true },
+        { id: "nf4", label: "愛液垂れ", value: "pussy juice drip", nsfw: true },
+        { id: "nf5", label: "潮吹き", value: "squirting, female ejaculation", nsfw: true, weight: 1.2 },
+        { id: "nf6", label: "よだれ", value: "drooling, saliva", nsfw: true },
+        { id: "nf7", label: "ボディペイント", value: "body writing", nsfw: true },
+        { id: "nf8", label: "キスマーク", value: "hickey, love bite", nsfw: true },
+        { id: "nf9", label: "汗だく", value: "sweating, sweaty", nsfw: true },
+        { id: "nf10", label: "オイル・ローション", value: "oiled body, lotion", nsfw: true }
+    ],
+
+    // 高度なタグ（上級者向け）
+    nsfw_advanced: [
+        { id: "na1", label: "断面図", value: "cross-section, x-ray", nsfw: true, weight: 1.3 },
+        { id: "na2", label: "触手", value: "tentacles, tentacle sex", nsfw: true, weight: 1.3 },
+        { id: "na3", label: "ふたなり", value: "futanari", nsfw: true, weight: 1.2 },
+        { id: "na4", label: "異種姦", value: "monster sex, interspecies", nsfw: true, weight: 1.2 },
+        { id: "na5", label: "妊娠", value: "pregnant", nsfw: true },
+        { id: "na6", label: "産卵", value: "egg laying, oviposition", nsfw: true, weight: 1.3 }
+    ],
+
     camera: [
         { id: "cam1", label: "正面", value: "straight-on" },
         { id: "cam2", label: "上から（俯瞰）", value: "from above" },
