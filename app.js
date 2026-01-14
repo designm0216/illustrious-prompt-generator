@@ -91,15 +91,14 @@ function initializeApp() {
     if (PROMPT_DATABASE.cum) renderTags('cum-tags', PROMPT_DATABASE.cum, 'global');
     if (PROMPT_DATABASE.bondage) renderTags('bondage-tags', PROMPT_DATABASE.bondage, 'global');
 
-    // ★ Phase 1 NSFW拡張 ここから追加
+    // ★ Phase 1 NSFW拡張
     if (PROMPT_DATABASE.nsfw_context) renderTags('nsfw-context-tags', PROMPT_DATABASE.nsfw_context, 'global');
     if (PROMPT_DATABASE.nsfw_masturbation) renderTags('nsfw-masturbation-tags', PROMPT_DATABASE.nsfw_masturbation, 'global');
     if (PROMPT_DATABASE.nsfw_toys) renderTags('nsfw-toys-tags', PROMPT_DATABASE.nsfw_toys, 'global');
     if (PROMPT_DATABASE.nsfw_fluids) renderTags('nsfw-fluids-tags', PROMPT_DATABASE.nsfw_fluids, 'global');
     if (PROMPT_DATABASE.nsfw_advanced) renderTags('nsfw-advanced-tags', PROMPT_DATABASE.nsfw_advanced, 'global');
-    // ★ Phase 1 NSFW拡張 ここまで追加
 
-        // ★ Phase 2-6 NSFW拡張（質感・着衣・カメラ・表情・事後）
+    // ★ Phase 2-6 NSFW拡張（質感・着衣・カメラ・表情・事後）
     if (PROMPT_DATABASE.physiology) renderTags('physiology-tags', PROMPT_DATABASE.physiology, 'global');
     if (PROMPT_DATABASE.clothing_disarray) renderTags('clothing-disarray-tags', PROMPT_DATABASE.clothing_disarray, 'global');
     if (PROMPT_DATABASE.erotic_camera) renderTags('erotic-camera-tags', PROMPT_DATABASE.erotic_camera, 'global');
@@ -402,15 +401,8 @@ function toggleCharacterTag(tag, targetSet, charIndex) {
             }
         }
         if (targetSet.has(tag.value)) targetSet.delete(tag.value);
-        else targetSet.add(tag.value);
-
-        renderCharacters();
-        updateOutput();
-        return;
-    }
-
-    if (targetSet.has(tag.value)) targetSet.delete(tag.value);
-    else targetSet.add(tag.value);
+        else targetSet
+        .add(tag.value);
 
     renderCharacters();
     updateOutput();
@@ -427,6 +419,10 @@ function findTagsByContainerId(id) {
         'actions-tags': PROMPT_DATABASE.actions,
         'props-tags': PROMPT_DATABASE.props,
         'fantasy-tags': PROMPT_DATABASE.fantasy,
+        'body-features-tags': PROMPT_DATABASE.body_features,
+        'environment-tags': PROMPT_DATABASE.environment,
+        'visual-effects-tags': PROMPT_DATABASE.visual_effects,
+        'hand-details-tags': PROMPT_DATABASE.hand_details,
         'camera-tags': PROMPT_DATABASE.camera,
         'background-tags': PROMPT_DATABASE.background,
         'lighting-tags': PROMPT_DATABASE.lighting,
@@ -435,21 +431,19 @@ function findTagsByContainerId(id) {
         'cum-tags': PROMPT_DATABASE.cum,
         'bondage-tags': PROMPT_DATABASE.bondage,
 
-        // ★ Phase 1 NSFW拡張 ここから追加
+        // ★ Phase 1 NSFW拡張
         'nsfw-context-tags': PROMPT_DATABASE.nsfw_context,
         'nsfw-masturbation-tags': PROMPT_DATABASE.nsfw_masturbation,
         'nsfw-toys-tags': PROMPT_DATABASE.nsfw_toys,
         'nsfw-fluids-tags': PROMPT_DATABASE.nsfw_fluids,
-        'nsfw-advanced-tags': PROMPT_DATABASE.nsfw_advanced
-        // ★ Phase 1 NSFW拡張 ここまで追加
-        
-        // ★ Phase 2-6追加
+        'nsfw-advanced-tags': PROMPT_DATABASE.nsfw_advanced,
+
+        // ★ Phase 2-6 新機能追加
         'physiology-tags': PROMPT_DATABASE.physiology,
         'clothing-disarray-tags': PROMPT_DATABASE.clothing_disarray,
         'erotic-camera-tags': PROMPT_DATABASE.erotic_camera,
         'intense-expressions-tags': PROMPT_DATABASE.intense_expressions,
         'aftermath-tags': PROMPT_DATABASE.aftermath
-        
     };
     return map[id];
 }
@@ -583,8 +577,7 @@ function updateOutput() {
     }
 
     // ライティング
-    if (
-        appState.lighting.size > 0) {
+    if (appState.lighting.size > 0) {
         if (segments.length > 0) segments.push('BREAK');
         const weightedLighting = Array.from(appState.lighting).map(getWeightedValue);
         segments.push(weightedLighting.join(', '));
@@ -919,5 +912,3 @@ function loadPresetList() {
         }
     }
 }
-
-
