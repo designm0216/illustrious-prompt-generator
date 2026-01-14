@@ -569,3 +569,339 @@ function updateOutput() {
 
     // ライティング
     if (
+        appState.lighting.size > 0) {
+        if (segments.length > 0) segments.push('BREAK');
+        const weightedLighting = Array.from(appState.lighting).map(getWeightedValue);
+        segments.push(weightedLighting.join(', '));
+    }
+
+    let finalPrompt;
+    if (appState.segmentMode) {
+        finalPrompt = segments.map(segment => {
+            if (segment === 'BREAK') return '\nBREAK\n';
+            if (segment.includes(' BREAK ')) {
+                return segment
+                    .split(' BREAK ')
+                    .map(s => `[${s}]`)
+                    .join('\nBREAK\n');
+            }
+            return `[${segment}]`;
+        }).join('\n');
+    } else {
+        finalPrompt = segments.join(', ');
+    }
+
+    document.getElementById('positive-output').value = finalPrompt;
+    updateNegativePrompt();
+    updateTranslationDisplay();
+}
+
+function updateNegativePrompt() {
+    let negative = PROMPT_DATABASE.negative.base;
+    
+    // NSFW判定ロジック（包括的チェック）
+    const hasNSFWRating = Array.from(appState.global).some(tag => 
+        tag.includes('questionable') || tag.includes('explicit')
+    );
+    
+    const hasNSFWTags = Array.from(appState.global).some(tag => {
+        const tagObj = findTagByValue(tag);
+        return tagObj && tagObj.nsfw;
+    });
+    
+    const hasCharacterNSFW = appState.characters.some(char => 
+        Object.values(char).some(set => 
+            Array.from(set).some(tag => {
+                const tagObj = findTagByValue(tag);
+                return tagObj && tagObj.nsfw;
+            })
+        )
+    );
+
+    // 安全な画像生成時のみ検閲タグを追加
+    if (!hasNSFWRating && !hasNSFWTags && !hasCharacterNSFW) {
+        negative += ', ' + PROMPT_DATABASE.negative.nsfw_safe;
+    }
+    
+    document.getElementById('negative-output').value = negative;
+}
+
+// ==========================================
+// 日本語訳機能
+// ==========================================
+let tagTranslationMap = null;
+
+function buildTagTranslationMap() {
+    if (tagTranslationMap) return tagTranslationMap;
+    tagTranslationMap = new Map();
+    
+    const scanDatabase = (obj) => {
+        Object.values(obj).forEach(item => {
+            if (Array.isArray(item)) {
+                item.forEach(tag => {
+                    if (tag && tag.value && tag.label) {
+                        tagTranslationMap.set(tag.value, tag.label);
+                    }
+                });
+            } else if (item && typeof item === 'object' && !item.id) {
+                // character / male_features などの入れ子オブジェクトを再帰探索
+                scanDatabase(item);
+            }
+        });
+    };
+    
+    scanDatabase(PROMPT_DATABASE);
+    return tagTranslationMap;
+}
+
+function translateTag(englishTag) {
+    const map = buildTagTranslationMap();
+    
+    // (tag:1.2) 形式の重み付きタグをパース
+    const weightMatch = englishTag.match(/^\((.+?):([\d.]+)\)$/);
+    if (weightMatch) {
+        const baseTag = weightMatch[1];
+        const weight = weightMatch[2];
+        const japanese = map.get(baseTag) || baseTag;
+        return { text: japanese, weight: weight, hasWeight: true };
+    }
+    
+    const japanese = map.get(englishTag) || englishTag;
+    return { text: japanese, weight: null, hasWeight: false };
+}
+
+function updateTranslationDisplay() {
+    const container = document.querySelector('.translation-content');
+    if (!container) return;
+    
+    const sections = [];
+
+    // グローバル（品質・スタイル・NSFW含む全部）
+    if (appState.global.size > 0) {
+        const globalTags = Array.from(appState.global).map(translateTag);
+        if (globalTags.length > 0) {
+            sections.push({
+                title: '品質・スタイル・シチュエーション',
+                tags: globalTags,
+                icon: '⭐'
+            });
+        }
+    }
+
+    // キャラクター別表示（男性用タグも含む）
+    appState.characters.forEach((character, index) => {
+        const charTags = [];
+        const order = [
+            'hair_color', 'hair_length', 'hair_style',
+            'eyes', 'eye_shape', 'eye_details', 'eyebrows',
+            'breasts', 'nipples',
+            'clothing',
+            'pose',
+            // 男性用タグも統合表示
+            'male_body_type', 'male_facial', 'male_age_type',
+            'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
+        ];
+        
+        order.forEach(key => {
+            if (character[key] && character[key].size > 0) {
+                const tags = Array.from(character[key]).map(translateTag);
+                charTags.push(...tags);
+            }
+        });
+        
+        if (charTags.length > 0) {
+            sections.push({
+                title: `キャラクター ${index + 1}`,
+                tags: charTags,
+                icon: '👤'
+            });
+        }
+    });
+
+    // カメラ・背景
+    const cameraBgTags = [
+        ...Array.from(appState.camera),
+        ...Array.from(appState.background)
+    ].map(translateTag);
+    
+    if (cameraBgTags.length > 0) {
+        sections.push({
+            title: 'カメラ・背景',
+            tags: cameraBgTags,
+            icon: '📷'
+        });
+    }
+
+    // ライティング・仕上げ
+    if (appState.lighting.size > 0) {
+        const lightingTags = Array.from(appState.lighting).map(translateTag);
+        sections.push({
+            title: '照明・仕上げ',
+            tags: lightingTags,
+            icon: '💡'
+        });
+    }
+
+    // 表示処理
+    if (sections.length === 0) {
+        container.innerHTML = '<p class="placeholder-text">タグを選択すると、ここに日本語で内容が表示されます...</p>';
+        return;
+    }
+
+    const html = sections.map(section => `
+        <div class="translation-section">
+            <div class="section-header">
+                <span class="section-icon">${section.icon}</span>
+                <span class="section-title">${section.title}</span>
+                <span class="tag-count">(${section.tags.length})</span>
+            </div>
+            <div class="tag-list">
+                ${section.tags.map(tag => `
+                    <span class="translation-tag ${tag.hasWeight ? 'weighted' : ''}">
+                        ${tag.text}${tag.hasWeight ? `<span class="weight-indicator">${tag.weight}</span>` : ''}
+                    </span>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+    
+    container.innerHTML = html;
+}
+
+function toggleTranslationArea() {
+    const display = document.getElementById('translation-display');
+    if (display.style.display === 'none') {
+        display.style.display = 'block';
+    } else {
+        display.style.display = 'none';
+    }
+}
+
+// ==========================================
+// ユーティリティ関数
+// ==========================================
+function findTagByValue(value) {
+    const searchInObject = (obj, results = []) => {
+        Object.values(obj).forEach(val => {
+            if (Array.isArray(val)) {
+                results.push(...val);
+            } else if (val && typeof val === 'object' && !val.id) {
+                searchInObject(val, results);
+            }
+        });
+        return results;
+    };
+    
+    const allTags = searchInObject(PROMPT_DATABASE);
+    return allTags.find(tag => tag && tag.value === value);
+}
+
+function clearAllSelections() {
+    appState.global.clear();
+    appState.characters = [createNewCharacter()];
+    appState.camera.clear();
+    appState.background.clear();
+    appState.lighting.clear();
+    initializeApp();
+    updateOutput();
+}
+
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    element.select();
+    document.execCommand('copy');
+    
+    const btn = event.target;
+    const originalText = btn.textContent;
+    btn.textContent = '✓ コピー完了';
+    btn.style.background = 'var(--accent-green)';
+    
+    setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+    }, 2000);
+}
+
+// ==========================================
+// プリセット管理機能
+// ==========================================
+function setupPresetListeners() {
+    document.getElementById('save-preset').addEventListener('click', savePreset);
+    document.getElementById('load-preset').addEventListener('click', loadPreset);
+    document.getElementById('delete-preset').addEventListener('click', deletePreset);
+    loadPresetList();
+}
+
+function savePreset() {
+    const name = document.getElementById('preset-name').value.trim();
+    if (!name) return alert('プリセット名を入力してください');
+    
+    const presetData = {
+        global: Array.from(appState.global),
+        characters: appState.characters.map(char => {
+            const charData = {};
+            Object.keys(char).forEach(key => {
+                charData[key] = Array.from(char[key]);
+            });
+            return charData;
+        }),
+        camera: Array.from(appState.camera),
+        background: Array.from(appState.background),
+        lighting: Array.from(appState.lighting)
+    };
+    
+    localStorage.setItem(`preset_${name}`, JSON.stringify(presetData));
+    loadPresetList();
+    alert('保存しました');
+}
+
+function loadPreset() {
+    const name = document.getElementById('preset-list').value;
+    if (!name) return;
+    
+    const data = JSON.parse(localStorage.getItem(`preset_${name}`));
+    if (!data) return;
+    
+    appState.global = new Set(data.global);
+    appState.characters = data.characters.map(char => {
+        const newChar = {};
+        Object.keys(char).forEach(key => {
+            newChar[key] = new Set(char[key]);
+        });
+        return newChar;
+    });
+    appState.camera = new Set(data.camera);
+    appState.background = new Set(data.background);
+    appState.lighting = new Set(data.lighting);
+    
+    initializeApp();
+    updateOutput();
+    alert('読み込みました');
+}
+
+function deletePreset() {
+    const name = document.getElementById('preset-list').value;
+    if (!name) return;
+    
+    if (confirm('削除しますか？')) {
+        localStorage.removeItem(`preset_${name}`);
+        loadPresetList();
+    }
+}
+
+function loadPresetList() {
+    const select = document.getElementById('preset-list');
+    select.innerHTML = '<option value="">プリセットを選択...</option>';
+    
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('preset_')) {
+            const name = key.replace('preset_', '');
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            select.appendChild(option);
+        }
+    }
+}
+
