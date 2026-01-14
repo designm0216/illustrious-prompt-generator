@@ -12,7 +12,6 @@ let appState = {
 
 function createNewCharacter() {
     return {
-        // 既存の女性・汎用タグ
         hair_color: new Set(),
         hair_length: new Set(),
         hair_style: new Set(),
@@ -24,8 +23,6 @@ function createNewCharacter() {
         nipples: new Set(),
         clothing: new Set(),
         pose: new Set(),
-
-        // ★ 男性用タグを追加（自動BREAK対応）
         male_body_type: new Set(),
         male_facial: new Set(),
         male_age_type: new Set(),
@@ -36,7 +33,6 @@ function createNewCharacter() {
     };
 }
 
-// 現在編集中の重み情報
 let currentWeightTarget = {
     tag: null,
     stateKey: null,
@@ -54,64 +50,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeApp() {
-    // セクション1
     renderTags('quality-tags', PROMPT_DATABASE.quality, 'global');
     renderTags('style-tags', PROMPT_DATABASE.style, 'global');
     renderTags('rating-tags', PROMPT_DATABASE.rating, 'global');
-
-    // セクション2
     renderTags('count-tags', PROMPT_DATABASE.count, 'global');
     renderTags('interaction-tags', PROMPT_DATABASE.interaction, 'global');
-
-    // セクション3
+    
     renderCharacters();
-
-    // セクション3.5 Phase 1 (Danbooru)
+    
     if (PROMPT_DATABASE.emotions) renderTags('emotions-tags', PROMPT_DATABASE.emotions, 'global');
     if (PROMPT_DATABASE.actions) renderTags('actions-tags', PROMPT_DATABASE.actions, 'global');
     if (PROMPT_DATABASE.props) renderTags('props-tags', PROMPT_DATABASE.props, 'global');
     if (PROMPT_DATABASE.fantasy) renderTags('fantasy-tags', PROMPT_DATABASE.fantasy, 'global');
-
-    // Phase 2.0 拡張タグ
     if (PROMPT_DATABASE.body_features) renderTags('body-features-tags', PROMPT_DATABASE.body_features, 'global');
     if (PROMPT_DATABASE.environment) renderTags('environment-tags', PROMPT_DATABASE.environment, 'global');
     if (PROMPT_DATABASE.visual_effects) renderTags('visual-effects-tags', PROMPT_DATABASE.visual_effects, 'global');
     if (PROMPT_DATABASE.hand_details) renderTags('hand-details-tags', PROMPT_DATABASE.hand_details, 'global');
-
-    // セクション4
+    
     renderTags('camera-tags', PROMPT_DATABASE.camera, 'camera');
     renderTags('background-tags', PROMPT_DATABASE.background, 'background');
-
-    // セクション5
     renderTags('lighting-tags', PROMPT_DATABASE.lighting, 'lighting');
-
-    // NSFWセクション
+    
     if (PROMPT_DATABASE.sexual_positions) renderTags('sexual-positions-tags', PROMPT_DATABASE.sexual_positions, 'global');
     if (PROMPT_DATABASE.sex_acts) renderTags('sex-acts-tags', PROMPT_DATABASE.sex_acts, 'global');
     if (PROMPT_DATABASE.cum) renderTags('cum-tags', PROMPT_DATABASE.cum, 'global');
     if (PROMPT_DATABASE.bondage) renderTags('bondage-tags', PROMPT_DATABASE.bondage, 'global');
-
-    // ★ Phase 1 NSFW拡張
     if (PROMPT_DATABASE.nsfw_context) renderTags('nsfw-context-tags', PROMPT_DATABASE.nsfw_context, 'global');
     if (PROMPT_DATABASE.nsfw_masturbation) renderTags('nsfw-masturbation-tags', PROMPT_DATABASE.nsfw_masturbation, 'global');
     if (PROMPT_DATABASE.nsfw_toys) renderTags('nsfw-toys-tags', PROMPT_DATABASE.nsfw_toys, 'global');
     if (PROMPT_DATABASE.nsfw_fluids) renderTags('nsfw-fluids-tags', PROMPT_DATABASE.nsfw_fluids, 'global');
     if (PROMPT_DATABASE.nsfw_advanced) renderTags('nsfw-advanced-tags', PROMPT_DATABASE.nsfw_advanced, 'global');
-
-    // ★ Phase 2-6 NSFW拡張（質感・着衣・カメラ・表情・事後）
     if (PROMPT_DATABASE.physiology) renderTags('physiology-tags', PROMPT_DATABASE.physiology, 'global');
     if (PROMPT_DATABASE.clothing_disarray) renderTags('clothing-disarray-tags', PROMPT_DATABASE.clothing_disarray, 'global');
     if (PROMPT_DATABASE.erotic_camera) renderTags('erotic-camera-tags', PROMPT_DATABASE.erotic_camera, 'global');
     if (PROMPT_DATABASE.intense_expressions) renderTags('intense-expressions-tags', PROMPT_DATABASE.intense_expressions, 'global');
     if (PROMPT_DATABASE.aftermath) renderTags('aftermath-tags', PROMPT_DATABASE.aftermath, 'global');
-
+    
     document.getElementById('negative-output').value = PROMPT_DATABASE.negative.base;
     updateTranslationDisplay();
 }
 
-// ==========================================
-// イベントリスナー
-// ==========================================
 function setupEventListeners() {
     document.getElementById('add-character').addEventListener('click', () => {
         appState.characters.push(createNewCharacter());
@@ -131,9 +109,6 @@ function setupEventListeners() {
     setupPresetListeners();
 }
 
-// ==========================================
-// レンダリング関数
-// ==========================================
 function renderTags(containerId, tags, stateKey) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -141,8 +116,6 @@ function renderTags(containerId, tags, stateKey) {
     container.innerHTML = '';
 
     tags.forEach(tag => {
-        const tagWrapper = document.createElement('div');
-
         const btn = document.createElement('button');
         btn.className = 'tag-btn';
         if (tag.nsfw) btn.classList.add('nsfw');
@@ -150,15 +123,9 @@ function renderTags(containerId, tags, stateKey) {
         const isSelected = appState[stateKey] && appState[stateKey].has(tag.value);
         if (isSelected) btn.classList.add('selected');
 
-        // 重み表示
         const weight = tag.weight;
-        if (weight && weight !== 1.0) {
-            btn.textContent = `${tag.label} (${weight.toFixed(1)})`;
-        } else {
-            btn.textContent = tag.label;
-        }
+        btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
-        // クリックイベント
         btn.onclick = () => {
             toggleTag(tag, stateKey, btn);
             if (btn.classList.contains('selected')) {
@@ -168,8 +135,7 @@ function renderTags(containerId, tags, stateKey) {
             }
         };
 
-        tagWrapper.appendChild(btn);
-        container.appendChild(tagWrapper);
+        container.appendChild(btn);
     });
 }
 
@@ -181,7 +147,6 @@ function renderCharacters() {
         const charDiv = document.createElement('div');
         charDiv.className = 'character-block';
 
-        // ヘッダー部分
         const header = document.createElement('div');
         header.className = 'character-header';
 
@@ -204,7 +169,6 @@ function renderCharacters() {
 
         charDiv.appendChild(header);
 
-        // 既存の女性・汎用カテゴリ
         const categoryOrder = [
             { key: 'hair_color', label: '髪の色:' },
             { key: 'hair_length', label: '髪の長さ:' },
@@ -221,95 +185,24 @@ function renderCharacters() {
 
         categoryOrder.forEach(cat => {
             if (PROMPT_DATABASE.character[cat.key]) {
-                appendCharacterSection(
-                    charDiv,
-                    cat.label,
-                    PROMPT_DATABASE.character[cat.key],
-                    character[cat.key],
-                    index
-                );
+                appendCharacterSection(charDiv, cat.label, PROMPT_DATABASE.character[cat.key], character[cat.key], index);
             }
         });
 
-        // ★ 男性専用セクションをキャラクターブロック内に追加
         if (PROMPT_DATABASE.male_features) {
-            // 視認性向上：男性セクションの区切り線
             const maleDivider = document.createElement('div');
             maleDivider.className = 'male-section-header';
             maleDivider.innerHTML = '<h5 class="male-section-title">♂ 男性キャラクター専用設定</h5>';
             charDiv.appendChild(maleDivider);
 
             const mf = PROMPT_DATABASE.male_features;
-
-            if (mf.body_type) {
-                appendCharacterSection(
-                    charDiv,
-                    '【男性】体型・筋肉:',
-                    mf.body_type,
-                    character.male_body_type,
-                    index
-                );
-            }
-
-            if (mf.facial_features) {
-                appendCharacterSection(
-                    charDiv,
-                    '【男性】顔の特徴・髭:',
-                    mf.facial_features,
-                    character.male_facial,
-                    index
-                );
-            }
-
-            if (mf.age_type) {
-                appendCharacterSection(
-                    charDiv,
-                    '【男性】年齢・タイプ:',
-                    mf.age_type,
-                    character.male_age_type,
-                    index
-                );
-            }
-
-            if (mf.male_clothing) {
-                appendCharacterSection(
-                    charDiv,
-                    '【男性】服装:',
-                    mf.male_clothing,
-                    character.male_clothing,
-                    index
-                );
-            }
-
-            if (mf.body_hair) {
-                appendCharacterSection(
-                    charDiv,
-                    '【男性】体毛:',
-                    mf.body_hair,
-                    character.male_body_hair,
-                    index
-                );
-            }
-
-            if (mf.genitalia) {
-                appendCharacterSection(
-                    charDiv,
-                    '【男性】性器詳細:',
-                    mf.genitalia,
-                    character.male_genitalia,
-                    index
-                );
-            }
-
-            if (mf.male_poses) {
-                appendCharacterSection(
-                    charDiv,
-                    '【男性】ポーズ・態度:',
-                    mf.male_poses,
-                    character.male_poses,
-                    index
-                );
-            }
+            if (mf.body_type) appendCharacterSection(charDiv, '【男性】体型・筋肉:', mf.body_type, character.male_body_type, index);
+            if (mf.facial_features) appendCharacterSection(charDiv, '【男性】顔の特徴・髭:', mf.facial_features, character.male_facial, index);
+            if (mf.age_type) appendCharacterSection(charDiv, '【男性】年齢・タイプ:', mf.age_type, character.male_age_type, index);
+            if (mf.male_clothing) appendCharacterSection(charDiv, '【男性】服装:', mf.male_clothing, character.male_clothing, index);
+            if (mf.body_hair) appendCharacterSection(charDiv, '【男性】体毛:', mf.body_hair, character.male_body_hair, index);
+            if (mf.genitalia) appendCharacterSection(charDiv, '【男性】性器詳細:', mf.genitalia, character.male_genitalia, index);
+            if (mf.male_poses) appendCharacterSection(charDiv, '【男性】ポーズ・態度:', mf.male_poses, character.male_poses, index);
         }
 
         wrapper.appendChild(charDiv);
@@ -339,11 +232,7 @@ function appendCharacterSection(parent, title, tags, targetSet, charIndex) {
         if (isSelected) btn.classList.add('selected');
 
         const weight = tag.weight;
-        if (weight && weight !== 1.0) {
-            btn.textContent = `${tag.label} (${weight.toFixed(1)})`;
-        } else {
-            btn.textContent = tag.label;
-        }
+        btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
         btn.onclick = () => {
             toggleCharacterTag(tag, targetSet, charIndex);
@@ -361,9 +250,6 @@ function appendCharacterSection(parent, title, tags, targetSet, charIndex) {
     parent.appendChild(sectionDiv);
 }
 
-// ==========================================
-// タグ切り替えロジック
-// ==========================================
 function toggleTag(tag, stateKey, btnElement) {
     const targetSet = appState[stateKey];
 
@@ -400,9 +286,13 @@ function toggleCharacterTag(tag, targetSet, charIndex) {
                 targetSet.delete(value);
             }
         }
-        if (targetSet.has(tag.value)) targetSet.delete(tag.value);
-        else targetSet
-        .add(tag.value);
+    }
+
+    if (targetSet.has(tag.value)) {
+        targetSet.delete(tag.value);
+    } else {
+        targetSet.add(tag.value);
+    }
 
     renderCharacters();
     updateOutput();
@@ -430,15 +320,11 @@ function findTagsByContainerId(id) {
         'sex-acts-tags': PROMPT_DATABASE.sex_acts,
         'cum-tags': PROMPT_DATABASE.cum,
         'bondage-tags': PROMPT_DATABASE.bondage,
-
-        // ★ Phase 1 NSFW拡張
         'nsfw-context-tags': PROMPT_DATABASE.nsfw_context,
         'nsfw-masturbation-tags': PROMPT_DATABASE.nsfw_masturbation,
         'nsfw-toys-tags': PROMPT_DATABASE.nsfw_toys,
         'nsfw-fluids-tags': PROMPT_DATABASE.nsfw_fluids,
         'nsfw-advanced-tags': PROMPT_DATABASE.nsfw_advanced,
-
-        // ★ Phase 2-6 新機能追加
         'physiology-tags': PROMPT_DATABASE.physiology,
         'clothing-disarray-tags': PROMPT_DATABASE.clothing_disarray,
         'erotic-camera-tags': PROMPT_DATABASE.erotic_camera,
@@ -448,9 +334,6 @@ function findTagsByContainerId(id) {
     return map[id];
 }
 
-// ==========================================
-// 重み調整ロジック
-// ==========================================
 function applyWeight(value, tagObj) {
     const weight = tagObj?.weight;
     if (weight && weight !== 1.0) {
@@ -482,8 +365,9 @@ function showWeightPanel(tag, stateKey, charIndex = null) {
         setValue: (newWeight) => {
             tag.weight = newWeight;
             updateOutput();
-            if (charIndex !== null) renderCharacters();
-            else {
+            if (charIndex !== null) {
+                renderCharacters();
+            } else {
                 const containerId = findContainerIdByTag(tag);
                 if (containerId) renderTags(containerId, findTagsByContainerId(containerId), stateKey);
             }
@@ -521,37 +405,23 @@ function updateWeight() {
     setWeight(value);
 }
 
-// ==========================================
-// プロンプト生成
-// ==========================================
 function updateOutput() {
     const segments = [];
 
-    // グローバルタグ（品質・スタイルなど）
     if (appState.global.size > 0) {
         const weightedGlobal = Array.from(appState.global).map(getWeightedValue);
         segments.push(weightedGlobal.join(', '));
     }
 
-    // キャラクターごとのタグ（BREAK区切り）
     const characterSegments = [];
     appState.characters.forEach(character => {
         const allCharacterTags = [];
         const order = [
             'hair_color', 'hair_length', 'hair_style',
             'eyes', 'eye_shape', 'eye_details', 'eyebrows',
-            'breasts', 'nipples',
-            'clothing',
-            'pose',
-
-            // ★ 男性用もキャラブロックに含める
-            'male_body_type',
-            'male_facial',
-            'male_age_type',
-            'male_clothing',
-            'male_body_hair',
-            'male_genitalia',
-            'male_poses'
+            'breasts', 'nipples', 'clothing', 'pose',
+            'male_body_type', 'male_facial', 'male_age_type',
+            'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
         ];
         order.forEach(key => {
             if (character[key] && character[key].size > 0) {
@@ -566,7 +436,6 @@ function updateOutput() {
         segments.push(characterSegments.join(' BREAK '));
     }
 
-    // カメラ・背景
     const cameraBackground = [
         ...Array.from(appState.camera).map(getWeightedValue),
         ...Array.from(appState.background).map(getWeightedValue)
@@ -576,7 +445,6 @@ function updateOutput() {
         segments.push(cameraBackground.join(', '));
     }
 
-    // ライティング
     if (appState.lighting.size > 0) {
         if (segments.length > 0) segments.push('BREAK');
         const weightedLighting = Array.from(appState.lighting).map(getWeightedValue);
@@ -588,10 +456,7 @@ function updateOutput() {
         finalPrompt = segments.map(segment => {
             if (segment === 'BREAK') return '\nBREAK\n';
             if (segment.includes(' BREAK ')) {
-                return segment
-                    .split(' BREAK ')
-                    .map(s => `[${s}]`)
-                    .join('\nBREAK\n');
+                return segment.split(' BREAK ').map(s => `[${s}]`).join('\nBREAK\n');
             }
             return `[${segment}]`;
         }).join('\n');
@@ -607,7 +472,6 @@ function updateOutput() {
 function updateNegativePrompt() {
     let negative = PROMPT_DATABASE.negative.base;
     
-    // NSFW判定ロジック（包括的チェック）
     const hasNSFWRating = Array.from(appState.global).some(tag => 
         tag.includes('questionable') || tag.includes('explicit')
     );
@@ -626,7 +490,6 @@ function updateNegativePrompt() {
         )
     );
 
-    // 安全な画像生成時のみ検閲タグを追加
     if (!hasNSFWRating && !hasNSFWTags && !hasCharacterNSFW) {
         negative += ', ' + PROMPT_DATABASE.negative.nsfw_safe;
     }
@@ -634,9 +497,6 @@ function updateNegativePrompt() {
     document.getElementById('negative-output').value = negative;
 }
 
-// ==========================================
-// 日本語訳機能
-// ==========================================
 let tagTranslationMap = null;
 
 function buildTagTranslationMap() {
@@ -652,7 +512,6 @@ function buildTagTranslationMap() {
                     }
                 });
             } else if (item && typeof item === 'object' && !item.id) {
-                // character / male_features などの入れ子オブジェクトを再帰探索
                 scanDatabase(item);
             }
         });
@@ -665,7 +524,6 @@ function buildTagTranslationMap() {
 function translateTag(englishTag) {
     const map = buildTagTranslationMap();
     
-    // (tag:1.2) 形式の重み付きタグをパース
     const weightMatch = englishTag.match(/^\((.+?):([\d.]+)\)$/);
     if (weightMatch) {
         const baseTag = weightMatch[1];
@@ -684,7 +542,6 @@ function updateTranslationDisplay() {
     
     const sections = [];
 
-    // グローバル（品質・スタイル・NSFW含む全部）
     if (appState.global.size > 0) {
         const globalTags = Array.from(appState.global).map(translateTag);
         if (globalTags.length > 0) {
@@ -696,16 +553,12 @@ function updateTranslationDisplay() {
         }
     }
 
-    // キャラクター別表示（男性用タグも含む）
     appState.characters.forEach((character, index) => {
         const charTags = [];
         const order = [
             'hair_color', 'hair_length', 'hair_style',
             'eyes', 'eye_shape', 'eye_details', 'eyebrows',
-            'breasts', 'nipples',
-            'clothing',
-            'pose',
-            // 男性用タグも統合表示
+            'breasts', 'nipples', 'clothing', 'pose',
             'male_body_type', 'male_facial', 'male_age_type',
             'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
         ];
@@ -726,7 +579,6 @@ function updateTranslationDisplay() {
         }
     });
 
-    // カメラ・背景
     const cameraBgTags = [
         ...Array.from(appState.camera),
         ...Array.from(appState.background)
@@ -740,7 +592,6 @@ function updateTranslationDisplay() {
         });
     }
 
-    // ライティング・仕上げ
     if (appState.lighting.size > 0) {
         const lightingTags = Array.from(appState.lighting).map(translateTag);
         sections.push({
@@ -750,7 +601,6 @@ function updateTranslationDisplay() {
         });
     }
 
-    // 表示処理
     if (sections.length === 0) {
         container.innerHTML = '<p class="placeholder-text">タグを選択すると、ここに日本語で内容が表示されます...</p>';
         return;
@@ -785,9 +635,6 @@ function toggleTranslationArea() {
     }
 }
 
-// ==========================================
-// ユーティリティ関数
-// ==========================================
 function findTagByValue(value) {
     const searchInObject = (obj, results = []) => {
         Object.values(obj).forEach(val => {
@@ -830,9 +677,6 @@ function copyToClipboard(elementId) {
     }, 2000);
 }
 
-// ==========================================
-// プリセット管理機能
-// ==========================================
 function setupPresetListeners() {
     document.getElementById('save-preset').addEventListener('click', savePreset);
     document.getElementById('load-preset').addEventListener('click', loadPreset);
