@@ -13,7 +13,7 @@
         <!-- ヘッダー -->
         <header class="header">
             <h1>🎨 Illustrious/NoobAI プロンプト生成ツール</h1>
-            <p>ひろき様専用 - Phase 3 拡張版 (NSFW完全対応)</p>
+            <p>ひろき様専用 - Phase 3 完全版 (NSFW完全対応)</p>
         </header>
 
         <!-- メイン2カラムレイアウト -->
@@ -59,9 +59,9 @@
                     <button id="add-character" class="add-btn">+ キャラクター追加（BREAK区切り）</button>
                 </section>
 
-                <!-- 3.5 Danbooru拡張セクション (Phase 1) -->
+                <!-- 3.5 Danbooru拡張セクション -->
                 <section class="card" id="section-danbooru">
-                    <h2>3.5 詳細設定・アクション・小道具 (Phase 1)</h2>
+                    <h2>3.5 詳細設定・アクション・小道具</h2>
 
                     <div class="subsection">
                         <h3>感情・表情詳細</h3>
@@ -81,6 +81,31 @@
                     <div class="subsection">
                         <h3>ファンタジー・人外要素</h3>
                         <div id="fantasy-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- Phase 2.0 拡張セクション -->
+                <section class="card" id="section-phase2">
+                    <h2>Phase 2.0 表現力拡張セクション</h2>
+
+                    <div class="subsection">
+                        <h3>身体的特徴・体型</h3>
+                        <div id="body-features-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>時間帯・天候・場所</h3>
+                        <div id="environment-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>画像効果・エフェクト</h3>
+                        <div id="visual-effects-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>手・指の詳細</h3>
+                        <div id="hand-details-tags" class="tag-container"></div>
                     </div>
                 </section>
 
@@ -106,100 +131,81 @@
                 <!-- NSFW専用セクション -->
                 <section class="card nsfw-section" id="section-nsfw">
                     <h2>🔞 NSFW専用セクション</h2>
+                    
+                    <!-- ★ 新機能：質感・生理現象 -->
+                    <div class="subsection">
+                        <h3>💦 質感・生理現象（最重要）</h3>
+                        <div id="physiology-tags" class="tag-container"></div>
+                    </div>
+
+                    <!-- ★ 新機能：着衣の乱れ -->
+                    <div class="subsection">
+                        <h3>👗 着衣の乱れ（破壊力大）</h3>
+                        <div id="clothing-disarray-tags" class="tag-container"></div>
+                    </div>
+
+                    <!-- ★ 新機能：エロ特化カメラ -->
+                    <div class="subsection">
+                        <h3>📸 エロ特化カメラアングル</h3>
+                        <div id="erotic-camera-tags" class="tag-container"></div>
+                    </div>
+
+                    <!-- ★ 新機能：激しい表情 -->
+                    <div class="subsection">
+                        <h3>😵‍💫 激しい表情（ガチ度強化）</h3>
+                        <div id="intense-expressions-tags" class="tag-container"></div>
+                    </div>
+
+                    <!-- ★ 新機能：事後・余韻 -->
+                    <div class="subsection">
+                        <h3>💤 事後・余韻</h3>
+                        <div id="aftermath-tags" class="tag-container"></div>
+                    </div>
+
                     <div class="subsection">
                         <h3>性的体位</h3>
                         <div id="sexual-positions-tags" class="tag-container"></div>
                     </div>
+                    
                     <div class="subsection">
                         <h3>性行為</h3>
                         <div id="sex-acts-tags" class="tag-container"></div>
                     </div>
+                    
                     <div class="subsection">
                         <h3>射精関連</h3>
                         <div id="cum-tags" class="tag-container"></div>
                     </div>
+                    
                     <div class="subsection">
                         <h3>ボンデージ</h3>
                         <div id="bondage-tags" class="tag-container"></div>
                     </div>
 
-   <!-- ★ Phase 2-6 NSFW拡張セクション -->
-        <section class="section nsfw-section">
-            <h2>💦 質感・生理現象（最重要）</h2>
-            <div id="physiology-tags" class="tag-container"></div>
-        </section>
-
-        <section class="section nsfw-section">
-            <h2>👗 着衣の乱れ（破壊力大）</h2>
-            <div id="clothing-disarray-tags" class="tag-container"></div>
-        </section>
-
-        <section class="section nsfw-section">
-            <h2>📸 エロ特化カメラアングル</h2>
-            <div id="erotic-camera-tags" class="tag-container"></div>
-        </section>
-
-        <section class="section nsfw-section">
-            <h2>😵‍💫 激しい表情（ガチ度強化）</h2>
-            <div id="intense-expressions-tags" class="tag-container"></div>
-        </section>
-
-        <section class="section nsfw-section">
-            <h2>💤 事後・余韻</h2>
-            <div id="aftermath-tags" class="tag-container"></div>
-        </section>
-                    
-
-                    <!-- ★ Phase 1 NSFW拡張 ここから追加 -->
-                    <div class="subsection nsfw-subsection">
+                    <!-- Phase 1 NSFW拡張 -->
+                    <div class="subsection">
                         <h3>シチュエーション・フェチ</h3>
                         <div id="nsfw-context-tags" class="tag-container"></div>
                     </div>
 
-                    <div class="subsection nsfw-subsection">
+                    <div class="subsection">
                         <h3>オナニー・セルフプレイ</h3>
                         <div id="nsfw-masturbation-tags" class="tag-container"></div>
                     </div>
 
-                    <div class="subsection nsfw-subsection">
+                    <div class="subsection">
                         <h3>おもちゃ・道具</h3>
                         <div id="nsfw-toys-tags" class="tag-container"></div>
                     </div>
 
-                    <div class="subsection nsfw-subsection">
+                    <div class="subsection">
                         <h3>体液・マーキング</h3>
                         <div id="nsfw-fluids-tags" class="tag-container"></div>
                     </div>
 
-                    <div class="subsection nsfw-subsection">
+                    <div class="subsection">
                         <h3>高度・特殊（上級者向け）</h3>
                         <div id="nsfw-advanced-tags" class="tag-container"></div>
-                    </div>
-                    <!-- ★ Phase 1 NSFW拡張 ここまで追加 -->
-                </section>
-
-                <!-- Phase 2.0 拡張セクション -->
-                <section class="card" id="section-phase2">
-                    <h2>Phase 2.0 表現力拡張セクション</h2>
-
-                    <div class="subsection">
-                        <h3>身体的特徴・体型</h3>
-                        <div id="body-features-tags" class="tag-container"></div>
-                    </div>
-
-                    <div class="subsection">
-                        <h3>時間帯・天候・場所</h3>
-                        <div id="environment-tags" class="tag-container"></div>
-                    </div>
-
-                    <div class="subsection">
-                        <h3>画像効果・エフェクト</h3>
-                        <div id="visual-effects-tags" class="tag-container"></div>
-                    </div>
-
-                    <div class="subsection">
-                        <h3>手・指の詳細</h3>
-                        <div id="hand-details-tags" class="tag-container"></div>
                     </div>
                 </section>
 
@@ -305,4 +311,3 @@
 </body>
 
 </html>
-
