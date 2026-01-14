@@ -835,7 +835,7 @@ const PROMPT_DATABASE = {
     ],
 
     // ==========================================
-    // ★ Phase 2: 質感・生理現象（最重要）
+    // ★ Phase 2-6: 質感・生理現象（最重要）
     // ==========================================
     physiology: [
         { id: "phy1", label: "大量の汗", value: "heavy sweating, sweat drop", nsfw: true, weight: 1.2 },
@@ -904,8 +904,6 @@ const PROMPT_DATABASE = {
         { id: "af6", label: "体液まみれ", value: "covered in fluids", nsfw: true, weight: 1.3 }
     ],
 
-    
-
     camera: [
         { id: "cam1", label: "正面", value: "straight-on" },
         { id: "cam2", label: "上から（俯瞰）", value: "from above" },
@@ -944,4 +942,3 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
-
