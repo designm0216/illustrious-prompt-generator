@@ -88,15 +88,127 @@ const PROMPT_DATABASE = {
             { id: "hl4", label: "超ロングヘア", value: "very long hair", exclusive: "hair_length" }
         ],
 
-        hair_style: [
-            { id: "hs1", label: "ポニーテール", value: "ponytail" },
-            { id: "hs2", label: "ツインテール", value: "twintails" },
-            { id: "hs3", label: "三つ編み", value: "braid, braided hair" },
-            { id: "hs4", label: "お団子ヘア", value: "hair bun" },
-            { id: "hs5", label: "ぱっつん前髪", value: "blunt bangs" },
-            { id: "hs6", label: "サイド前髪", value: "side bangs" },
-            { id: "hs7", label: "姫カット", value: "long sidelocks" }
+               hair_style: [
+            // ==========================
+            // Ponytail / Buns 系（Danbooru基本分類）
+            // ==========================
+            { id: "hs1",  label: "ポニーテール", value: "ponytail" },
+            { id: "hs2",  label: "ローポニーテール", value: "low ponytail" },
+            { id: "hs3",  label: "ハイポニーテール", value: "high ponytail" },
+            { id: "hs4",  label: "サイドポニー", value: "side ponytail" },
+            { id: "hs5",  label: "ツインテール", value: "twintails" },
+            { id: "hs6",  label: "ツーサイドアップ", value: "two side up" },
+            { id: "hs7",  label: "お団子ヘア", value: "hair bun" },
+            { id: "hs8",  label: "ツインお団子", value: "double bun, twin buns" },
+            { id: "hs9",  label: "オダンゴ＋ツインテール", value: "odango, twintails" },
+
+            // ==========================
+            // Braids 系（三つ編み - Danbooru頻出）
+            // ==========================
+            { id: "hs10", label: "三つ編み（一本）", value: "braid" },
+            { id: "hs11", label: "お下げ（三つ編み×2）", value: "twin braids" },
+            { id: "hs12", label: "サイド三つ編み", value: "side braid" },
+            { id: "hs13", label: "ポニーテール三つ編み", value: "braided ponytail" },
+            { id: "hs14", label: "フレンチブレイド", value: "french braid" },
+            { id: "hs15", label: "フィッシュテールブレイド", value: "fishtail braid" },
+            { id: "hs16", label: "クラウンブレイド", value: "crown braid" },
+            { id: "hs17", label: "編み込みアップ", value: "braided updo" },
+
+            // ==========================
+            // Bangs 系（前髪 - Danbooru標準分類）
+            // ==========================
+            { id: "hs20", label: "ぱっつん前髪", value: "blunt bangs" },
+            { id: "hs21", label: "サイド前髪", value: "side bangs" },
+            { id: "hs22", label: "流し前髪", value: "swept bangs" },
+            { id: "hs23", label: "センター分け前髪", value: "parted bangs" },
+            { id: "hs24", label: "短め前髪（オン眉）", value: "short bangs" },
+            { id: "hs25", label: "長め前髪", value: "long bangs" },
+            { id: "hs26", label: "シースルーバング", value: "see-through bangs" },
+            { id: "hs27", label: "前髪なし", value: "no bangs" },
+            { id: "hs28", label: "アシンメトリー前髪", value: "asymmetrical bangs" },
+
+            // ==========================
+            // Cuts 系（カット・シルエット）
+            // ==========================
+            { id: "hs30", label: "ボブカット", value: "bob cut" },
+            { id: "hs31", label: "ショートボブ", value: "short bob" },
+            { id: "hs32", label: "ロングボブ", value: "long bob" },
+            { id: "hs33", label: "ピクシーカット", value: "pixie cut" },
+            { id: "hs34", label: "おかっぱ", value: "bowl cut" },
+            { id: "hs35", label: "ウルフカット", value: "wolf cut" },
+            { id: "hs36", label: "レイヤーカット", value: "layered hair" },
+            { id: "hs37", label: "姫カット", value: "hime cut" },
+            { id: "hs38", label: "アシンメトリーカット", value: "asymmetrical hair" },
+
+            // ==========================
+            // Texture 系（質感 - AI生成重要）
+            // ==========================
+            { id: "hs40", label: "ストレートヘア", value: "straight hair" },
+            { id: "hs41", label: "ウェーブヘア", value: "wavy hair" },
+            { id: "hs42", label: "カーリーヘア", value: "curly hair" },
+            { id: "hs43", label: "パーマヘア", value: "permed hair" },
+            { id: "hs44", label: "ドリルツインテール", value: "drill hair, ringlets" },
+            { id: "hs45", label: "リングレット", value: "ringlets" },
+            { id: "hs46", label: "ふわふわヘア", value: "fluffy hair" },
+            { id: "hs47", label: "ボリュームヘア", value: "voluminous hair" },
+            { id: "hs48", label: "ツヤ髪", value: "shiny hair" },
+
+            // ==========================
+            // Updos 系（アップスタイル）
+            // ==========================
+            { id: "hs50", label: "ハーフアップ", value: "half updo" },
+            { id: "hs51", label: "アップヘア", value: "hair up, updo" },
+            { id: "hs52", label: "シニヨン", value: "chignon" },
+            { id: "hs53", label: "ハーフアップバン", value: "half up bun" },
+            { id: "hs54", label: "フレンチツイスト", value: "french twist" },
+            { id: "hs55", label: "ギブソンタック", value: "gibson tuck" },
+
+            // ==========================
+            // Anime/Manga 特殊系（Danbooru頻出）
+            // ==========================
+            { id: "hs60", label: "アホ毛", value: "ahoge" },
+            { id: "hs61", label: "一本アホ毛", value: "single ahoge" },
+            { id: "hs62", label: "触角ヘア", value: "antenna hair" },
+            { id: "hs63", label: "メカクレ（片目隠し）", value: "hair over one eye" },
+            { id: "hs64", label: "メカクレ（両目隠し）", value: "hair over eyes" },
+            { id: "hs65", label: "サイドロック（長い横髪）", value: "long sidelocks" },
+            { id: "hs66", label: "重力無視の髪", value: "gravity-defying hair", weight: 1.2 },
+            { id: "hs67", label: "フローティングヘア", value: "floating hair", weight: 1.2 },
+
+            // ==========================
+            // 状態・シチュエーション系
+            // ==========================
+            { id: "hs70", label: "寝癖・ボサボサ", value: "messy hair, bed hair" },
+            { id: "hs71", label: "乱れ髪", value: "disheveled hair" },
+            { id: "hs72", label: "濡れ髪", value: "wet hair", weight: 1.2 },
+            { id: "hs73", label: "汗で濡れた髪", value: "sweaty hair", nsfw: true, weight: 1.2 },
+            { id: "hs74", label: "風になびく髪", value: "hair blowing in wind", weight: 1.1 },
+            { id: "hs75", label: "耳にかけた髪", value: "hair behind ear" },
+            { id: "hs76", label: "髪をかき上げ", value: "hair tucking" },
+            { id: "hs77", label: "髪を触る", value: "touching hair" },
+
+            // ==========================
+            // クール・個性的系（男女共用）
+            // ==========================
+            { id: "hs80", label: "アンダーカット", value: "undercut" },
+            { id: "hs81", label: "ツーブロック", value: "two-block cut" },
+            { id: "hs82", label: "サイドシェーブ", value: "side shave" },
+            { id: "hs83", label: "モヒカン", value: "mohawk" },
+            { id: "hs84", label: "刈り上げショート", value: "short undercut" },
+            { id: "hs85", label: "坊主頭", value: "buzz cut" },
+            { id: "hs86", label: "スキンヘッド", value: "shaved head, bald" },
+
+            // ==========================
+            // カラー・装飾系（スタイル寄せ）
+            // ==========================
+            { id: "hs90", label: "インナーカラー", value: "colored inner hair" },
+            { id: "hs91", label: "メッシュ（ハイライト）", value: "streaked hair" },
+            { id: "hs92", label: "ツートーンヘア", value: "two-tone hair" },
+            { id: "hs93", label: "グラデーションヘア", value: "gradient hair" },
+            { id: "hs94", label: "リボン編み込み", value: "ribbon in hair" },
+            { id: "hs95", label: "花飾りヘア", value: "flower in hair" }
         ],
+
 
         eyes: [
             { id: "e1", label: "青い瞳", value: "blue eyes" },
@@ -942,3 +1054,4 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
