@@ -571,6 +571,96 @@ const PROMPT_DATABASE = {
         { id: "act13", label: "服を脱ぐ", value: "undressing", nsfw: true, weight: 1.2 }
     ],
 
+    // ==========================================
+    // ★ 日常・生活ポーズ (Danbooru準拠)
+    // ==========================================
+    daily_life: [
+        // ==========================
+        // 基本の立ち・待機姿勢
+        // ==========================
+        { id: "dl1", label: "壁にもたれる", value: "leaning against wall" },
+        { id: "dl2", label: "ポケットに手", value: "hands in pockets" },
+        { id: "dl3", label: "腕を後ろで組む", value: "arms behind back" },
+        { id: "dl4", label: "片足に重心", value: "contrapposto" },
+        { id: "dl5", label: "時計を見る", value: "checking watch" },
+        { id: "dl6", label: "待つ", value: "waiting" },
+
+        // ==========================
+        // リラックス・くつろぎ
+        // ==========================
+        { id: "dl10", label: "伸びをする", value: "stretching, arms up" },
+        { id: "dl11", label: "あくび", value: "yawning" },
+        { id: "dl12", label: "頬杖をつく", value: "chin rest, head resting on hand" },
+        { id: "dl13", label: "椅子にゆったり座る", value: "sitting back in chair" },
+        { id: "dl14", label: "床にペタン座り", value: "sitting on floor" },
+        { id: "dl15", label: "うつ伏せで足パタパタ", value: "lying on stomach, legs up" },
+        { id: "dl16", label: "ぐったり", value: "slouching, exhausted" },
+
+        // ==========================
+        // 移動・動き
+        // ==========================
+        { id: "dl20", label: "歩く", value: "walking" },
+        { id: "dl21", label: "急ぎ足", value: "walking fast, hurrying" },
+        { id: "dl22", label: "ゆっくり歩く", value: "walking slowly" },
+        { id: "dl23", label: "振り返りながら歩く", value: "walking, looking back" },
+        { id: "dl24", label: "階段を上る", value: "climbing stairs" },
+        { id: "dl25", label: "転ぶ", value: "tripping, falling" },
+
+        // ==========================
+        // 食事・カフェタイム
+        // ==========================
+        { id: "dl30", label: "箸で食べる", value: "eating with chopsticks" },
+        { id: "dl31", label: "フォークで食べる", value: "eating with fork" },
+        { id: "dl32", label: "カップを持って飲む", value: "holding cup, drinking" },
+        { id: "dl33", label: "ストローで飲む", value: "drinking through straw" },
+        { id: "dl34", label: "おにぎりを食べる", value: "eating onigiri" },
+        { id: "dl35", label: "口を拭く", value: "wiping mouth" },
+        { id: "dl36", label: "乾杯", value: "cheers, toasting" },
+
+        // ==========================
+        // デジタル・現代生活
+        // ==========================
+        { id: "dl40", label: "スマホを見る", value: "looking at phone" },
+        { id: "dl41", label: "スマホで自撮り", value: "taking selfie" },
+        { id: "dl42", label: "電話で話す", value: "talking on phone" },
+        { id: "dl43", label: "スマホでゲーム", value: "playing mobile game" },
+        { id: "dl44", label: "タイピング", value: "typing" },
+        { id: "dl45", label: "イヤホンで音楽", value: "listening to music, earphones" },
+
+        // ==========================
+        // 学習・読書・仕事
+        // ==========================
+        { id: "dl50", label: "本を読む（座り）", value: "reading book, sitting" },
+        { id: "dl51", label: "本を読む（寝転び）", value: "reading book, lying down" },
+        { id: "dl52", label: "ノートを取る", value: "taking notes, writing" },
+        { id: "dl53", label: "勉強に集中", value: "studying, concentrated" },
+        { id: "dl54", label: "机に突っ伏す", value: "head down on desk" },
+        { id: "dl55", label: "本を抱える", value: "carrying books" },
+        { id: "dl56", label: "考え込む", value: "thinking, pondering" },
+
+        // ==========================
+        // 身だしなみ・セルフケア
+        // ==========================
+        { id: "dl60", label: "髪を直す", value: "adjusting hair" },
+        { id: "dl61", label: "髪を結ぶ", value: "tying hair" },
+        { id: "dl62", label: "鏡を見る", value: "looking in mirror" },
+        { id: "dl63", label: "化粧をする", value: "applying makeup" },
+        { id: "dl64", label: "服を直す", value: "adjusting clothes" },
+        { id: "dl65", label: "靴を履く", value: "putting on shoes" },
+
+        // ==========================
+        // 感情表現・反応
+        // ==========================
+        { id: "dl70", label: "驚く", value: "surprised, shocked" },
+        { id: "dl71", label: "喜ぶ", value: "happy, delighted" },
+        { id: "dl72", label: "落ち込む", value: "depressed, dejected" },
+        { id: "dl73", label: "照れる", value: "embarrassed, shy" },
+        { id: "dl74", label: "ため息", value: "sighing" },
+        { id: "dl75", label: "ぼーっとする", value: "spacing out, daydreaming" }
+    ],
+
+    
+
     props: [
         { id: "pr1", label: "剣", value: "sword, holding sword" },
         { id: "pr2", label: "銃", value: "gun, holding gun" },
@@ -1054,4 +1144,5 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
