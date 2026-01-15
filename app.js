@@ -85,7 +85,8 @@ function initializeApp() {
     if (PROMPT_DATABASE.erotic_camera) renderTags('erotic-camera-tags', PROMPT_DATABASE.erotic_camera, 'global');
     if (PROMPT_DATABASE.intense_expressions) renderTags('intense-expressions-tags', PROMPT_DATABASE.intense_expressions, 'global');
     if (PROMPT_DATABASE.aftermath) renderTags('aftermath-tags', PROMPT_DATABASE.aftermath, 'global');
-    
+        // 日常・生活ポーズ
+    if (PROMPT_DATABASE.daily_life) renderTags('daily-life-tags', PROMPT_DATABASE.daily_life, 'global');
     document.getElementById('negative-output').value = PROMPT_DATABASE.negative.base;
     updateTranslationDisplay();
 }
@@ -329,7 +330,8 @@ function findTagsByContainerId(id) {
         'clothing-disarray-tags': PROMPT_DATABASE.clothing_disarray,
         'erotic-camera-tags': PROMPT_DATABASE.erotic_camera,
         'intense-expressions-tags': PROMPT_DATABASE.intense_expressions,
-        'aftermath-tags': PROMPT_DATABASE.aftermath
+        'aftermath-tags': PROMPT_DATABASE.aftermath,
+          'daily-life-tags': PROMPT_DATABASE.daily_life,
     };
     return map[id];
 }
@@ -756,3 +758,4 @@ function loadPresetList() {
         }
     }
 }
+
