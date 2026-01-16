@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Illustrious/NoobAI プロンプト生成ツール</title>
     <link rel="stylesheet" href="style.css">
+    <!-- ★ SortableJS ライブラリを追加 -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 
 <body>
@@ -13,14 +15,22 @@
         <!-- ヘッダー -->
         <header class="header">
             <h1>🎨 Illustrious/NoobAI プロンプト生成ツール</h1>
-            <p>ひろき様専用 - Phase 3 完全版 + ビジュアル機能搭載</p>
+            <p>ひろき様専用 - Phase 3 完全版 + ビジュアル機能 + レイアウト自由化</p>
+            
+            <!-- ★ レイアウト制御ボタン追加 -->
+            <div class="layout-controls">
+                <button id="reset-layout-btn" class="layout-btn">🔄 配置をリセット</button>
+                <small style="color: var(--text-secondary); margin-top: 8px; display: block;">
+                    💡 セクションタイトルをドラッグして並び替え可能（プロンプト順序は変わりません）
+                </small>
+            </div>
         </header>
 
         <!-- メイン2カラムレイアウト -->
         <div class="main-layout">
 
-            <!-- 左カラム：タグ選択エリア -->
-            <div class="left-column">
+            <!-- 左カラム：タグ選択エリア（★ソート可能） -->
+            <div class="left-column" id="left-sortable">
 
                 <!-- 1. 品質・スタイル・評価 -->
                 <section class="card" id="section-1">
@@ -211,7 +221,7 @@
 
             </div> <!-- /left-column -->
 
-            <!-- 右カラム：プロンプト出力エリア（固定表示） -->
+            <!-- 右カラム：プロンプト出力エリア -->
             <div class="right-column">
                 <div class="sticky-output">
 
@@ -331,11 +341,11 @@
 
     <!-- ★ 画像編集モーダル -->
     <div class="image-edit-modal" id="image-edit-modal" style="display: none;">
-        <div class="modal-backdrop" onclick="closeImageModal()"></div>
+        <div class="modal-backdrop"></div>
         <div class="modal-content">
             <div class="modal-header">
                 <h3>画像を編集：<span id="modal-tag-name"></span></h3>
-                <button class="modal-close" onclick="closeImageModal()">✕</button>
+                <button class="modal-close" id="modal-close-btn">✕</button>
             </div>
             
             <div class="modal-body">
@@ -348,13 +358,13 @@
                     <div id="url-tab" class="tab-panel active">
                         <label>画像URL:</label>
                         <input type="text" id="image-url-input" placeholder="https://example.com/image.jpg">
-                        <small>※ Danbooru、Pixiv、Twitterなどの画像URLが使用できます</small>
+                        <small>※ Danbooru、Imgur、Pixivなどの画像URLが使用できます</small>
                     </div>
                     
                     <div id="file-tab" class="tab-panel">
                         <label>ファイルアップロード:</label>
                         <input type="file" id="image-file-input" accept="image/*">
-                        <small>※ JPG, PNG, WebP形式対応（推奨サイズ：400x400px以下）</small>
+                        <small>※ JPG, PNG, WebP形式対応（推奨サイズ：2MB以下）</small>
                     </div>
                 </div>
                 
@@ -365,9 +375,9 @@
             </div>
             
             <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeImageModal()">キャンセル</button>
-                <button class="btn-danger" id="delete-image-btn" onclick="deleteTagImage()" style="display: none;">削除</button>
-                <button class="btn-primary" onclick="saveTagImage()">保存</button>
+                <button class="btn-secondary" id="modal-cancel-btn">キャンセル</button>
+                <button class="btn-danger" id="delete-image-btn" style="display: none;">削除</button>
+                <button class="btn-primary" id="modal-save-btn">保存</button>
             </div>
         </div>
     </div>
