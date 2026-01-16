@@ -592,100 +592,7 @@ textarea {
     }
 }
 
-/* 既存のCSSはそのまま残して、以下を末尾に追加 */
 
-/* ==========================================
-   ドラッグ&ドロップ機能用スタイル
-   ========================================== */
-
-/* ヘッダーコントロール */
-.layout-controls {
-    margin-top: 16px;
-    text-align: center;
-}
-
-.layout-btn {
-    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(188, 140, 255, 0.3);
-}
-
-.layout-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(188, 140, 255, 0.5);
-}
-
-/* ドラッグ可能要素のスタイル */
-.card h2 {
-    cursor: grab;
-    user-select: none;
-    position: relative;
-    padding-left: 24px; /* ドラッグハンドル用のスペース */
-}
-
-.card h2:active {
-    cursor: grabbing;
-}
-
-/* ドラッグ可能であることを示すインジケーター */
-.card h2::before {
-    content: '⋮⋮';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-secondary);
-    opacity: 0.3;
-    transition: opacity 0.3s ease;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.card:hover h2::before {
-    opacity: 0.8;
-    color: var(--accent-blue);
-}
-
-/* SortableJS用スタイル */
-.sortable-ghost {
-    opacity: 0.4;
-    background: var(--bg-tertiary);
-    border: 2px dashed var(--accent-blue) !important;
-}
-
-.sortable-drag {
-    opacity: 0.9;
-    transform: scale(1.02);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.5) !important;
-    z-index: 1000;
-    cursor: grabbing !important;
-}
-
-.sortable-chosen {
-    background: var(--bg-tertiary);
-}
-
-/* ドラッグ中のカーソル */
-body.dragging,
-body.dragging * {
-    cursor: grabbing !important;
-}
-
-/* アニメーション */
-@keyframes dragPulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-}
-
-.card:active {
-    animation: dragPulse 0.3s ease;
-}
 
 
 /* ==========================================
@@ -732,4 +639,5 @@ body.dragging * {
         padding-right: 0;
     }
 }
+
 
