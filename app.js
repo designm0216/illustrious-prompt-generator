@@ -715,6 +715,10 @@ function findTagsByContainerId(id) {
         'background-tags': PROMPT_DATABASE.background,
         'lighting-tags': PROMPT_DATABASE.lighting,
         'sexual-positions-tags': PROMPT_DATABASE.sexual_positions,
+        'foreplay-tags': PROMPT_DATABASE.foreplay,
+'bodily-fluids-tags': PROMPT_DATABASE.bodily_fluids,
+'yuri-acts-tags': PROMPT_DATABASE.yuri_acts,
+'yaoi-acts-tags': PROMPT_DATABASE.yaoi_acts,
         'sex-acts-tags': PROMPT_DATABASE.sex_acts,
         'cum-tags': PROMPT_DATABASE.cum,
         'bondage-tags': PROMPT_DATABASE.bondage,
@@ -1325,6 +1329,7 @@ function initializeApp() {
     updateTranslationDisplay();
 }
 */
+
 
 
 
