@@ -885,7 +885,7 @@ function updateOutput() {
         // Crody推奨順序でタグを出力
         const order = [
             'hair_color', 'hair_length', 'hair_style',
-            'eyes', 'eye_shape', 'eye_details', 'eyebrows',
+            'eyes', 'eye_shape', 'eye_details', 'eyebrows','lips',
             'breasts', 'nipples', 'clothing_color', 'clothing', 'pose',
             'male_body_type', 'male_facial', 'male_age_type',
             'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
@@ -1025,7 +1025,7 @@ function updateTranslationDisplay() {
         const charTags = [];
         const order = [
             'hair_color', 'hair_length', 'hair_style',
-            'eyes', 'eye_shape', 'eye_details', 'eyebrows',
+            'eyes', 'eye_shape', 'eye_details', 'eyebrows','lips',
             'breasts', 'nipples','clothing_color', 'clothing', 'pose',
             'male_body_type', 'male_facial', 'male_age_type',
             'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
@@ -1240,5 +1240,6 @@ function loadPresetList() {
         }
     }
 }
+
 
 
