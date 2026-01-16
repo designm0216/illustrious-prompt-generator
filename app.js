@@ -814,7 +814,7 @@ function updateOutput() {
         const order = [
             'hair_color', 'hair_length', 'hair_style',
             'eyes', 'eye_shape', 'eye_details', 'eye_internal', 'eye_direction', 'eyebrows',
-            'breasts', 'nipples',
+            'breasts', 'nipples',    'clothing_color',
             'clothing', 'clothing_state', 'clothing_disarray',
             'pose', 'hand_gestures',
             'male_body_type', 'male_facial', 'male_age_type',
@@ -962,7 +962,7 @@ function updateTranslationDisplay() {
         const order = [
             'hair_color', 'hair_length', 'hair_style',
             'eyes', 'eye_shape', 'eye_details', 'eyebrows',
-            'breasts', 'nipples', 'clothing', 'pose',
+            'breasts', 'nipples','clothing_color', 'clothing', 'pose',
             'male_body_type', 'male_facial', 'male_age_type',
             'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
         ];
@@ -1321,6 +1321,7 @@ function initializeApp() {
     updateTranslationDisplay();
 }
 */
+
 
 
 
