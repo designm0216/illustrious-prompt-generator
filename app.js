@@ -70,8 +70,15 @@ const TagVisualManager = {
     saveToStorage() {
         try {
             localStorage.setItem('tag_visuals', JSON.stringify(this.storage));
+            return true;
         } catch (e) {
-            console.warn('タグビジュアルデータの保存に失敗:', e);
+            console.error('保存エラー:', e);
+            if (e.name === 'QuotaExceededError') {
+                alert('⚠️ 保存容量が不足しています！\n\n画像ファイルは容量を大量消費します。\n「URL登録」を推奨します。');
+            } else {
+                alert('保存に失敗しました: ' + e.message);
+            }
+            return false;
         }
     },
     
@@ -94,37 +101,61 @@ const TagVisualManager = {
         } else {
             delete this.storage[tagId];
         }
-        this.saveToStorage();
+        return this.saveToStorage();
     },
     
     setupEventListeners() {
+        // 編集ボタン
         const editBtn = document.getElementById('edit-visual-btn');
         if (editBtn) {
-            editBtn.addEventListener('click', () => {
+            editBtn.onclick = () => {
                 if (currentPreviewTag) {
                     openImageEditModal(currentPreviewTag);
+                } else {
+                    alert('タグを選択してから編集ボタンを押してください');
                 }
-            });
+            };
         }
         
+        // 閉じるボタン
         const closeBtn = document.getElementById('close-preview-btn');
         if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                hideVisualPreview();
-            });
+            closeBtn.onclick = () => hideVisualPreview();
         }
         
+        // モーダル内のボタン（JavaScript側で確実に制御）
+        setTimeout(() => {
+            const saveBtn = document.getElementById('modal-save-btn');
+            if (saveBtn) saveBtn.onclick = saveTagImage;
+            
+            const deleteBtn = document.getElementById('delete-image-btn');
+            if (deleteBtn) deleteBtn.onclick = deleteTagImage;
+            
+            const cancelBtn = document.getElementById('modal-cancel-btn');
+            if (cancelBtn) cancelBtn.onclick = closeImageModal;
+            
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            if (modalCloseBtn) modalCloseBtn.onclick = closeImageModal;
+            
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.onclick = closeImageModal;
+        }, 100);
+        
+        // タブ切り替え
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
                 switchTab(btn.dataset.tab);
             });
         });
         
+        // ファイル選択
         const fileInput = document.getElementById('image-file-input');
         if (fileInput) {
             fileInput.addEventListener('change', handleFileSelect);
         }
         
+        // URL入力
         const urlInput = document.getElementById('image-url-input');
         if (urlInput) {
             urlInput.addEventListener('input', updateModalPreview);
@@ -153,6 +184,14 @@ function showVisualPreview(tag, isPermanent = false) {
     
     const imageUrl = TagVisualManager.getImageUrl(tag);
     
+    // ローディング表示
+    content.innerHTML = `
+        <div class="preview-placeholder">
+            <div class="placeholder-icon">⏳</div>
+            <p>読み込み中...</p>
+        </div>
+    `;
+    
     const img = new Image();
     
     img.onload = () => {
@@ -161,19 +200,21 @@ function showVisualPreview(tag, isPermanent = false) {
     };
     
     img.onerror = () => {
+        // 404エラーを静かに処理
         content.innerHTML = `
             <div class="preview-placeholder">
                 <div class="placeholder-icon">📷</div>
-                <p><strong>${tag.label}</strong><br>画像未登録</p>
-                <button class="preset-btn" onclick="openImageEditModal(currentPreviewTag)">
-                    画像を追加
+                <p><strong>${tag.label}</strong><br>
+                <span style="font-size:0.8em; color:var(--text-secondary);">画像未登録</span></p>
+                <button class="preset-btn" onclick="openImageEditModal(currentPreviewTag)" style="margin-top: 8px;">
+                    ✏️ 画像を追加
                 </button>
             </div>
         `;
+        panel.classList.remove('show-image');
     };
     
     img.src = imageUrl;
-    
     panel.style.display = 'block';
     
     if (!isPermanent) {
@@ -250,8 +291,8 @@ function handleFileSelect(event) {
     const file = event.target.files[0];
     if (!file) return;
     
-    if (file.size > 5 * 1024 * 1024) {
-        alert('ファイルサイズが大きすぎます（5MB以下にしてください）');
+    if (file.size > 2 * 1024 * 1024) {
+        alert('⚠️ ファイルサイズが大きすぎます（2MB以下にしてください）');
         return;
     }
     
@@ -278,20 +319,46 @@ function updateModalPreview() {
     }
 }
 
+function isValidImageInput(input) {
+    if (input.startsWith('data:image/')) return true;
+    if (input.startsWith('http://') || input.startsWith('https://')) return true;
+    if (input.startsWith('./') || input.startsWith('../')) return true;
+    const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
+    return imageExts.some(ext => input.toLowerCase().includes(ext));
+}
+
 function saveTagImage() {
-    const url = document.getElementById('image-url-input').value.trim();
+    const urlInput = document.getElementById('image-url-input');
+    if (!urlInput) {
+        alert('❌ 入力欄が見つかりません');
+        return;
+    }
     
-    if (!currentPreviewTag) return;
+    const url = urlInput.value.trim();
     
-    TagVisualManager.setImage(currentPreviewTag.id, url);
-    closeImageModal();
+    if (!currentPreviewTag) {
+        alert('❌ タグが選択されていません');
+        return;
+    }
     
-    if (url) {
-        showVisualPreview(currentPreviewTag, true);
-        alert('画像を保存しました！');
-    } else {
-        hideVisualPreview();
-        alert('画像を削除しました');
+    if (url && !isValidImageInput(url)) {
+        if (!confirm('⚠️ 画像URLの形式が正しくない可能性があります。\n保存を続行しますか？')) {
+            return;
+        }
+    }
+    
+    const success = TagVisualManager.setImage(currentPreviewTag.id, url);
+    
+    if (success) {
+        closeImageModal();
+        
+        if (url) {
+            showVisualPreview(currentPreviewTag, true);
+            alert('✅ 画像を保存しました！');
+        } else {
+            hideVisualPreview();
+            alert('✅ 画像を削除しました');
+        }
     }
 }
 
@@ -302,7 +369,7 @@ function deleteTagImage() {
         TagVisualManager.setImage(currentPreviewTag.id, null);
         closeImageModal();
         hideVisualPreview();
-        alert('画像を削除しました');
+        alert('✅ 画像を削除しました');
     }
 }
 
@@ -399,14 +466,19 @@ function renderTags(containerId, tags, stateKey) {
         const weight = tag.weight;
         btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
-        // ★ ビジュアルプレビュー機能
+        // ★ ホバー表示
         btn.addEventListener('mouseenter', () => {
             showVisualPreview(tag, false);
         });
         
+        // ★ 修正：現在のボタン状態を動的に確認
         btn.addEventListener('mouseleave', () => {
-            if (!isSelected) {
-                setTimeout(() => hideVisualPreview(), 500);
+            if (!btn.classList.contains('selected')) {
+                setTimeout(() => {
+                    if (currentPreviewTag === tag && !btn.classList.contains('selected')) {
+                        hideVisualPreview();
+                    }
+                }, 500);
             }
         });
 
@@ -418,6 +490,9 @@ function renderTags(containerId, tags, stateKey) {
                 showWeightPanel(tag, stateKey);
             } else {
                 hideWeightPanel();
+                if (currentPreviewTag === tag) {
+                    hideVisualPreview();
+                }
             }
         };
 
@@ -520,14 +595,19 @@ function appendCharacterSection(parent, title, tags, targetSet, charIndex) {
         const weight = tag.weight;
         btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
-        // ★ ビジュアルプレビュー機能
+        // ★ ホバー表示
         btn.addEventListener('mouseenter', () => {
             showVisualPreview(tag, false);
         });
         
+        // ★ 修正：現在のボタン状態を動的に確認
         btn.addEventListener('mouseleave', () => {
-            if (!isSelected) {
-                setTimeout(() => hideVisualPreview(), 500);
+            if (!btn.classList.contains('selected')) {
+                setTimeout(() => {
+                    if (currentPreviewTag === tag && !btn.classList.contains('selected')) {
+                        hideVisualPreview();
+                    }
+                }, 500);
             }
         });
 
@@ -539,6 +619,9 @@ function appendCharacterSection(parent, title, tags, targetSet, charIndex) {
                 showWeightPanel(tag, null, charIndex);
             } else {
                 hideWeightPanel();
+                if (currentPreviewTag === tag) {
+                    hideVisualPreview();
+                }
             }
         };
 
