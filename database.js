@@ -271,6 +271,72 @@ const PROMPT_DATABASE = {
             { id: "eb16", label: "片上げ片下げ眉", value: "cocked eyebrow" }
         ],
 
+            // ★ 唇タグセクションを追加（ここから）
+    lips: [
+        // ==========================
+        // 基本的な唇の形状・サイズ
+        // ==========================
+        { id: "lip1", label: "唇", value: "lips" },
+        { id: "lip2", label: "ぽってり唇", value: "plump lips", weight: 1.1 },
+        { id: "lip3", label: "厚い唇", value: "thick lips" },
+        { id: "lip4", label: "薄い唇", value: "thin lips" },
+        { id: "lip5", label: "小さい唇", value: "small lips" },
+        { id: "lip6", label: "大きい唇", value: "large lips" },
+        { id: "lip7", label: "ふっくら唇", value: "puffy lips", weight: 1.1 },
+        
+        // ==========================
+        // 唇の色・質感
+        // ==========================
+        { id: "lip10", label: "ピンクの唇", value: "pink lips" },
+        { id: "lip11", label: "赤い唇", value: "red lips" },
+        { id: "lip12", label: "紫の唇", value: "purple lips" },
+        { id: "lip13", label: "黒い唇", value: "black lips" },
+        { id: "lip14", label: "艶のある唇", value: "glossy lips, shiny lips", weight: 1.2 },
+        { id: "lip15", label: "マットな唇", value: "matte lips" },
+        { id: "lip16", label: "濡れた唇", value: "wet lips", weight: 1.1 },
+        
+        // ==========================
+        // メイク・装飾
+        // ==========================
+        { id: "lip20", label: "口紅", value: "lipstick" },
+        { id: "lip21", label: "赤い口紅", value: "red lipstick" },
+        { id: "lip22", label: "ピンクの口紅", value: "pink lipstick" },
+        { id: "lip23", label: "濃い口紅", value: "dark lipstick" },
+        { id: "lip24", label: "リップグロス", value: "lip gloss", weight: 1.1 },
+        { id: "lip25", label: "グラデーションリップ", value: "gradient lips", weight: 1.2 },
+        
+        // ==========================
+        // 唇の状態・表情
+        // ==========================
+        { id: "lip30", label: "半開きの唇", value: "parted lips, slightly open mouth" },
+        { id: "lip31", label: "閉じた唇", value: "closed mouth" },
+        { id: "lip32", label: "すぼめた唇", value: "puckered lips" },
+        { id: "lip33", label: "尖らせた唇", value: "pursed lips, pouting" },
+        { id: "lip34", label: "唇を噛む", value: "biting lip", nsfw: true, weight: 1.2 },
+        { id: "lip35", label: "唇を舐める", value: "licking lips", nsfw: true, weight: 1.2 },
+        { id: "lip36", label: "口角が上がった", value: "smirk, upturned lips" },
+        { id: "lip37", label: "への字口", value: "downturned mouth" },
+        
+        // ==========================
+        // 特殊な表現・装飾
+        // ==========================
+        { id: "lip40", label: "唇ピアス", value: "lip piercing" },
+        { id: "lip41", label: "ラビレット", value: "labret piercing" },
+        { id: "lip42", label: "キスマーク", value: "lipstick mark" },
+        { id: "lip43", label: "ひび割れた唇", value: "chapped lips" },
+        { id: "lip44", label: "八重歯がちら見え", value: "visible fang" },
+        
+        // ==========================
+        // NSFW系（セクシー表現）
+        // ==========================
+        { id: "lip50", label: "官能的な唇", value: "seductive lips", nsfw: true, weight: 1.2 },
+        { id: "lip51", label: "挑発的な唇", value: "provocative lips", nsfw: true, weight: 1.1 },
+        { id: "lip52", label: "唇に指", value: "finger to lips", nsfw: true },
+        { id: "lip53", label: "とろけた口元", value: "sloppy mouth", nsfw: true, weight: 1.3 },
+        { id: "lip54", label: "涎の垂れた口元", value: "drooling mouth", nsfw: true, weight: 1.3 }
+    ],
+    // ★ 唇タグ追加ここまで
+
         breasts: [
             { id: "br1", label: "平坦な胸", value: "flat chest", exclusive: "breast_size" },
             { id: "br2", label: "小さい胸", value: "small breasts", exclusive: "breast_size" },
@@ -1320,6 +1386,7 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
 
