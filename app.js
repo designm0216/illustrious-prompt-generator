@@ -814,7 +814,7 @@ function updateWeight() {
 // ==========================================
 
 // ==========================================
-// プロンプト生成・出力更新（修正版）
+// プロンプト生成・出力更新（[]括弧対応版）
 // ==========================================
 
 function updateOutput() {
@@ -862,13 +862,14 @@ function updateOutput() {
         segments.push(environmentTags.join(', '));
     }
 
-    // 4. ★ 修正箇所：セグメントモードの条件を簡素化 ★
+    // 4. ★ セグメントモードに応じた出力形式（[]括弧対応） ★
     let output;
     if (appState.segmentMode) {
-        // セグメントモードON: 常にBREAKで区切る
-        output = segments.join(' BREAK ');
+        // セグメントモードON: 各セグメントを[]で囲み、BREAKで区切る
+        const wrappedSegments = segments.map(seg => `[${seg}]`);
+        output = wrappedSegments.join('\nBREAK\n');
     } else {
-        // セグメントモードOFF: カンマで区切る
+        // セグメントモードOFF: 通常のカンマ区切り（括弧なし）
         output = segments.join(', ');
     }
 
@@ -882,6 +883,7 @@ function updateOutput() {
     updateNegativePrompt();
     updateTranslationDisplay();
 }
+
 
 function updateNegativePrompt() {
     let negative = PROMPT_DATABASE.negative.base;
@@ -1170,4 +1172,5 @@ function loadPresetList() {
         }
     }
 }
+
 
