@@ -902,104 +902,226 @@ const PROMPT_DATABASE = {
         ]
     },
 
+    // ==========================================
+    // 🔞 NSFW拡張版（Danbooru完全準拠）
+    // ==========================================
+
+    // === 基本的な性行為 ===
     sexual_positions: [
+        // 基本体位
         { id: "sp1", label: "正常位", value: "missionary", nsfw: true },
         { id: "sp_mp", label: "種付けプレス", value: "mating press", nsfw: true, weight: 1.3 },
         { id: "sp_sm", label: "立位正常位", value: "standing missionary", nsfw: true },
         { id: "sp_lu", label: "足上げ正常位", value: "legs up, missionary", nsfw: true },
         { id: "sp_lh", label: "M字開脚", value: "legs over head, folded", nsfw: true },
-        { id: "sp_kc", label: "膝を胸に", value: "knees to chest", nsfw: true },
-        { id: "sp_av", label: "アンビル体位", value: "anvil position", nsfw: true },
+        
+        // 騎乗位系
         { id: "sp2", label: "騎乗位", value: "cowgirl position", nsfw: true },
         { id: "sp3", label: "逆騎乗位", value: "reverse cowgirl position", nsfw: true },
         { id: "sp_sc", label: "しゃがみ騎乗位", value: "squatting cowgirl position", nsfw: true },
         { id: "sp_us", label: "対面座位", value: "upright straddle", nsfw: true },
-        { id: "sp_rs", label: "逆対面座位", value: "reverse upright straddle", nsfw: true },
         { id: "sp8", label: "アマゾンポジション", value: "amazon position", nsfw: true, weight: 1.2 },
+        
+        // 後背位系
         { id: "sp4", label: "バック（後背位）", value: "doggystyle, sex from behind", nsfw: true },
         { id: "sp_bo", label: "前かがみバック", value: "bent over, sex from behind", nsfw: true },
         { id: "sp_pb", label: "うつ伏せ体位", value: "prone bone", nsfw: true },
         { id: "sp5", label: "立ちバック", value: "standing sex, sex from behind", nsfw: true },
         { id: "sp_tb", label: "尻上げ体位", value: "top-down bottom-up", nsfw: true, weight: 1.2 },
+        
+        // 横向き・特殊
         { id: "sp_sp", label: "スプーン体位", value: "spooning", nsfw: true },
         { id: "sp_os", label: "横向き体位", value: "on side", nsfw: true },
         { id: "sp6", label: "69（シックスナイン）", value: "69", nsfw: true },
         { id: "sp_fs", label: "顔面騎乗", value: "facesitting, sitting on face", nsfw: true },
+        
+        // 拘束・ハード
         { id: "sp_fn", label: "フルネルソン", value: "full nelson", nsfw: true, weight: 1.2 },
         { id: "sp_pin", label: "押し倒し体位", value: "pinning down, mounted", nsfw: true },
         { id: "sp_wh", label: "手首固定", value: "wrist hold, pinning wrists", nsfw: true },
-        { id: "sp_bs", label: "拘束セックス", value: "bound sex", nsfw: true },
-        { id: "sp_fd_cg", label: "女攻め騎乗位", value: "dominant cowgirl, femdom", nsfw: true },
-        { id: "sp_fd_fs", label: "女王様顔面騎乗", value: "facesitting, femdom", nsfw: true, weight: 1.2 },
-        { id: "sp_fd_mp", label: "女主導種付けプレス", value: "dominant mating press, femdom", nsfw: true },
-        { id: "sp_yaoi_df", label: "やおい・後背位", value: "yaoi, sex from behind", nsfw: true },
-        { id: "sp_yaoi_mp", label: "やおい・種付けプレス", value: "yaoi, mating press", nsfw: true },
-        { id: "sp_yaoi_69", label: "やおい・69", value: "yaoi, 69", nsfw: true },
-        { id: "sp_yaoi_sp", label: "やおい・スプーン", value: "yaoi, spooning", nsfw: true },
-        { id: "sp_tr", label: "貝合わせ", value: "tribadism", nsfw: true },
-        { id: "sp_yuri_fs", label: "百合・顔面騎乗", value: "yuri, facesitting", nsfw: true },
-        { id: "sp_yuri_lap", label: "膝の上に座る（百合）", value: "yuri, sitting on lap", nsfw: true },
+        
+        // 複数・特殊
         { id: "sp_sr", label: "串刺し（二穴攻め）", value: "spitroast", nsfw: true, weight: 1.2 },
         { id: "sp_dp", label: "ダブルペネトレーション", value: "double penetration", nsfw: true, weight: 1.3 },
-        { id: "sp_tp", label: "トリプルペネトレーション", value: "triple penetration", nsfw: true, weight: 1.4 },
-        { id: "sp_pd", label: "杭打ち体位", value: "piledriver", nsfw: true, weight: 1.3 },
-        { id: "sp_sc1", label: "吊り下げ体位", value: "suspended congress", nsfw: true, weight: 1.3 },
-        { id: "sp_rsc", label: "逆吊り下げ体位", value: "reverse suspended congress", nsfw: true, weight: 1.3 },
-        { id: "sp_aw", label: "壁押し付け", value: "against wall, standing sex", nsfw: true },
-        { id: "sp_od", label: "机の上", value: "on desk, sex on desk", nsfw: true },
-        { id: "sp_oc", label: "椅子の上", value: "on chair, sex on chair", nsfw: true },
-        { id: "sp_aw2", label: "窓際", value: "against window", nsfw: true },
-        { id: "sp_ps", label: "公開セックス", value: "public sex", nsfw: true, weight: 1.2 },
-        { id: "sp_ss", label: "睡眠姦", value: "sleep sex", nsfw: true },
-        { id: "sp_rr", label: "逆レイプ", value: "reverse rape", nsfw: true },
-        { id: "sp_mt", label: "マウンティング", value: "mounting", nsfw: true },
-        { id: "sp_lap", label: "膝枕体位", value: "head on lap, lap pillow" },
-        { id: "sp_straddle", label: "跨り（非セックス）", value: "straddling, sitting astride" },
-        { id: "sp_huglap", label: "抱きつき膝の上", value: "sitting on lap, hugging" }
+        { id: "sp_gang", label: "輪姦", value: "gangbang", nsfw: true, weight: 1.3 }
     ],
 
+    // === 性行為詳細 ===
     sex_acts: [
+        // 手技系
+        { id: "sa5", label: "手コキ", value: "handjob", nsfw: true },
+        { id: "sa_dh", label: "ダブル手コキ", value: "double handjob", nsfw: true },
+        { id: "sa_fin", label: "指入れ", value: "fingering", nsfw: true },
+        { id: "sa_fist", label: "フィスティング", value: "fisting", nsfw: true, weight: 1.3 },
+        
+        // 足技系
+        { id: "sa6", label: "足コキ", value: "footjob", nsfw: true },
+        { id: "sa_df", label: "ダブル足コキ", value: "double footjob", nsfw: true },
+        
+        // パイズリ系
         { id: "sa1", label: "パイズリ", value: "paizuri", nsfw: true },
         { id: "sa_cp", label: "協力パイズリ", value: "cooperative paizuri", nsfw: true },
         { id: "sa_sp", label: "跨りパイズリ", value: "straddling paizuri", nsfw: true },
-        { id: "sa_pp", label: "垂直パイズリ", value: "perpendicular paizuri", nsfw: true },
-        { id: "sa_hf", label: "手なしパイズリ", value: "handsfree paizuri", nsfw: true },
+        
+        // 口技系
         { id: "sa2", label: "フェラチオ", value: "fellatio", nsfw: true },
         { id: "sa3", label: "ディープスロート", value: "deepthroat", nsfw: true },
         { id: "sa_ir", label: "イラマチオ", value: "irrumatio", nsfw: true },
         { id: "sa_cf", label: "協力フェラ", value: "cooperative fellatio", nsfw: true },
         { id: "sa4", label: "クンニリングス", value: "cunnilingus", nsfw: true },
         { id: "sa_an", label: "アニリングス", value: "anilingus", nsfw: true },
-        { id: "sa5", label: "手コキ", value: "handjob", nsfw: true },
-        { id: "sa_dh", label: "ダブル手コキ", value: "double handjob", nsfw: true },
-        { id: "sa6", label: "足コキ", value: "footjob", nsfw: true },
-        { id: "sa_df", label: "ダブル足コキ", value: "double footjob", nsfw: true },
+        
+        // その他
         { id: "sa7", label: "素股", value: "grinding, frottage", nsfw: true },
         { id: "sa8", label: "尻コキ", value: "buttjob", nsfw: true },
         { id: "sa_as", label: "脇コキ", value: "armpit sex", nsfw: true },
         { id: "sa_ts", label: "太ももコキ", value: "thigh sex", nsfw: true }
     ],
 
+    // === 射精・絶頂 ===
     cum: [
-        { id: "cu1", label: "顔射", value: "facial", nsfw: true },
-        { id: "cu2", label: "口内射精", value: "cum in mouth", nsfw: true },
+        // 射精場所
         { id: "cu3", label: "膣内射精", value: "cum in pussy", nsfw: true },
         { id: "cu4", label: "中出し", value: "internal cumshot", nsfw: true },
+        { id: "cu_anal", label: "アナル中出し", value: "cum in ass", nsfw: true },
+        { id: "cu2", label: "口内射精", value: "cum in mouth", nsfw: true },
+        { id: "cu1", label: "顔射", value: "facial", nsfw: true },
         { id: "cu5", label: "胸への射精", value: "cum on breasts", nsfw: true },
+        { id: "cu_body", label: "体への射精", value: "cum on body", nsfw: true },
         { id: "cu6", label: "ぶっかけ", value: "bukkake", nsfw: true },
+        
+        // 射精状態
         { id: "cu7", label: "精液が垂れる", value: "cumdrip", nsfw: true },
-        { id: "cu8", label: "過剰な精液", value: "excessive cum", nsfw: true }
+        { id: "cu8", label: "過剰な精液", value: "excessive cum", nsfw: true },
+        { id: "cu_pool", label: "精液溜まり", value: "cum pool", nsfw: true },
+        { id: "cu_cov", label: "精液まみれ", value: "cum covered", nsfw: true },
+        
+        // 女性の絶頂
+        { id: "cu_org", label: "絶頂", value: "orgasm", nsfw: true, weight: 1.2 },
+        { id: "cu_sq", label: "潮吹き", value: "squirting, female ejaculation", nsfw: true, weight: 1.2 },
+        { id: "cu_conv", label: "痙攣", value: "convulsing", nsfw: true }
     ],
 
+    // === 前戯・愛撫 ===
+    foreplay: [
+        { id: "fp1", label: "キス", value: "kissing", nsfw: true },
+        { id: "fp2", label: "ディープキス", value: "french kissing", nsfw: true },
+        { id: "fp3", label: "首筋キス", value: "neck kissing", nsfw: true },
+        { id: "fp4", label: "耳舐め", value: "ear licking", nsfw: true },
+        { id: "fp5", label: "乳首舐め", value: "nipple licking", nsfw: true },
+        { id: "fp6", label: "乳首吸い", value: "nipple sucking", nsfw: true },
+        { id: "fp7", label: "乳首責め", value: "nipple play", nsfw: true },
+        { id: "fp8", label: "胸揉み", value: "breast grab", nsfw: true },
+        { id: "fp9", label: "胸マッサージ", value: "breast massage", nsfw: true },
+        { id: "fp10", label: "太もも愛撫", value: "thigh caress", nsfw: true },
+        { id: "fp11", label: "尻揉み", value: "ass grab", nsfw: true },
+        { id: "fp12", label: "股間愛撫", value: "crotch caress", nsfw: true },
+        { id: "fp13", label: "全身愛撫", value: "body caress", nsfw: true }
+    ],
+
+    // === 体液・分泌物 ===
+    bodily_fluids: [
+        { id: "bf1", label: "愛液", value: "pussy juice", nsfw: true },
+        { id: "bf2", label: "愛液が垂れる", value: "pussy juice drip", nsfw: true, weight: 1.2 },
+        { id: "bf3", label: "愛液が糸を引く", value: "pussy juice trail", nsfw: true, weight: 1.2 },
+        { id: "bf4", label: "濡れた股間", value: "wet pussy", nsfw: true },
+        { id: "bf5", label: "びしょ濡れ", value: "soaking wet", nsfw: true, weight: 1.2 },
+        { id: "bf6", label: "先走り汁", value: "precum", nsfw: true },
+        { id: "bf7", label: "よだれ", value: "drooling, saliva", nsfw: true },
+        { id: "bf8", label: "汗だく", value: "sweating profusely", nsfw: true },
+        { id: "bf9", label: "涙", value: "tears", nsfw: true },
+        { id: "bf10", label: "体液まみれ", value: "covered in fluids", nsfw: true, weight: 1.3 }
+    ],
+
+    // === 拘束・BDSM ===
     bondage: [
+        // 拘束具
         { id: "bo1", label: "腕を縛る", value: "bound arms", nsfw: true },
         { id: "bo2", label: "手首を縛る", value: "bound wrists", nsfw: true },
         { id: "bo3", label: "脚を縛る", value: "bound legs", nsfw: true },
         { id: "bo4", label: "胸を縛る", value: "bound breasts", nsfw: true },
         { id: "bo5", label: "後手縛り", value: "box tie", nsfw: true },
         { id: "bo6", label: "豚縛り", value: "hogtie", nsfw: true },
-        { id: "bo7", label: "吊るし", value: "suspension", nsfw: true }
+        { id: "bo7", label: "吊るし", value: "suspension", nsfw: true },
+        
+        // 道具
+        { id: "bo_cuff", label: "手錠", value: "handcuffs", nsfw: true },
+        { id: "bo_col", label: "首輪", value: "collar", nsfw: true },
+        { id: "bo_gag", label: "口枷", value: "gag", nsfw: true },
+        { id: "bo_blind", label: "目隠し", value: "blindfold", nsfw: true },
+        { id: "bo_whip", label: "鞭", value: "whip", nsfw: true },
+        
+        // プレイ
+        { id: "bo_span", label: "スパンキング", value: "spanking", nsfw: true },
+        { id: "bo_train", label: "調教", value: "training", nsfw: true },
+        { id: "bo_pet", label: "ペット化", value: "pet play", nsfw: true }
     ],
+
+    // === おもちゃ・道具 ===
+    nsfw_toys: [
+        // バイブ系
+        { id: "nt1", label: "バイブレーター", value: "vibrator", nsfw: true },
+        { id: "nt2", label: "ディルド", value: "dildo", nsfw: true },
+        { id: "nt3", label: "電マ", value: "electric massager", nsfw: true },
+        { id: "nt4", label: "アナルビーズ", value: "anal beads", nsfw: true },
+        { id: "nt5", label: "リモコンバイブ", value: "remote vibrator", nsfw: true },
+        { id: "nt6", label: "コックリング", value: "cock ring", nsfw: true },
+        { id: "nt7", label: "ニプルクランプ", value: "nipple clamps", nsfw: true },
+        { id: "nt8", label: "拘束具", value: "restraints, bondage gear", nsfw: true },
+        { id: "nt9", label: "ローター", value: "rotor, egg vibrator", nsfw: true },
+        { id: "nt_plug", label: "アナルプラグ", value: "butt plug", nsfw: true },
+        { id: "nt_double", label: "ダブルディルド", value: "double dildo", nsfw: true },
+        { id: "nt_strap", label: "ストラップオン", value: "strap-on", nsfw: true }
+    ],
+
+    // === シチュエーション・コンテキスト ===
+    nsfw_context: [
+        // 場所・状況
+        { id: "nc1", label: "露出プレイ", value: "exhibitionism, public nudity", nsfw: true, weight: 1.2 },
+        { id: "nc2", label: "覗き・盗撮", value: "voyeurism, being watched", nsfw: true },
+        { id: "nc_out", label: "野外セックス", value: "outdoor sex", nsfw: true },
+        { id: "nc_sch", label: "学校でこっそり", value: "school sex", nsfw: true },
+        { id: "nc_off", label: "職場でこっそり", value: "office sex", nsfw: true },
+        { id: "nc5", label: "ラブホテル", value: "love hotel", nsfw: true },
+        
+        // 関係性・支配
+        { id: "nc3", label: "女攻め・逆レイプ", value: "femdom, dominant female", nsfw: true, weight: 1.2 },
+        { id: "nc_male", label: "男攻め・支配", value: "maledom, dominant male", nsfw: true },
+        { id: "nc4", label: "ご奉仕プレイ", value: "service, eager to please", nsfw: true },
+        { id: "nc9", label: "催眠・洗脳", value: "hypnosis, mind control", nsfw: true, weight: 1.2 },
+        { id: "nc10", label: "調教・訓練", value: "training, sexual training", nsfw: true },
+        { id: "nc_ntr", label: "寝取られ", value: "netorare, NTR", nsfw: true },
+        
+        // フェチ
+        { id: "nc6", label: "足フェチ", value: "foot fetish, foot focus", nsfw: true },
+        { id: "nc7", label: "太ももフェチ", value: "thigh fetish, thigh focus", nsfw: true },
+        { id: "nc8", label: "お尻フェチ", value: "ass fetish, ass focus", nsfw: true },
+        { id: "nc_tent", label: "触手", value: "tentacles, tentacle sex", nsfw: true, weight: 1.3 }
+    ],
+
+    // === 百合・レズビアン ===
+    yuri_acts: [
+        { id: "ya1", label: "百合", value: "yuri", nsfw: true },
+        { id: "ya2", label: "レズビアン", value: "lesbian", nsfw: true },
+        { id: "ya3", label: "貝合わせ", value: "tribadism", nsfw: true, weight: 1.2 },
+        { id: "ya4", label: "シザリング", value: "scissoring", nsfw: true, weight: 1.2 },
+        { id: "ya5", label: "クンニ（百合）", value: "cunnilingus, yuri", nsfw: true },
+        { id: "ya6", label: "指入れ（百合）", value: "fingering, yuri", nsfw: true },
+        { id: "ya7", label: "胸合わせ", value: "breast press", nsfw: true },
+        { id: "ya8", label: "同時イキ", value: "simultaneous orgasm, yuri", nsfw: true }
+    ],
+
+    // === やおい・ゲイ ===
+    yaoi_acts: [
+        { id: "yao1", label: "やおい", value: "yaoi", nsfw: true },
+        { id: "yao2", label: "ゲイ", value: "gay", nsfw: true },
+        { id: "yao3", label: "アナルセックス（男性）", value: "anal sex, yaoi", nsfw: true, weight: 1.3 },
+        { id: "yao4", label: "フェラチオ（男性）", value: "fellatio, yaoi", nsfw: true },
+        { id: "yao5", label: "69（男性）", value: "69, yaoi", nsfw: true },
+        { id: "yao6", label: "手コキ（相互）", value: "mutual masturbation, yaoi", nsfw: true },
+        { id: "yao7", label: "素股（男性）", value: "intercrural sex, yaoi", nsfw: true }
+    ],
+
 
     // ==========================================
     // ★ Phase 1: NSFW拡張 (Danbooru準拠)
@@ -1179,6 +1301,7 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
 
