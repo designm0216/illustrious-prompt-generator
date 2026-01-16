@@ -410,20 +410,26 @@ function updateWeight() {
 function updateOutput() {
     const segments = [];
 
+    // 1. グローバルタグ（Quality/Style/Rating + Person Count/Interaction）
     if (appState.global.size > 0) {
         const weightedGlobal = Array.from(appState.global).map(getWeightedValue);
         segments.push(weightedGlobal.join(', '));
     }
 
+    // 2. キャラクター（BREAK区切り）
     const characterSegments = [];
     appState.characters.forEach(character => {
         const allCharacterTags = [];
         const order = [
+            // Crody推奨：Top to Bottom順序
             'hair_color', 'hair_length', 'hair_style',
-            'eyes', 'eye_shape', 'eye_details', 'eyebrows',
-            'breasts', 'nipples', 'clothing', 'pose',
+            'eyes', 'eye_shape', 'eye_details', 'eye_internal', 'eye_direction', 'eyebrows',
+            'breasts', 'nipples',
+            'clothing', 'clothing_state', 'clothing_disarray',
+            'pose', 'hand_gestures',
+            // 男性用タグ
             'male_body_type', 'male_facial', 'male_age_type',
-            'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
+            'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses', 'male_expressions'
         ];
         order.forEach(key => {
             if (character[key] && character[key].size > 0) {
@@ -438,6 +444,12 @@ function updateOutput() {
         segments.push(characterSegments.join(' BREAK '));
     }
 
+    // ★ Crody準拠：カメラ・背景の前にBREAK追加
+    if (segments.length > 0 && (appState.camera.size > 0 || appState.background.size > 0)) {
+        segments.push('BREAK');
+    }
+
+    // 3. カメラ・背景
     const cameraBackground = [
         ...Array.from(appState.camera).map(getWeightedValue),
         ...Array.from(appState.background).map(getWeightedValue)
@@ -447,18 +459,23 @@ function updateOutput() {
         segments.push(cameraBackground.join(', '));
     }
 
+    // 4. ライティング（BREAK前置 - 既存のまま）
     if (appState.lighting.size > 0) {
         if (segments.length > 0) segments.push('BREAK');
         const weightedLighting = Array.from(appState.lighting).map(getWeightedValue);
         segments.push(weightedLighting.join(', '));
     }
 
+    // 5. プロンプト整形
     let finalPrompt;
     if (appState.segmentMode) {
         finalPrompt = segments.map(segment => {
             if (segment === 'BREAK') return '\nBREAK\n';
             if (segment.includes(' BREAK ')) {
-                return segment.split(' BREAK ').map(s => `[${s}]`).join('\nBREAK\n');
+                return segment
+                    .split(' BREAK ')
+                    .map(s => `[${s}]`)
+                    .join('\nBREAK\n');
             }
             return `[${segment}]`;
         }).join('\n');
@@ -470,6 +487,7 @@ function updateOutput() {
     updateNegativePrompt();
     updateTranslationDisplay();
 }
+
 
 function updateNegativePrompt() {
     let negative = PROMPT_DATABASE.negative.base;
@@ -758,4 +776,5 @@ function loadPresetList() {
         }
     }
 }
+
 
