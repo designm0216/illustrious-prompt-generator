@@ -412,6 +412,7 @@ function initializeApp() {
         { id: 'body-features-tags', data: PROMPT_DATABASE.body_features },
         { id: 'environment-tags', data: PROMPT_DATABASE.environment },
         { id: 'visual-effects-tags', data: PROMPT_DATABASE.visual_effects },
+        { id: 'sound-effects-tags', data: PROMPT_DATABASE.sound_effects },
         { id: 'hand-details-tags', data: PROMPT_DATABASE.hand_details },
         { id: 'daily-life-tags', data: PROMPT_DATABASE.daily_life }
     ];
@@ -1240,6 +1241,7 @@ function loadPresetList() {
         }
     }
 }
+
 
 
 
