@@ -1148,3 +1148,166 @@ function loadPresetList() {
         }
     }
 }
+
+
+// 既存のapp.jsの内容はそのまま残して、以下を末尾に追加
+
+// ==========================================
+// レイアウト管理システム（SortableJS版）
+// ==========================================
+
+const LayoutManager = {
+    init() {
+        this.setupSortable();
+        this.loadSavedLayout();
+        this.setupResetButton();
+        this.showInfo();
+    },
+    
+    setupSortable() {
+        const leftContainer = document.getElementById('left-sortable');
+        
+        if (!leftContainer) {
+            console.warn('⚠️ ソート対象コンテナが見つかりません');
+            return;
+        }
+        
+        // SortableJS が読み込まれているかチェック
+        if (typeof Sortable === 'undefined') {
+            console.warn('⚠️ SortableJSが読み込まれていません');
+            return;
+        }
+        
+        const sortableOptions = {
+            animation: 200,
+            handle: 'h2', // セクションタイトルをドラッグハンドルにする
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            dragClass: 'sortable-drag',
+            forceFallback: true, // より安定した動作
+            fallbackTolerance: 3,
+            
+            onStart: (evt) => {
+                document.body.classList.add('dragging');
+                console.log('🖐️ ドラッグ開始:', evt.item.querySelector('h2').textContent);
+            },
+            
+            onEnd: (evt) => {
+                document.body.classList.remove('dragging');
+                this.saveLayout();
+                console.log('✅ 配置を保存しました');
+                console.log('📝 プロンプト順序は変更されません（Crody推奨順序を維持）');
+            }
+        };
+        
+        new Sortable(leftContainer, sortableOptions);
+        console.log('✅ ドラッグ&ドロップ機能が有効になりました');
+    },
+    
+    saveLayout() {
+        const container = document.getElementById('left-sortable');
+        if (!container) return;
+        
+        const layout = {
+            order: Array.from(container.children).map(el => el.id).filter(id => id),
+            timestamp: Date.now()
+        };
+        
+        try {
+            localStorage.setItem('ui_layout', JSON.stringify(layout));
+            console.log('💾 レイアウト保存:', layout.order);
+        } catch (e) {
+            console.error('保存エラー:', e);
+        }
+    },
+    
+    loadSavedLayout() {
+        const saved = localStorage.getItem('ui_layout');
+        if (!saved) {
+            console.log('📋 デフォルトレイアウトを使用');
+            return;
+        }
+        
+        try {
+            const { order } = JSON.parse(saved);
+            const container = document.getElementById('left-sortable');
+            
+            if (!container) return;
+            
+            // 保存された順序で要素を並び替え
+            order.forEach(id => {
+                const element = document.getElementById(id);
+                if (element && container) {
+                    container.appendChild(element);
+                }
+            });
+            
+            console.log('📋 カスタムレイアウトを復元しました:', order);
+        } catch (e) {
+            console.warn('⚠️ レイアウト復元エラー:', e);
+            localStorage.removeItem('ui_layout');
+        }
+    },
+    
+    resetLayout() {
+        if (confirm('レイアウトを初期状態に戻しますか？\n（ページがリロードされます）')) {
+            localStorage.removeItem('ui_layout');
+            console.log('🔄 レイアウトをリセットしました');
+            location.reload();
+        }
+    },
+    
+    setupResetButton() {
+        const resetBtn = document.getElementById('reset-layout-btn');
+        if (resetBtn) {
+            resetBtn.onclick = () => this.resetLayout();
+        }
+    },
+    
+    showInfo() {
+        console.log(`
+╔════════════════════════════════════════════════════╗
+║  🎨 ドラッグ&ドロップ レイアウトシステム            ║
+╠════════════════════════════════════════════════════╣
+║                                                    ║
+║  ✅ UI配置: 完全に自由にカスタマイズ可能           ║
+║  ✅ プロンプト: Crody推奨順序で固定生成            ║
+║                                                    ║
+║  📐 使い方:                                        ║
+║  1. セクションタイトル（⋮⋮マーク）をドラッグ      ║
+║  2. 好きな位置にドロップ                           ║
+║  3. 自動的に保存されます                           ║
+║                                                    ║
+║  🔄 リセット: ヘッダーのボタンで初期状態に戻る     ║
+║                                                    ║
+║  🎯 重要: UIをどう変更しても、プロンプトは         ║
+║     常に最適な順序で出力されます                   ║
+║                                                    ║
+╚════════════════════════════════════════════════════╝
+        `);
+    }
+};
+
+// ==========================================
+// 既存のinitializeApp関数への追加
+// ==========================================
+
+// 既存のinitializeApp関数の最後に以下の1行を追加してください
+// （関数全体を置き換えるのではなく、最後に追加）
+
+/*
+function initializeApp() {
+    // ...既存の処理はそのまま...
+    
+    // ★ 以下を最後に追加
+    if (typeof Sortable !== 'undefined') {
+        LayoutManager.init();
+    } else {
+        console.warn('⚠️ SortableJSが読み込まれていません');
+    }
+    
+    updateTranslationDisplay();
+}
+*/
+
+
