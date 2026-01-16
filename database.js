@@ -970,6 +970,19 @@ const PROMPT_DATABASE = {
         { id: "sa_cf", label: "協力フェラ", value: "cooperative fellatio", nsfw: true },
         { id: "sa4", label: "クンニリングス", value: "cunnilingus", nsfw: true },
         { id: "sa_an", label: "アニリングス", value: "anilingus", nsfw: true },
+
+    // ★ 挿入深度系（追加）
+    { id: "sa_deep", label: "深い挿入", value: "deep penetration", nsfw: true, weight: 1.3 },
+    { id: "sa_balls_deep", label: "根元まで挿入", value: "balls deep", nsfw: true, weight: 1.2 },
+    { id: "sa_cervix", label: "子宮口到達", value: "cervix penetration", nsfw: true, weight: 1.4 },
+    { id: "sa_womb", label: "子宮内挿入", value: "womb penetration", nsfw: true, weight: 1.5 },
+    
+    // ★ 強度・激しさ系（追加）
+    { id: "sa_rough", label: "激しいセックス", value: "rough sex", nsfw: true, weight: 1.2 },
+    { id: "sa_intense", label: "強烈なセックス", value: "intense sex", nsfw: true, weight: 1.2 },
+    { id: "sa_vigorous", label: "激しい動き", value: "vigorous sex", nsfw: true, weight: 1.2 },
+    { id: "sa_hard", label: "ハードセックス", value: "hard sex", nsfw: true, weight: 1.2 },
+        
         
         // その他
         { id: "sa7", label: "素股", value: "grinding, frottage", nsfw: true },
@@ -1301,6 +1314,7 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
 
