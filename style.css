@@ -644,26 +644,6 @@ textarea {
    スマホでの画面ブレ完全防止
    ========================================== */
 
-/* ビジュアルプレビューパネルを固定配置に変更 */
-.visual-preview-card {
-    position: fixed !important;
-    top: 80px;
-    right: 20px;
-    width: 320px;
-    max-height: calc(100vh - 100px);
-    z-index: 1000;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* 重み調整パネルを固定配置に変更 */
-.weight-adjustment-panel {
-    position: fixed !important;
-    top: 80px;
-    right: 360px;
-    width: 300px;
-    z-index: 999;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
 
 /* スマホ・タブレット対応 */
 @media (max-width: 1200px) {
@@ -737,6 +717,183 @@ textarea {
         display: none !important;
         visibility: hidden !important;
     }
+}
+
+/* ==========================================
+   【完全修正版】表示崩れ＆画面ブレ防止
+   ========================================== */
+
+/* 右カラムの構造を整理 */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ビジュアルプレビューパネル（PC用）*/
+.visual-preview-card {
+    /* ★重要：自然な配置に戻す */
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    
+    /* ★重要：高さ固定で画面ブレ防止 */
+    height: 350px;
+    min-height: 350px;
+    overflow: hidden;
+    
+    /* レイアウト調整 */
+    margin-bottom: 0;
+    z-index: 10;
+    background: var(--card-bg, #1e1e1e);
+    border: 1px solid var(--border-color, #333);
+    border-radius: 8px;
+    
+    /* 常に領域を確保（内容が変わっても高さが変わらない） */
+    display: block !important;
+}
+
+/* プレビューコンテンツエリアの調整 */
+.preview-content {
+    height: 250px; /* 画像表示エリアの高さ固定 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--card-bg-secondary, #161b22);
+}
+
+.preview-image {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+/* プレビューヘッダーの調整 */
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--primary-dark, #0d1117);
+    border-bottom: 1px solid var(--border-color, #333);
+    border-radius: 8px 8px 0 0;
+}
+
+.preview-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-primary, #e6edf3);
+}
+
+/* プレビュー情報エリア */
+.preview-info {
+    padding: 12px 16px;
+    background: var(--card-bg-secondary, #161b22);
+    border-top: 1px solid var(--border-color, #333);
+    border-radius: 0 0 8px 8px;
+    min-height: 60px; /* 情報エリアの最小高さ確保 */
+}
+
+/* 重み調整パネル（PC用）*/
+.weight-adjustment-panel {
+    /* 自然な配置に戻す */
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    
+    /* レイアウト調整 */
+    margin-bottom: 0;
+    z-index: 9;
+    background: var(--card-bg, #1e1e1e);
+    border: 1px solid var(--border-color, #333);
+    border-radius: 8px;
+    
+    /* 表示時のスムーズなアニメーション */
+    transition: all 0.2s ease;
+}
+
+/* プロンプト出力エリアの安定化 */
+.output-area {
+    position: relative;
+    z-index: 1;
+    background: var(--card-bg, #1e1e1e);
+}
+
+.sticky-output {
+    position: relative; /* stickyを解除して通常配置 */
+    top: 0;
+}
+
+/* スマホ・タブレット対応（画面ブレ完全防止）*/
+@media (max-width: 1200px) {
+    /* 中サイズ画面ではパネルを非表示 */
+    .visual-preview-card,
+    .weight-adjustment-panel {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* スマホでは完全非表示 */
+    #visual-preview-panel,
+    #weight-panel {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* 右カラムを全幅に */
+    .right-column {
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    /* タグボタンのタッチ最適化 */
+    .tag-btn {
+        min-height: 44px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* タッチデバイス専用（画面ブレ完全防止）*/
+@media (hover: none) and (pointer: coarse) {
+    #visual-preview-panel,
+    #weight-panel {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+}
+
+/* プレースホルダーのスタイル調整 */
+.preview-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-secondary, #8b949e);
+    height: 100%;
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+.preview-placeholder p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 
