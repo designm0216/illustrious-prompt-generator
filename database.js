@@ -871,6 +871,138 @@ const PROMPT_DATABASE = {
         { id: "vfx36", label: "煙", value: "smoke" },
         { id: "vfx37", label: "霧", value: "mist, haze" }
     ],
+// ★ 音響・サウンドエフェクト（視覚表現）を追加
+sound_effects: [
+    // ==========================
+    // 🎵 音楽・音符関連
+    // ==========================
+    { id: "sfx_note", label: "音符", value: "musical note, music note" },
+    { id: "sfx_notes", label: "複数の音符", value: "multiple musical notes" },
+    { id: "sfx_floating_note", label: "浮遊する音符", value: "floating musical notes", weight: 1.1 },
+    { id: "sfx_heart_note", label: "ハート型音符", value: "heart-shaped musical note", weight: 1.1 },
+    { id: "sfx_singing", label: "歌っている表現", value: "singing, musical notes around" },
+    { id: "sfx_eighth", label: "八分音符", value: "eighth note" },
+    { id: "sfx_beamed", label: "連桁音符", value: "beamed notes" },
+
+    // ==========================
+    // 💬 吹き出し・テキスト表現
+    // ==========================
+    { id: "sfx_speech", label: "吹き出し", value: "speech bubble" },
+    { id: "sfx_thought", label: "思考吹き出し", value: "thought bubble" },
+    { id: "sfx_shout", label: "叫び吹き出し", value: "shouting, emphasis lines" },
+    { id: "sfx_love", label: "ハートの吹き出し", value: "spoken heart" },
+    { id: "sfx_scream", label: "ギザギザ吹き出し", value: "scream bubble, jagged speech bubble" },
+
+    // ==========================
+    // 📝 基本的な効果音テキスト
+    // ==========================
+    { id: "sfx_text", label: "効果音テキスト", value: "sound effects, onomatopoeia", weight: 1.2 },
+    { id: "sfx_japanese", label: "日本語擬音", value: "japanese sound effects, japanese text", weight: 1.1 },
+    { id: "sfx_comic", label: "漫画風SE", value: "comic sound effects", weight: 1.2 },
+    { id: "sfx_visual", label: "視覚的SE", value: "visual sound effects" },
+
+    // ==========================
+    // 💥 衝撃・爆発音
+    // ==========================
+    { id: "sfx_don", label: "ドン！（衝撃）", value: "don (sound effect), impact sound", weight: 1.3 },
+    { id: "sfx_bam", label: "バァン！（打撃）", value: "bam, pow, impact", weight: 1.2 },
+    { id: "sfx_boom", label: "ドカン！（爆発）", value: "boom, explosion sound", weight: 1.2 },
+    { id: "sfx_crash", label: "ガシャーン（破壊）", value: "crash, crashing", weight: 1.2 },
+    { id: "sfx_slam", label: "バタン！（扉）", value: "slam, slamming effect", weight: 1.2 },
+    { id: "sfx_impact", label: "衝撃", value: "impact, impact lines", weight: 1.2 },
+    { id: "sfx_shockwave", label: "衝撃波", value: "shockwave", weight: 1.3 },
+
+    // ==========================
+    // 💓 感情・心理音
+    // ==========================
+    { id: "sfx_doki", label: "ドキドキ（心音）", value: "doki doki, heartbeat", weight: 1.2 },
+    { id: "sfx_heartbeat", label: "心臓の鼓動", value: "heartbeat, heart pounding", weight: 1.2 },
+    { id: "sfx_nervous", label: "ドキッ（緊張）", value: "nervous, startled effect" },
+    { id: "sfx_sigh", label: "ため息", value: "sigh, sighing, flying sweatdrops" },
+    { id: "sfx_gasp", label: "ハッ（驚き）", value: "gasp, gasping" },
+    { id: "sfx_gogo", label: "ゴゴゴ（威圧）", value: "go go go (sound effect), menacing", weight: 1.2 },
+
+    // ==========================
+    // 💨 動き・風音
+    // ==========================
+    { id: "sfx_whoosh", label: "ヒュン（風切り音）", value: "whoosh, wind sound", weight: 1.1 },
+    { id: "sfx_swoosh", label: "シュッ（素早い動き）", value: "swoosh effect", weight: 1.1 },
+    { id: "sfx_dash", label: "ダッシュ", value: "dashing, speed lines", weight: 1.2 },
+    { id: "sfx_flutter", label: "ヒラヒラ", value: "fluttering" },
+    { id: "sfx_rustle", label: "ガサガサ", value: "rustling" },
+
+    // ==========================
+    // ✨ 軽快・キラキラ音
+    // ==========================
+    { id: "sfx_sparkle_sound", label: "キラキラ音", value: "sparkle sound effect", weight: 1.1 },
+    { id: "sfx_twinkle", label: "キラーン", value: "twinkle, twinkling effect" },
+    { id: "sfx_shine", label: "ピカーン", value: "shining effect, shine" },
+    { id: "sfx_ding", label: "チーン", value: "ding effect" },
+
+    // ==========================
+    // 🔔 環境音・効果音
+    // ==========================
+    { id: "sfx_bell", label: "鐘・ベル", value: "bell, ringing" },
+    { id: "sfx_chime", label: "チャイム", value: "chime" },
+    { id: "sfx_tick", label: "時計の音", value: "ticking, clock" },
+    { id: "sfx_drip", label: "水滴", value: "dripping, water drop" },
+    { id: "sfx_splash", label: "バシャッ", value: "splash, splashing", weight: 1.1 },
+    { id: "sfx_rain_sound", label: "雨音", value: "rain sound effect" },
+
+    // ==========================
+    // 🗣️ 声・発声
+    // ==========================
+    { id: "sfx_whisper", label: "ささやき", value: "whispering, whisper" },
+    { id: "sfx_scream_voice", label: "叫び声", value: "screaming, scream effect", weight: 1.2 },
+    { id: "sfx_laugh", label: "笑い声", value: "laughing, laughter" },
+    { id: "sfx_crying", label: "泣き声", value: "crying sound" },
+
+    // ==========================
+    // ⚔️ 戦闘・アクション音
+    // ==========================
+    { id: "sfx_slash", label: "斬撃", value: "slash, slashing effect", weight: 1.2 },
+    { id: "sfx_clang", label: "金属音", value: "clang, metallic sound", weight: 1.1 },
+    { id: "sfx_punch", label: "パンチ", value: "punch effect, impact", weight: 1.2 },
+    { id: "sfx_gunshot", label: "銃声", value: "gunshot, muzzle flash", weight: 1.2 },
+    { id: "sfx_sword", label: "剣の音", value: "sword sound effect" },
+
+    // ==========================
+    // 🎆 特殊効果音
+    // ==========================
+    { id: "sfx_magic_sound", label: "魔法発動音", value: "magic sound effect, magical", weight: 1.2 },
+    { id: "sfx_transformation", label: "変身音", value: "transformation effect", weight: 1.2 },
+    { id: "sfx_teleport", label: "テレポート音", value: "teleportation effect", weight: 1.2 },
+    { id: "sfx_charging", label: "チャージ音", value: "charging effect, power up", weight: 1.1 },
+    { id: "sfx_beam", label: "ビーム音", value: "beam effect", weight: 1.2 },
+
+    // ==========================
+    // 🎬 演出・強調
+    // ==========================
+    { id: "sfx_emphasis", label: "強調線", value: "emphasis lines, action lines", weight: 1.1 },
+    { id: "sfx_focus", label: "集中線", value: "focus lines, speed lines", weight: 1.2 },
+    { id: "sfx_dramatic", label: "ドラマチック演出", value: "dramatic effect, dramatic", weight: 1.1 },
+    { id: "sfx_silence", label: "静寂・沈黙", value: "silence, silent atmosphere" },
+    { id: "sfx_tension", label: "緊張感", value: "tension, tense atmosphere" },
+
+    // ==========================
+    // 😊 コミック記号
+    // ==========================
+    { id: "sfx_anger", label: "怒りマーク", value: "anger vein, popping vein" },
+    { id: "sfx_sweat", label: "汗マーク", value: "sweat drop, flying sweatdrops" },
+    { id: "sfx_question", label: "疑問符（？）", value: "question mark, comic symbol" },
+    { id: "sfx_exclamation", label: "ビックリマーク", value: "exclamation mark, comic symbol" },
+
+    // ==========================
+    // 🔞 NSFW系（必要に応じて）
+    // ==========================
+    { id: "sfx_moan", label: "うめき声", value: "moaning", nsfw: true, weight: 1.2 },
+    { id: "sfx_hah", label: "ハァハァ（息切れ）", value: "pant, heavy breathing text", nsfw: true, weight: 1.2 },
+    { id: "sfx_chu", label: "チュッ（キス音）", value: "kiss sound effect", nsfw: true },
+    { id: "sfx_slurp", label: "ジュル（啜る音）", value: "slurp, slurping", nsfw: true, weight: 1.2 },
+    { id: "sfx_squish", label: "グチュ（粘着音）", value: "squish, wet sound", nsfw: true, weight: 1.2 },
+    { id: "sfx_throbbing", label: "ドクドク（脈動）", value: "throbbing effect, heartbeat lines", nsfw: true, weight: 1.2 }
+],
+    
 
     hand_details: [
         { id: "hand1", label: "握りこぶし", value: "clenched hands, fist" },
@@ -1386,6 +1518,7 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
 
