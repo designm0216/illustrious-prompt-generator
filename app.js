@@ -817,7 +817,7 @@ function updateWeight() {
 }
 
 // ==========================================
-// ★ プロンプト生成・出力更新（核となる修正）
+// プロンプト生成・出力更新
 // ==========================================
 
 function updateOutput() {
@@ -1201,16 +1201,16 @@ const LayoutManager = {
             animation: 200,
             handle: 'h2', // セクションタイトルのみドラッグ可能
             
-            // ★ 誤操作防止の設定
+            // 誤操作防止の設定
             delay: 100, // 100ms遅延でクリックとドラッグを区別
             delayOnTouchOnly: false, // マウスでも遅延を有効化
             fallbackTolerance: 5, // 5px以上移動しないとドラッグ開始しない
             
-            // ★ 除外要素の設定（重要）
+            // 除外要素の設定（重要）
             filter: '.tag-btn, button, input, select, textarea, .tag-container, .subsection',
             preventOnFilter: true, // 除外要素でのイベント伝播を停止
             
-            // ★ ビジュアル設定
+            // ビジュアル設定
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
@@ -1311,7 +1311,3 @@ const LayoutManager = {
         `);
     }
 };
-;
-    }
-};
-
