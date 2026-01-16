@@ -22,29 +22,70 @@ body {
     min-height: 100vh;
 }
 
-/* 2カラムレイアウト設定 */
-.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+/* ==========================================
+   レイアウト - PC/スマホ完全対応版
+   ========================================== */
 
-.main-layout {
-    display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 24px;
-    align-items: start;
-    margin-top: 20px;
+.container { 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 20px; 
 }
 
-.left-column { min-width: 0; }
-.right-column { width: 420px; }
+/* PC版：2カラムレイアウト */
+@media (min-width: 769px) {
+    .main-layout {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 24px;
+        align-items: start;
+        margin-top: 20px;
+    }
 
-.sticky-output {
-    position: sticky;
-    top: 20px;
-    max-height: calc(100vh - 40px);
-    overflow-y: auto;
-    padding-right: 4px;
+    .left-column { 
+        min-width: 0; 
+    }
+    
+    .right-column { 
+        width: 420px; 
+    }
+
+    .sticky-output {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        padding-right: 4px;
+    }
 }
 
-/* ヘッダー・カード共通 */
+/* スマホ版：シンプルな縦並び */
+@media (max-width: 768px) {
+    .main-layout { 
+        display: flex; 
+        flex-direction: column;
+        margin-top: 20px;
+    }
+    
+    .left-column,
+    .right-column { 
+        width: 100%; 
+    }
+    
+    .right-column { 
+        order: -1;
+    }
+    
+    .sticky-output { 
+        position: static; 
+        max-height: none; 
+    }
+}
+
+/* ==========================================
+   ヘッダー・カード共通
+   ========================================== */
+
 .header {
     text-align: center;
     margin-bottom: 20px;
@@ -62,6 +103,12 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 1.5rem;
+    }
+}
+
 .card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -72,7 +119,9 @@ body {
     transition: all 0.3s ease;
 }
 
-.card:hover { border-color: var(--accent-blue); }
+.card:hover { 
+    border-color: var(--accent-blue); 
+}
 
 .card h2 {
     color: var(--accent-blue);
@@ -82,7 +131,17 @@ body {
     font-size: 1.3rem;
 }
 
-.subsection { margin-bottom: 15px; }
+@media (max-width: 768px) {
+    .card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+.subsection { 
+    margin-bottom: 15px; 
+}
+
 .subsection h3 {
     color: var(--text-secondary);
     font-size: 0.9rem;
@@ -90,8 +149,15 @@ body {
     text-transform: uppercase;
 }
 
-/* タグボタン */
-.tag-container { display: flex; flex-wrap: wrap; gap: 8px; }
+/* ==========================================
+   タグボタン
+   ========================================== */
+
+.tag-container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 8px; 
+}
 
 .tag-btn {
     background: var(--bg-tertiary);
@@ -119,13 +185,42 @@ body {
     box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);
 }
 
-.tag-btn.nsfw { border-color: var(--accent-red); }
+.tag-btn.nsfw { 
+    border-color: var(--accent-red); 
+}
+
 .tag-btn.nsfw.selected {
     background: linear-gradient(135deg, var(--accent-red), #ff6b9d);
     box-shadow: 0 4px 12px rgba(248, 81, 73, 0.3);
 }
 
-/* キャラクターブロック */
+/* スマホ版タグボタン最適化 */
+@media (max-width: 768px) {
+    .tag-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        min-height: 44px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* タッチデバイス専用 */
+@media (hover: none) and (pointer: coarse) {
+    .tag-btn:hover {
+        transform: none;
+        background: var(--bg-tertiary);
+    }
+    
+    .tag-btn:active {
+        transform: scale(0.95);
+    }
+}
+
+/* ==========================================
+   キャラクターブロック
+   ========================================== */
+
 .character-block {
     background: var(--bg-tertiary);
     border: 2px solid var(--border-color);
@@ -143,7 +238,9 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
-.character-title { color: var(--accent-purple); }
+.character-title { 
+    color: var(--accent-purple); 
+}
 
 .remove-character {
     background: var(--accent-red);
@@ -165,7 +262,6 @@ body {
     cursor: pointer;
 }
 
-/* 男性キャラクター専用セクション */
 .male-section-header {
     margin: 16px 0 8px 0;
     padding-top: 12px;
@@ -179,86 +275,17 @@ body {
     margin-bottom: 8px;
 }
 
-/* 重み調整パネル */
-.weight-adjustment-panel { margin-bottom: 16px; animation: slideDown 0.3s ease-out; }
-.tag-highlight { color: var(--accent-blue); font-weight: 600; }
-.weight-controls { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
-.weight-input-group { display: flex; align-items: center; justify-content: center; gap: 10px; }
+/* ==========================================
+   ビジュアルプレビューパネル（PC専用）
+   ========================================== */
 
-.weight-btn {
-    width: 32px; height: 32px; border-radius: 50%;
-    border: 2px solid var(--border-color);
-    background: var(--bg-secondary); color: var(--text-primary);
-    cursor: pointer; font-weight: 600;
-}
-.weight-btn.decrease:hover { background: var(--accent-red); border-color: var(--accent-red); }
-.weight-btn.increase:hover { background: var(--accent-green); border-color: var(--accent-green); }
-
-#weight-input {
-    width: 70px; text-align: center; padding: 6px;
-    border-radius: 6px; border: 2px solid var(--accent-blue);
-    background: var(--bg-primary); color: var(--accent-blue); font-weight: 600;
-}
-
-.weight-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-.preset-btn {
-    padding: 6px 4px; border-radius: 4px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-secondary); color: var(--text-secondary);
-    cursor: pointer; font-size: 0.75rem;
-}
-.preset-btn.strong:hover { background: var(--accent-blue); color: white; }
-
-/* 出力エリア */
-.output-area { margin-bottom: 16px; }
-textarea {
-    width: 100%; background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px; color: var(--text-primary);
-    padding: 12px; font-family: monospace; font-size: 0.85rem;
-    resize: vertical;
-}
-
-.copy-btn {
-    width: 100%; background: var(--accent-blue);
-    border: none; color: white; padding: 8px;
-    border-radius: 6px; cursor: pointer; margin-top: 5px;
-}
-
-/* NSFWセクション */
-.nsfw-section {
-    border: 2px solid var(--accent-red);
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, #2a1a1a 100%);
-}
-.nsfw-section h2 { color: var(--accent-red); }
-
-/* 日本語訳エリア */
-.translation-display { max-height: 300px; overflow-y: auto; }
-.translation-content { padding: 10px; background: var(--bg-primary); border-radius: 8px; border: 1px solid var(--accent-blue); }
-.placeholder-text { text-align: center; color: var(--text-secondary); padding: 10px; font-size: 0.8rem; }
-
-.translation-section { margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-.section-header { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
-.section-title { font-weight: 600; color: var(--accent-blue); font-size: 0.85rem; }
-.tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
-
-.translation-tag {
-    background: var(--bg-tertiary); border: 1px solid var(--border-color);
-    border-radius: 4px; padding: 2px 6px; font-size: 0.75rem;
-}
-.translation-tag.weighted { border-color: var(--accent-red); }
-.weight-indicator { background: var(--accent-red); color: white; padding: 0 3px; border-radius: 2px; font-size: 0.7rem; margin-left: 3px; }
-
-/* プリセット管理 */
-.preset-controls input, .preset-controls select { width: 100%; margin-bottom: 6px; padding: 6px; background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 4px; }
-.preset-buttons { display: flex; gap: 4px; margin-bottom: 6px; }
-.delete-btn { background: var(--accent-red); }
-
-/* ★ ビジュアルプレビューカード */
 .visual-preview-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
     margin-bottom: 20px;
-    min-height: 200px;
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
 }
 
 .preview-header {
@@ -353,7 +380,267 @@ textarea {
     color: var(--text-secondary);
 }
 
-/* ★ 画像編集モーダル */
+/* スマホではビジュアルプレビューを完全非表示 */
+@media (max-width: 768px) {
+    .visual-preview-card,
+    #visual-preview-panel {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    #visual-preview-panel {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+/* ==========================================
+   重み調整パネル（PC専用）
+   ========================================== */
+
+.weight-adjustment-panel { 
+    margin-bottom: 16px; 
+    animation: slideDown 0.3s ease-out; 
+}
+
+.tag-highlight { 
+    color: var(--accent-blue); 
+    font-weight: 600; 
+}
+
+.weight-controls { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    margin: 10px 0; 
+}
+
+.weight-input-group { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 10px; 
+}
+
+.weight-btn {
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    background: var(--bg-secondary); 
+    color: var(--text-primary);
+    cursor: pointer; 
+    font-weight: 600;
+}
+
+.weight-btn.decrease:hover { 
+    background: var(--accent-red); 
+    border-color: var(--accent-red); 
+}
+
+.weight-btn.increase:hover { 
+    background: var(--accent-green); 
+    border-color: var(--accent-green); 
+}
+
+#weight-input {
+    width: 70px; 
+    text-align: center; 
+    padding: 6px;
+    border-radius: 6px; 
+    border: 2px solid var(--accent-blue);
+    background: var(--bg-primary); 
+    color: var(--accent-blue); 
+    font-weight: 600;
+}
+
+.weight-presets { 
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 4px; 
+}
+
+.preset-btn {
+    padding: 6px 4px; 
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary); 
+    color: var(--text-secondary);
+    cursor: pointer; 
+    font-size: 0.75rem;
+}
+
+.preset-btn.strong:hover { 
+    background: var(--accent-blue); 
+    color: white; 
+}
+
+/* スマホでは重み調整パネルを完全非表示 */
+@media (max-width: 768px) {
+    .weight-adjustment-panel,
+    #weight-panel {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    #weight-panel {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+/* ==========================================
+   出力エリア
+   ========================================== */
+
+.output-area { 
+    margin-bottom: 16px; 
+}
+
+textarea {
+    width: 100%; 
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px; 
+    color: var(--text-primary);
+    padding: 12px; 
+    font-family: monospace; 
+    font-size: 0.85rem;
+    resize: vertical;
+}
+
+@media (max-width: 768px) {
+    textarea {
+        font-size: 16px;
+    }
+}
+
+.copy-btn {
+    width: 100%; 
+    background: var(--accent-blue);
+    border: none; 
+    color: white; 
+    padding: 8px;
+    border-radius: 6px; 
+    cursor: pointer; 
+    margin-top: 5px;
+}
+
+/* ==========================================
+   NSFWセクション
+   ========================================== */
+
+.nsfw-section {
+    border: 2px solid var(--accent-red);
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, #2a1a1a 100%);
+}
+
+.nsfw-section h2 { 
+    color: var(--accent-red); 
+}
+
+/* ==========================================
+   日本語訳エリア
+   ========================================== */
+
+.translation-display { 
+    max-height: 300px; 
+    overflow-y: auto; 
+}
+
+.translation-content { 
+    padding: 10px; 
+    background: var(--bg-primary); 
+    border-radius: 8px; 
+    border: 1px solid var(--accent-blue); 
+}
+
+.placeholder-text { 
+    text-align: center; 
+    color: var(--text-secondary); 
+    padding: 10px; 
+    font-size: 0.8rem; 
+}
+
+.translation-section { 
+    margin-bottom: 10px; 
+    border-bottom: 1px solid var(--border-color); 
+    padding-bottom: 8px; 
+}
+
+.section-header { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+    margin-bottom: 6px; 
+}
+
+.section-title { 
+    font-weight: 600; 
+    color: var(--accent-blue); 
+    font-size: 0.85rem; 
+}
+
+.tag-list { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 4px; 
+}
+
+.translation-tag {
+    background: var(--bg-tertiary); 
+    border: 1px solid var(--border-color);
+    border-radius: 4px; 
+    padding: 2px 6px; 
+    font-size: 0.75rem;
+}
+
+.translation-tag.weighted { 
+    border-color: var(--accent-red); 
+}
+
+.weight-indicator { 
+    background: var(--accent-red); 
+    color: white; 
+    padding: 0 3px; 
+    border-radius: 2px; 
+    font-size: 0.7rem; 
+    margin-left: 3px; 
+}
+
+/* ==========================================
+   プリセット管理
+   ========================================== */
+
+.preset-controls input, 
+.preset-controls select { 
+    width: 100%; 
+    margin-bottom: 6px; 
+    padding: 6px; 
+    background: var(--bg-primary); 
+    color: var(--text-primary); 
+    border: 1px solid var(--border-color); 
+    border-radius: 4px; 
+}
+
+.preset-buttons { 
+    display: flex; 
+    gap: 4px; 
+    margin-bottom: 6px; 
+}
+
+.delete-btn { 
+    background: var(--accent-red); 
+}
+
+/* ==========================================
+   画像編集モーダル
+   ========================================== */
+
 .image-edit-modal {
     position: fixed;
     top: 0;
@@ -385,6 +672,13 @@ textarea {
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
 }
 
 .modal-header {
@@ -529,12 +823,27 @@ textarea {
     background: #e74c3c;
 }
 
-/* スクロールバー */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--bg-tertiary); }
-::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 4px; }
+/* ==========================================
+   スクロールバー
+   ========================================== */
 
-/* アニメーション */
+::-webkit-scrollbar { 
+    width: 8px; 
+}
+
+::-webkit-scrollbar-track { 
+    background: var(--bg-tertiary); 
+}
+
+::-webkit-scrollbar-thumb { 
+    background: var(--accent-blue); 
+    border-radius: 4px; 
+}
+
+/* ==========================================
+   アニメーション
+   ========================================== */
+
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -550,350 +859,13 @@ textarea {
     animation: slideIn 0.3s ease-out;
 }
 
-@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* レスポンシブ対応 */
-@media (max-width: 1200px) {
-    .main-layout { grid-template-columns: 1fr 380px; }
-    .right-column { width: 380px; }
+@keyframes slideDown { 
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    } 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
 }
-
-@media (max-width: 768px) {
-    .main-layout { display: flex; flex-direction: column; }
-    .right-column { width: 100%; order: -1; }
-    .sticky-output { position: static; max-height: none; }
-    
-    .tag-btn {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-        min-height: 44px;
-    }
-    
-    input, textarea {
-        font-size: 16px;
-    }
-    
-    .header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .card {
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-    
-    .modal-content {
-        width: 95%;
-        margin: 10px;
-    }
-    
-    .preview-content {
-        height: 150px;
-    }
-}
-
-
-
-
-/* ==========================================
-   PC時の右カラム中央固定表示
-   ========================================== */
-@media (min-width: 769px) {
-    .sticky-output {
-        position: fixed;
-        top: 50%;
-        right: 20px;
-        transform: translateY(-50%);
-        width: 420px;
-        max-height: 90vh;
-        overflow-y: auto;
-        z-index: 100;
-        
-        /* 視認性向上 */
-        background: var(--bg-secondary);
-        border: 2px solid var(--accent-blue);
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-    
-    /* 左カラムに右側の余白を確保 */
-    .left-column {
-        padding-right: 460px; /* 右カラム幅 + 余白 */
-    }
-    
-    /* レイアウト調整 */
-    .main-layout {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-    
-    .right-column {
-        width: auto; /* fixed positioning で制御 */
-    }
-}
-
-/* スマホでは通常表示を維持 */
-@media (max-width: 768px) {
-    .left-column {
-        padding-right: 0;
-    }
-}
-
-/* ==========================================
-   スマホでの画面ブレ完全防止
-   ========================================== */
-
-
-/* スマホ・タブレット対応 */
-@media (max-width: 1200px) {
-    /* 画面幅が狭い場合はパネルを完全非表示 */
-    .visual-preview-card,
-    .weight-adjustment-panel {
-        display: none !important;
-    }
-}
-
-@media (max-width: 768px) {
-    /* スマホ専用最適化 */
-    .tag-btn {
-        min-height: 44px; /* Apple推奨の最小タップサイズ */
-        padding: 12px 16px;
-        margin: 4px;
-        font-size: 14px;
-        touch-action: manipulation; /* タッチ操作を最適化 */
-        -webkit-tap-highlight-color: transparent; /* タップハイライト除去 */
-    }
-    
-    /* タグコンテナの最適化 */
-    .tag-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        padding: 8px 0;
-    }
-    
-    /* スクロール最適化 */
-    body {
-        overscroll-behavior: contain; /* スクロールの跳ね返りを防止 */
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    /* レイアウトの安定化 */
-    .main-layout {
-        display: block; /* flexboxを無効化してシンプルに */
-    }
-    
-    .left-column {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-    
-    .right-column {
-        width: 100%;
-        position: relative; /* sticky解除 */
-    }
-}
-
-/* タッチデバイス専用最適化 */
-@media (hover: none) and (pointer: coarse) {
-    /* ホバー効果を完全無効化 */
-    .tag-btn:hover {
-        transform: none !important;
-        box-shadow: none !important;
-        background: inherit !important;
-    }
-    
-    /* タップ時のフィードバック */
-    .tag-btn:active {
-        transform: scale(0.95);
-        background: var(--primary-dark);
-        transition: all 0.1s ease;
-    }
-    
-    /* 問題のあるパネルを強制非表示 */
-    #visual-preview-panel,
-    #weight-panel {
-        display: none !important;
-        visibility: hidden !important;
-    }
-}
-
-/* ==========================================
-   【完全修正版】表示崩れ＆画面ブレ防止
-   ========================================== */
-
-/* 右カラムの構造を整理 */
-.right-column {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-}
-
-/* ビジュアルプレビューパネル（PC用）*/
-.visual-preview-card {
-    /* ★重要：自然な配置に戻す */
-    position: relative !important;
-    top: auto !important;
-    right: auto !important;
-    width: 100% !important;
-    
-    /* ★重要：高さ固定で画面ブレ防止 */
-    height: 350px;
-    min-height: 350px;
-    overflow: hidden;
-    
-    /* レイアウト調整 */
-    margin-bottom: 0;
-    z-index: 10;
-    background: var(--card-bg, #1e1e1e);
-    border: 1px solid var(--border-color, #333);
-    border-radius: 8px;
-    
-    /* 常に領域を確保（内容が変わっても高さが変わらない） */
-    display: block !important;
-}
-
-/* プレビューコンテンツエリアの調整 */
-.preview-content {
-    height: 250px; /* 画像表示エリアの高さ固定 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 4px;
-    background: var(--card-bg-secondary, #161b22);
-}
-
-.preview-image {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    border-radius: 4px;
-}
-
-/* プレビューヘッダーの調整 */
-.preview-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    background: var(--primary-dark, #0d1117);
-    border-bottom: 1px solid var(--border-color, #333);
-    border-radius: 8px 8px 0 0;
-}
-
-.preview-header h3 {
-    margin: 0;
-    font-size: 1rem;
-    color: var(--text-primary, #e6edf3);
-}
-
-/* プレビュー情報エリア */
-.preview-info {
-    padding: 12px 16px;
-    background: var(--card-bg-secondary, #161b22);
-    border-top: 1px solid var(--border-color, #333);
-    border-radius: 0 0 8px 8px;
-    min-height: 60px; /* 情報エリアの最小高さ確保 */
-}
-
-/* 重み調整パネル（PC用）*/
-.weight-adjustment-panel {
-    /* 自然な配置に戻す */
-    position: relative !important;
-    top: auto !important;
-    right: auto !important;
-    width: 100% !important;
-    
-    /* レイアウト調整 */
-    margin-bottom: 0;
-    z-index: 9;
-    background: var(--card-bg, #1e1e1e);
-    border: 1px solid var(--border-color, #333);
-    border-radius: 8px;
-    
-    /* 表示時のスムーズなアニメーション */
-    transition: all 0.2s ease;
-}
-
-/* プロンプト出力エリアの安定化 */
-.output-area {
-    position: relative;
-    z-index: 1;
-    background: var(--card-bg, #1e1e1e);
-}
-
-.sticky-output {
-    position: relative; /* stickyを解除して通常配置 */
-    top: 0;
-}
-
-/* スマホ・タブレット対応（画面ブレ完全防止）*/
-@media (max-width: 1200px) {
-    /* 中サイズ画面ではパネルを非表示 */
-    .visual-preview-card,
-    .weight-adjustment-panel {
-        display: none !important;
-    }
-}
-
-@media (max-width: 768px) {
-    /* スマホでは完全非表示 */
-    #visual-preview-panel,
-    #weight-panel {
-        display: none !important;
-        visibility: hidden !important;
-    }
-    
-    /* 右カラムを全幅に */
-    .right-column {
-        width: 100%;
-        padding: 0 10px;
-    }
-    
-    /* タグボタンのタッチ最適化 */
-    .tag-btn {
-        min-height: 44px;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-    }
-}
-
-/* タッチデバイス専用（画面ブレ完全防止）*/
-@media (hover: none) and (pointer: coarse) {
-    #visual-preview-panel,
-    #weight-panel {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-}
-
-/* プレースホルダーのスタイル調整 */
-.preview-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    text-align: center;
-    color: var(--text-secondary, #8b949e);
-    height: 100%;
-}
-
-.placeholder-icon {
-    font-size: 3rem;
-    margin-bottom: 12px;
-    opacity: 0.5;
-}
-
-.preview-placeholder p {
-    margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-
