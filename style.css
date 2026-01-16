@@ -640,4 +640,103 @@ textarea {
     }
 }
 
+/* ==========================================
+   スマホでの画面ブレ完全防止
+   ========================================== */
+
+/* ビジュアルプレビューパネルを固定配置に変更 */
+.visual-preview-card {
+    position: fixed !important;
+    top: 80px;
+    right: 20px;
+    width: 320px;
+    max-height: calc(100vh - 100px);
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* 重み調整パネルを固定配置に変更 */
+.weight-adjustment-panel {
+    position: fixed !important;
+    top: 80px;
+    right: 360px;
+    width: 300px;
+    z-index: 999;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* スマホ・タブレット対応 */
+@media (max-width: 1200px) {
+    /* 画面幅が狭い場合はパネルを完全非表示 */
+    .visual-preview-card,
+    .weight-adjustment-panel {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* スマホ専用最適化 */
+    .tag-btn {
+        min-height: 44px; /* Apple推奨の最小タップサイズ */
+        padding: 12px 16px;
+        margin: 4px;
+        font-size: 14px;
+        touch-action: manipulation; /* タッチ操作を最適化 */
+        -webkit-tap-highlight-color: transparent; /* タップハイライト除去 */
+    }
+    
+    /* タグコンテナの最適化 */
+    .tag-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px 0;
+    }
+    
+    /* スクロール最適化 */
+    body {
+        overscroll-behavior: contain; /* スクロールの跳ね返りを防止 */
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* レイアウトの安定化 */
+    .main-layout {
+        display: block; /* flexboxを無効化してシンプルに */
+    }
+    
+    .left-column {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .right-column {
+        width: 100%;
+        position: relative; /* sticky解除 */
+    }
+}
+
+/* タッチデバイス専用最適化 */
+@media (hover: none) and (pointer: coarse) {
+    /* ホバー効果を完全無効化 */
+    .tag-btn:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        background: inherit !important;
+    }
+    
+    /* タップ時のフィードバック */
+    .tag-btn:active {
+        transform: scale(0.95);
+        background: var(--primary-dark);
+        transition: all 0.1s ease;
+    }
+    
+    /* 問題のあるパネルを強制非表示 */
+    #visual-preview-panel,
+    #weight-panel {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
 
