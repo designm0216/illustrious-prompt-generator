@@ -45,6 +45,14 @@ let currentWeightTarget = {
 let currentPreviewTag = null;
 
 // ==========================================
+// モバイルデバイス検出
+// ==========================================
+const IS_MOBILE = window.innerWidth <= 1200 || 
+                  'ontouchstart' in window || 
+                  navigator.maxTouchPoints > 0 ||
+                  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+// ==========================================
 // タグビジュアル管理システム
 // ==========================================
 
@@ -1172,5 +1180,6 @@ function loadPresetList() {
         }
     }
 }
+
 
 
