@@ -551,6 +551,7 @@ function renderCharacters() {
             { key: 'eyebrows', label: '眉毛:' },
             { key: 'breasts', label: '胸・バスト:' },
             { key: 'nipples', label: '乳首詳細:' },
+            { key: 'clothing_color', label: '衣装の色:' },
             { key: 'clothing', label: '服装:' },
             { key: 'pose', label: 'ポーズ・表情:' }
         ];
@@ -1320,6 +1321,7 @@ function initializeApp() {
     updateTranslationDisplay();
 }
 */
+
 
 
 
