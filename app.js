@@ -1,4 +1,12 @@
 // ==========================================
+// モバイルデバイス検出（画面ブレ防止の核心）
+// ==========================================
+const IS_MOBILE = window.innerWidth <= 1200 || 
+                  'ontouchstart' in window || 
+                  navigator.maxTouchPoints > 0 ||
+                  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+// ==========================================
 // グローバル状態管理
 // ==========================================
 let appState = {
@@ -43,14 +51,6 @@ let currentWeightTarget = {
 
 // 現在表示中のタグ
 let currentPreviewTag = null;
-
-// ==========================================
-// モバイルデバイス検出
-// ==========================================
-const IS_MOBILE = window.innerWidth <= 1200 || 
-                  'ontouchstart' in window || 
-                  navigator.maxTouchPoints > 0 ||
-                  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 // ==========================================
 // タグビジュアル管理システム
@@ -177,6 +177,9 @@ const TagVisualManager = {
 // ==========================================
 
 function showVisualPreview(tag, isPermanent = false) {
+    // ★ モバイルでは画面ブレ防止のため完全にスキップ
+    if (IS_MOBILE) return;
+    
     currentPreviewTag = tag;
     
     const panel = document.getElementById('visual-preview-panel');
@@ -446,10 +449,11 @@ function initializeApp() {
         if (cat.data) renderTags(cat.id, cat.data, 'global');
     });
     
-    document.getElementById('negative-output').value = PROMPT_DATABASE.negative.base;
+    const negativeEl = document.getElementById('negative-output');
+    if (negativeEl) negativeEl.value = PROMPT_DATABASE.negative.base;
     
-    // ビジュアル機能の初期化
-    if (typeof TagVisualManager !== 'undefined' && document.getElementById('visual-preview-panel')) {
+    // ビジュアル機能の初期化（PC版のみ）
+    if (!IS_MOBILE && typeof TagVisualManager !== 'undefined' && document.getElementById('visual-preview-panel')) {
         TagVisualManager.init();
     }
 
@@ -457,20 +461,29 @@ function initializeApp() {
 }
 
 function setupEventListeners() {
-    document.getElementById('add-character').addEventListener('click', () => {
-        appState.characters.push(createNewCharacter());
-        renderCharacters();
-        updateOutput();
-    });
+    const addCharBtn = document.getElementById('add-character');
+    if (addCharBtn) {
+        addCharBtn.addEventListener('click', () => {
+            appState.characters.push(createNewCharacter());
+            renderCharacters();
+            updateOutput();
+        });
+    }
 
-    document.getElementById('segment-mode').addEventListener('change', (e) => {
-        appState.segmentMode = e.target.checked;
-        updateOutput();
-    });
+    const segmentCheckbox = document.getElementById('segment-mode');
+    if (segmentCheckbox) {
+        segmentCheckbox.addEventListener('change', (e) => {
+            appState.segmentMode = e.target.checked;
+            updateOutput();
+        });
+    }
 
-    document.getElementById('clear-all').addEventListener('click', () => {
-        if (confirm('全ての選択をクリアしますか？')) clearAllSelections();
-    });
+    const clearBtn = document.getElementById('clear-all');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (confirm('全ての選択をクリアしますか？')) clearAllSelections();
+        });
+    }
 
     setupPresetListeners();
 }
@@ -492,34 +505,44 @@ function renderTags(containerId, tags, stateKey) {
         const weight = tag.weight;
         btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
-        // ホバー表示
-        btn.addEventListener('mouseenter', () => {
-            showVisualPreview(tag, false);
-        });
-        
-        btn.addEventListener('mouseleave', () => {
-            if (!btn.classList.contains('selected')) {
-                setTimeout(() => {
-                    if (currentPreviewTag === tag && !btn.classList.contains('selected')) {
+        // ★ PC版のみホバー表示を有効化
+        if (!IS_MOBILE) {
+            btn.addEventListener('mouseenter', () => {
+                showVisualPreview(tag, false);
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                if (!btn.classList.contains('selected')) {
+                    setTimeout(() => {
+                        if (currentPreviewTag === tag && !btn.classList.contains('selected')) {
+                            hideVisualPreview();
+                        }
+                    }, 500);
+                }
+            });
+        }
+
+        // ★ クリック/タップイベント（モバイル最適化）
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            toggleTag(tag, stateKey, btn);
+            
+            // ★ モバイルでは画面ブレの原因となるパネル表示をスキップ
+            if (!IS_MOBILE) {
+                showVisualPreview(tag, true);
+                
+                if (btn.classList.contains('selected')) {
+                    showWeightPanel(tag, stateKey);
+                } else {
+                    hideWeightPanel();
+                    if (currentPreviewTag === tag) {
                         hideVisualPreview();
                     }
-                }, 500);
-            }
-        });
-
-        btn.onclick = () => {
-            toggleTag(tag, stateKey, btn);
-            showVisualPreview(tag, true);
-            
-            if (btn.classList.contains('selected')) {
-                showWeightPanel(tag, stateKey);
-            } else {
-                hideWeightPanel();
-                if (currentPreviewTag === tag) {
-                    hideVisualPreview();
                 }
             }
-        };
+        });
 
         container.appendChild(btn);
     });
@@ -527,6 +550,7 @@ function renderTags(containerId, tags, stateKey) {
 
 function renderCharacters() {
     const wrapper = document.getElementById('characters-wrapper');
+    if (!wrapper) return;
     wrapper.innerHTML = '';
 
     appState.characters.forEach((character, index) => {
@@ -621,34 +645,44 @@ function appendCharacterSection(parent, title, tags, targetSet, charIndex) {
         const weight = tag.weight;
         btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
-        // ホバー表示
-        btn.addEventListener('mouseenter', () => {
-            showVisualPreview(tag, false);
-        });
-        
-        btn.addEventListener('mouseleave', () => {
-            if (!btn.classList.contains('selected')) {
-                setTimeout(() => {
-                    if (currentPreviewTag === tag && !btn.classList.contains('selected')) {
+        // ★ PC版のみホバー表示
+        if (!IS_MOBILE) {
+            btn.addEventListener('mouseenter', () => {
+                showVisualPreview(tag, false);
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                if (!btn.classList.contains('selected')) {
+                    setTimeout(() => {
+                        if (currentPreviewTag === tag && !btn.classList.contains('selected')) {
+                            hideVisualPreview();
+                        }
+                    }, 500);
+                }
+            });
+        }
+
+        // ★ クリック/タップイベント（モバイル最適化）
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            toggleCharacterTag(tag, targetSet, charIndex);
+            
+            // ★ モバイルではパネル表示をスキップ
+            if (!IS_MOBILE) {
+                showVisualPreview(tag, true);
+                
+                if (targetSet.has(tag.value)) {
+                    showWeightPanel(tag, null, charIndex);
+                } else {
+                    hideWeightPanel();
+                    if (currentPreviewTag === tag) {
                         hideVisualPreview();
                     }
-                }, 500);
-            }
-        });
-
-        btn.onclick = () => {
-            toggleCharacterTag(tag, targetSet, charIndex);
-            showVisualPreview(tag, true);
-            
-            if (targetSet.has(tag.value)) {
-                showWeightPanel(tag, null, charIndex);
-            } else {
-                hideWeightPanel();
-                if (currentPreviewTag === tag) {
-                    hideVisualPreview();
                 }
             }
-        };
+        });
 
         tagContainer.appendChild(btn);
     });
@@ -760,9 +794,14 @@ function getWeightedValue(tagValue) {
 }
 
 function showWeightPanel(tag, stateKey, charIndex = null) {
+    // ★ モバイルでは画面ブレ防止のため完全にスキップ
+    if (IS_MOBILE) return;
+    
     const panel = document.getElementById('weight-panel');
     const nameSpan = document.getElementById('current-tag-name');
     const input = document.getElementById('weight-input');
+
+    if (!panel || !nameSpan || !input) return;
 
     const currentWeight = tag.weight || 1.0;
 
@@ -794,32 +833,35 @@ function findContainerIdByTag(tag) {
 }
 
 function hideWeightPanel() {
-    document.getElementById('weight-panel').style.display = 'none';
+    const panel = document.getElementById('weight-panel');
+    if (panel) panel.style.display = 'none';
     currentWeightTarget.tag = null;
 }
 
 function adjustWeight(delta) {
     if (!currentWeightTarget.tag) return;
-    const currentValue = parseFloat(document.getElementById('weight-input').value);
+    const input = document.getElementById('weight-input');
+    if (!input) return;
+    const currentValue = parseFloat(input.value);
     const newWeight = Math.max(0.1, Math.min(3.0, currentValue + delta));
     setWeight(newWeight);
 }
 
 function setWeight(value) {
     if (!currentWeightTarget.tag) return;
+    const input = document.getElementById('weight-input');
+    if (!input) return;
     const weight = parseFloat(value);
-    document.getElementById('weight-input').value = weight.toFixed(1);
+    input.value = weight.toFixed(1);
     currentWeightTarget.setValue(weight);
 }
 
 function updateWeight() {
-    const value = document.getElementById('weight-input').value;
+    const input = document.getElementById('weight-input');
+    if (!input) return;
+    const value = input.value;
     setWeight(value);
 }
-
-// ==========================================
-// プロンプト生成・出力更新
-// ==========================================
 
 // ==========================================
 // プロンプト生成・出力更新（[]括弧対応版）
@@ -870,7 +912,7 @@ function updateOutput() {
         segments.push(environmentTags.join(', '));
     }
 
-    // 4. ★ セグメントモードに応じた出力形式（[]括弧対応） ★
+    // 4. ★ セグメントモードに応じた出力形式（[]括弧対応）
     let output;
     if (appState.segmentMode) {
         // セグメントモードON: 各セグメントを[]で囲み、BREAKで区切る
@@ -891,7 +933,6 @@ function updateOutput() {
     updateNegativePrompt();
     updateTranslationDisplay();
 }
-
 
 function updateNegativePrompt() {
     let negative = PROMPT_DATABASE.negative.base;
@@ -918,7 +959,8 @@ function updateNegativePrompt() {
         negative += ', ' + PROMPT_DATABASE.negative.nsfw_safe;
     }
     
-    document.getElementById('negative-output').value = negative;
+    const negativeEl = document.getElementById('negative-output');
+    if (negativeEl) negativeEl.value = negative;
 }
 
 let tagTranslationMap = null;
@@ -1052,6 +1094,7 @@ function updateTranslationDisplay() {
 
 function toggleTranslationArea() {
     const display = document.getElementById('translation-display');
+    if (!display) return;
     if (display.style.display === 'none') {
         display.style.display = 'block';
     } else {
@@ -1087,10 +1130,12 @@ function clearAllSelections() {
 
 function copyToClipboard(elementId) {
     const element = document.getElementById(elementId);
+    if (!element) return;
     element.select();
     document.execCommand('copy');
     
     const btn = event.target;
+    if (!btn) return;
     const originalText = btn.textContent;
     btn.textContent = '✓ コピー完了';
     btn.style.background = 'var(--accent-green)';
@@ -1102,14 +1147,20 @@ function copyToClipboard(elementId) {
 }
 
 function setupPresetListeners() {
-    document.getElementById('save-preset').addEventListener('click', savePreset);
-    document.getElementById('load-preset').addEventListener('click', loadPreset);
-    document.getElementById('delete-preset').addEventListener('click', deletePreset);
+    const saveBtn = document.getElementById('save-preset');
+    const loadBtn = document.getElementById('load-preset');
+    const deleteBtn = document.getElementById('delete-preset');
+
+    if (saveBtn) saveBtn.addEventListener('click', savePreset);
+    if (loadBtn) loadBtn.addEventListener('click', loadPreset);
+    if (deleteBtn) deleteBtn.addEventListener('click', deletePreset);
     loadPresetList();
 }
 
 function savePreset() {
-    const name = document.getElementById('preset-name').value.trim();
+    const nameInput = document.getElementById('preset-name');
+    if (!nameInput) return;
+    const name = nameInput.value.trim();
     if (!name) return alert('プリセット名を入力してください');
     
     const presetData = {
@@ -1132,11 +1183,14 @@ function savePreset() {
 }
 
 function loadPreset() {
-    const name = document.getElementById('preset-list').value;
+    const select = document.getElementById('preset-list');
+    if (!select) return;
+    const name = select.value;
     if (!name) return;
     
-    const data = JSON.parse(localStorage.getItem(`preset_${name}`));
-    if (!data) return;
+    const raw = localStorage.getItem(`preset_${name}`);
+    if (!raw) return;
+    const data = JSON.parse(raw);
     
     appState.global = new Set(data.global);
     appState.characters = data.characters.map(char => {
@@ -1156,7 +1210,9 @@ function loadPreset() {
 }
 
 function deletePreset() {
-    const name = document.getElementById('preset-list').value;
+    const select = document.getElementById('preset-list');
+    if (!select) return;
+    const name = select.value;
     if (!name) return;
     
     if (confirm('削除しますか？')) {
@@ -1167,6 +1223,8 @@ function deletePreset() {
 
 function loadPresetList() {
     const select = document.getElementById('preset-list');
+    if (!select) return;
+
     select.innerHTML = '<option value="">プリセットを選択...</option>';
     
     for (let i = 0; i < localStorage.length; i++) {
@@ -1180,6 +1238,3 @@ function loadPresetList() {
         }
     }
 }
-
-
-
