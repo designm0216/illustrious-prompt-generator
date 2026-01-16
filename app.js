@@ -27,6 +27,7 @@ function createNewCharacter() {
         eye_shape: new Set(),
         eye_details: new Set(),
         eyebrows: new Set(),
+        lips: new Set(),
         breasts: new Set(),
         nipples: new Set(),
         clothing_color: new Set(),
@@ -1238,3 +1239,4 @@ function loadPresetList() {
         }
     }
 }
+
