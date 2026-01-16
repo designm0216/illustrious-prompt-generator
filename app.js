@@ -588,6 +588,7 @@ function renderCharacters() {
             { key: 'eye_shape', label: '目の形状・状態:' },
             { key: 'eye_details', label: '瞳の詳細・まつげ:' },
             { key: 'eyebrows', label: '眉毛:' },
+           { key: 'lips', label: '唇・口元:' },
             { key: 'breasts', label: '胸・バスト:' },
             { key: 'nipples', label: '乳首詳細:' },
             { key: 'clothing_color', label: '衣装の色:' },
@@ -1239,4 +1240,5 @@ function loadPresetList() {
         }
     }
 }
+
 
