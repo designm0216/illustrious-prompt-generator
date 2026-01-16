@@ -1173,7 +1173,7 @@ function loadPresetList() {
 }
 
 // ==========================================
-// レイアウト管理システム（SortableJS版）
+// レイアウト管理システム（SortableJS版）- 改良版
 // ==========================================
 
 const LayoutManager = {
@@ -1199,12 +1199,22 @@ const LayoutManager = {
         
         const sortableOptions = {
             animation: 200,
-            handle: 'h2',
+            handle: 'h2', // セクションタイトルのみドラッグ可能
+            
+            // ★ 誤操作防止の設定
+            delay: 100, // 100ms遅延でクリックとドラッグを区別
+            delayOnTouchOnly: false, // マウスでも遅延を有効化
+            fallbackTolerance: 5, // 5px以上移動しないとドラッグ開始しない
+            
+            // ★ 除外要素の設定（重要）
+            filter: '.tag-btn, button, input, select, textarea, .tag-container, .subsection',
+            preventOnFilter: true, // 除外要素でのイベント伝播を停止
+            
+            // ★ ビジュアル設定
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
             forceFallback: true,
-            fallbackTolerance: 3,
             
             onStart: (evt) => {
                 document.body.classList.add('dragging');
@@ -1214,13 +1224,13 @@ const LayoutManager = {
             onEnd: (evt) => {
                 document.body.classList.remove('dragging');
                 this.saveLayout();
-                console.log('✅ 配置を保存しました');
-                console.log('📝 プロンプト順序は変更されません（Crody推奨順序を維持）');
+                console.log('✅ レイアウト保存完了');
             }
         };
         
         new Sortable(leftContainer, sortableOptions);
-        console.log('✅ ドラッグ&ドロップ機能が有効になりました');
+        console.log('✅ 改良版ドラッグ&ドロップ機能が有効になりました');
+        console.log('💡 セクションタイトル（h2）のみドラッグ可能、ボタンは通常クリック');
     },
     
     saveLayout() {
@@ -1260,7 +1270,7 @@ const LayoutManager = {
                 }
             });
             
-            console.log('📋 カスタムレイアウトを復元しました:', order);
+            console.log('📋 カスタムレイアウトを復元しました');
         } catch (e) {
             console.warn('⚠️ レイアウト復元エラー:', e);
             localStorage.removeItem('ui_layout');
@@ -1285,23 +1295,23 @@ const LayoutManager = {
     showInfo() {
         console.log(`
 ╔════════════════════════════════════════════════════╗
-║  🎨 ドラッグ&ドロップ レイアウトシステム            ║
+║  🎨 改良版ドラッグ&ドロップシステム                ║
 ╠════════════════════════════════════════════════════╣
 ║                                                    ║
-║  ✅ UI配置: 完全に自由にカスタマイズ可能           ║
-║  ✅ プロンプト: Crody推奨順序で固定生成            ║
+║  ✅ セクションタイトル（h2）のみドラッグ可能       ║
+║  ✅ タグボタンは完全に通常クリック                 ║
+║  ✅ 誤操作防止機能付き                             ║
 ║                                                    ║
 ║  📐 使い方:                                        ║
-║  1. セクションタイトル（h2）をドラッグ             ║
+║  1. セクションタイトルを長めにドラッグ             ║
 ║  2. 好きな位置にドロップ                           ║
-║  3. 自動的に保存されます                           ║
-║                                                    ║
-║  🔄 リセット: ヘッダーのボタンで初期状態に戻る     ║
-║                                                    ║
-║  🎯 重要: UIをどう変更しても、プロンプトは         ║
-║     常に最適な順序で出力されます                   ║
+║  3. タグボタンは普通にクリック                     ║
 ║                                                    ║
 ╚════════════════════════════════════════════════════╝
         `);
     }
 };
+;
+    }
+};
+
