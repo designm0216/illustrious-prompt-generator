@@ -1140,9 +1140,13 @@ const PROMPT_DATABASE = {
     ],
 
     negative: {
-        base: "lowres, bad anatomy, bad hands, missing fingers, extra fingers, extra digits, fewer digits, cropped, very displeasing, (worst quality, bad quality:1.2), sketch, jpeg artifacts, signature, watermark, username, simple background, conjoined, bad ai-generated",
+        // Crody氏（Team-C）推奨ネガティブプロンプト
+        base: "modern, recent, old, oldest, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured, long body, lowres, bad anatomy, bad hands, missing fingers, extra fingers, extra digits, fewer digits, cropped, very displeasing, (worst quality, bad quality:1.2), sketch, jpeg artifacts, signature, watermark, username, simple background, conjoined, bad ai-generated",
+        
+        // NSFW対応（既存機能維持）
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
