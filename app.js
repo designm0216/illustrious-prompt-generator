@@ -21,6 +21,7 @@ function createNewCharacter() {
         eyebrows: new Set(),
         breasts: new Set(),
         nipples: new Set(),
+        clothing_color: new Set(),
         clothing: new Set(),
         pose: new Set(),
         male_body_type: new Set(),
@@ -1319,6 +1320,7 @@ function initializeApp() {
     updateTranslationDisplay();
 }
 */
+
 
 
 
