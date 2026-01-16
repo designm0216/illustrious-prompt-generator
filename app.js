@@ -808,78 +808,7 @@ function updateWeight() {
     setWeight(value);
 }
 
-function updateOutput() {
-    const segments = [];
-
-    if (appState.global.size > 0) {
-        const weightedGlobal = Array.from(appState.global).map(getWeightedValue);
-        segments.push(weightedGlobal.join(', '));
-    }
-
-    const characterSegments = [];
-    appState.characters.forEach(character => {
-        const allCharacterTags = [];
-        const order = [
-            'hair_color', 'hair_length', 'hair_style',
-            'eyes', 'eye_shape', 'eye_details', 'eye_internal', 'eye_direction', 'eyebrows',
-            'breasts', 'nipples',    'clothing_color',
-            'clothing', 'clothing_state', 'clothing_disarray',
-            'pose', 'hand_gestures',
-            'male_body_type', 'male_facial', 'male_age_type',
-            'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses', 'male_expressions'
-        ];
-        order.forEach(key => {
-            if (character[key] && character[key].size > 0) {
-                const weightedTags = Array.from(character[key]).map(getWeightedValue);
-                allCharacterTags.push(...weightedTags);
-            }
-        });
-        if (allCharacterTags.length > 0) characterSegments.push(allCharacterTags.join(', '));
-    });
-
-    if (characterSegments.length > 0) {
-        segments.push(characterSegments.join(' BREAK '));
-    }
-
-    if (segments.length > 0 && (appState.camera.size > 0 || appState.background.size > 0)) {
-        segments.push('BREAK');
-    }
-
-    const cameraBackground = [
-        ...Array.from(appState.camera).map(getWeightedValue),
-        ...Array.from(appState.background).map(getWeightedValue)
-    ].filter(Boolean);
-
-    if (cameraBackground.length > 0) {
-        segments.push(cameraBackground.join(', '));
-    }
-
-    if (appState.lighting.size > 0) {
-        if (segments.length > 0) segments.push('BREAK');
-        const weightedLighting = Array.from(appState.lighting).map(getWeightedValue);
-        segments.push(weightedLighting.join(', '));
-    }
-
-    let finalPrompt;
-    if (appState.segmentMode) {
-        finalPrompt = segments.map(segment => {
-            if (segment === 'BREAK') return '\nBREAK\n';
-            if (segment.includes(' BREAK ')) {
-                return segment
-                    .split(' BREAK ')
-                    .map(s => `[${s}]`)
-                    .join('\nBREAK\n');
-            }
-            return `[${segment}]`;
-        }).join('\n');
-    } else {
-        finalPrompt = segments.join(', ');
-    }
-
-    document.getElementById('positive-output').value = finalPrompt;
-    updateNegativePrompt();
-    updateTranslationDisplay();
-}
+undefined
 
 function updateNegativePrompt() {
     let negative = PROMPT_DATABASE.negative.base;
@@ -1329,6 +1258,7 @@ function initializeApp() {
     updateTranslationDisplay();
 }
 */
+
 
 
 
