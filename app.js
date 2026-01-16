@@ -813,6 +813,10 @@ function updateWeight() {
 // プロンプト生成・出力更新
 // ==========================================
 
+// ==========================================
+// プロンプト生成・出力更新（修正版）
+// ==========================================
+
 function updateOutput() {
     const segments = [];
 
@@ -858,11 +862,13 @@ function updateOutput() {
         segments.push(environmentTags.join(', '));
     }
 
-    // 4. セグメントモードに応じて出力形式を切り替え
+    // 4. ★ 修正箇所：セグメントモードの条件を簡素化 ★
     let output;
-    if (appState.segmentMode && segments.length > 1) {
+    if (appState.segmentMode) {
+        // セグメントモードON: 常にBREAKで区切る
         output = segments.join(' BREAK ');
     } else {
+        // セグメントモードOFF: カンマで区切る
         output = segments.join(', ');
     }
 
@@ -1164,3 +1170,4 @@ function loadPresetList() {
         }
     }
 }
+
