@@ -688,3 +688,48 @@ body.dragging * {
 }
 
 
+/* ==========================================
+   PC時の右カラム中央固定表示
+   ========================================== */
+@media (min-width: 769px) {
+    .sticky-output {
+        position: fixed;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        width: 420px;
+        max-height: 90vh;
+        overflow-y: auto;
+        z-index: 100;
+        
+        /* 視認性向上 */
+        background: var(--bg-secondary);
+        border: 2px solid var(--accent-blue);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    /* 左カラムに右側の余白を確保 */
+    .left-column {
+        padding-right: 460px; /* 右カラム幅 + 余白 */
+    }
+    
+    /* レイアウト調整 */
+    .main-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    
+    .right-column {
+        width: auto; /* fixed positioning で制御 */
+    }
+}
+
+/* スマホでは通常表示を維持 */
+@media (max-width: 768px) {
+    .left-column {
+        padding-right: 0;
+    }
+}
+
