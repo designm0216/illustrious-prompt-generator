@@ -290,6 +290,38 @@ const PROMPT_DATABASE = {
             { id: "np4", label: "陥没乳首", value: "inverted nipples", nsfw: true }
         ],
 
+            // ★ 衣装の色セクションを追加
+    clothing_color: [
+        // 基本色
+        { id: "cc1", label: "白", value: "white" },
+        { id: "cc2", label: "黒", value: "black" },
+        { id: "cc3", label: "赤", value: "red" },
+        { id: "cc4", label: "青", value: "blue" },
+        { id: "cc5", label: "緑", value: "green" },
+        { id: "cc6", label: "黄色", value: "yellow" },
+        { id: "cc7", label: "ピンク", value: "pink" },
+        { id: "cc8", label: "紫", value: "purple" },
+        { id: "cc9", label: "オレンジ", value: "orange" },
+        { id: "cc10", label: "茶色", value: "brown" },
+        { id: "cc11", label: "グレー", value: "grey" },
+        
+        // 特殊色
+        { id: "cc12", label: "ネイビー", value: "navy blue" },
+        { id: "cc13", label: "ライトブルー", value: "light blue" },
+        { id: "cc14", label: "ダークブルー", value: "dark blue" },
+        { id: "cc15", label: "パステルピンク", value: "pastel pink" },
+        { id: "cc16", label: "金色", value: "gold" },
+        { id: "cc17", label: "銀色", value: "silver" },
+        { id: "cc18", label: "虹色", value: "rainbow" },
+        
+        // 柄・パターン
+        { id: "cc19", label: "縞模様", value: "striped" },
+        { id: "cc20", label: "チェック柄", value: "plaid" },
+        { id: "cc21", label: "水玉模様", value: "polka dot" },
+        { id: "cc22", label: "花柄", value: "floral print" },
+        { id: "cc23", label: "無地", value: "solid color" }
+    ],
+
         clothing: [
             { id: "cl1", label: "セーラー服", value: "serafuku, sailor collar" },
             { id: "cl2", label: "学校制服", value: "school uniform" },
@@ -1147,6 +1179,7 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
 
