@@ -414,6 +414,10 @@ function initializeApp() {
     if (PROMPT_DATABASE.nsfw_toys) renderTags('nsfw-toys-tags', PROMPT_DATABASE.nsfw_toys, 'global');
     if (PROMPT_DATABASE.nsfw_fluids) renderTags('nsfw-fluids-tags', PROMPT_DATABASE.nsfw_fluids, 'global');
     if (PROMPT_DATABASE.nsfw_advanced) renderTags('nsfw-advanced-tags', PROMPT_DATABASE.nsfw_advanced, 'global');
+    if (PROMPT_DATABASE.foreplay) renderTags('foreplay-tags', PROMPT_DATABASE.foreplay, 'global');
+if (PROMPT_DATABASE.bodily_fluids) renderTags('bodily-fluids-tags', PROMPT_DATABASE.bodily_fluids, 'global');
+if (PROMPT_DATABASE.yuri_acts) renderTags('yuri-acts-tags', PROMPT_DATABASE.yuri_acts, 'global');
+if (PROMPT_DATABASE.yaoi_acts) renderTags('yaoi-acts-tags', PROMPT_DATABASE.yaoi_acts, 'global');
     if (PROMPT_DATABASE.physiology) renderTags('physiology-tags', PROMPT_DATABASE.physiology, 'global');
     if (PROMPT_DATABASE.clothing_disarray) renderTags('clothing-disarray-tags', PROMPT_DATABASE.clothing_disarray, 'global');
     if (PROMPT_DATABASE.erotic_camera) renderTags('erotic-camera-tags', PROMPT_DATABASE.erotic_camera, 'global');
@@ -1321,6 +1325,7 @@ function initializeApp() {
     updateTranslationDisplay();
 }
 */
+
 
 
 
