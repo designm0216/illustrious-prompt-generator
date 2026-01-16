@@ -13,7 +13,7 @@
         <!-- ヘッダー -->
         <header class="header">
             <h1>🎨 Illustrious/NoobAI プロンプト生成ツール</h1>
-            <p>ひろき様専用 - Phase 3 完全版 (NSFW完全対応)</p>
+            <p>ひろき様専用 - Phase 3 完全版 + ビジュアル機能搭載</p>
         </header>
 
         <!-- メイン2カラムレイアウト -->
@@ -109,8 +109,7 @@
                     </div>
                 </section>
 
-
-                                <!-- ★ 日常・生活ポーズセクション -->
+                <!-- 日常・生活ポーズセクション -->
                 <section class="card" id="section-daily-life">
                     <h2>☕ 日常・生活アクション（Danbooru準拠）</h2>
                     <div id="daily-life-tags" class="tag-container"></div>
@@ -139,31 +138,26 @@
                 <section class="card nsfw-section" id="section-nsfw">
                     <h2>🔞 NSFW専用セクション</h2>
                     
-                    <!-- ★ 新機能：質感・生理現象 -->
                     <div class="subsection">
                         <h3>💦 質感・生理現象（最重要）</h3>
                         <div id="physiology-tags" class="tag-container"></div>
                     </div>
 
-                    <!-- ★ 新機能：着衣の乱れ -->
                     <div class="subsection">
                         <h3>👗 着衣の乱れ（破壊力大）</h3>
                         <div id="clothing-disarray-tags" class="tag-container"></div>
                     </div>
 
-                    <!-- ★ 新機能：エロ特化カメラ -->
                     <div class="subsection">
                         <h3>📸 エロ特化カメラアングル</h3>
                         <div id="erotic-camera-tags" class="tag-container"></div>
                     </div>
 
-                    <!-- ★ 新機能：激しい表情 -->
                     <div class="subsection">
                         <h3>😵‍💫 激しい表情（ガチ度強化）</h3>
                         <div id="intense-expressions-tags" class="tag-container"></div>
                     </div>
 
-                    <!-- ★ 新機能：事後・余韻 -->
                     <div class="subsection">
                         <h3>💤 事後・余韻</h3>
                         <div id="aftermath-tags" class="tag-container"></div>
@@ -189,7 +183,6 @@
                         <div id="bondage-tags" class="tag-container"></div>
                     </div>
 
-                    <!-- Phase 1 NSFW拡張 -->
                     <div class="subsection">
                         <h3>シチュエーション・フェチ</h3>
                         <div id="nsfw-context-tags" class="tag-container"></div>
@@ -221,79 +214,30 @@
             <!-- 右カラム：プロンプト出力エリア（固定表示） -->
             <div class="right-column">
                 <div class="sticky-output">
-    <!-- ★ 新機能：タグビジュアルプレビュー -->
-    <div class="visual-preview-card card" id="visual-preview-panel">
-        <div class="preview-header">
-            <h3>🎨 タグビジュアル</h3>
-            <div class="preview-controls">
-                <button id="edit-visual-btn" class="edit-btn" title="画像を編集">✏️</button>
-                <button id="close-preview-btn" class="close-btn" title="閉じる">✕</button>
-            </div>
-        </div>
-        
-        <div class="preview-content" id="preview-content">
-            <div class="preview-placeholder">
-                <div class="placeholder-icon">🖼️</div>
-                <p>タグにマウスを合わせると<br>ビジュアルが表示されます</p>
-            </div>
-        </div>
-        
-        <div class="preview-info" id="preview-info" style="display: none;">
-            <div class="tag-name" id="preview-tag-name"></div>
-            <div class="tag-value" id="preview-tag-value"></div>
-        </div>
-    </div>
 
-    <!-- 既存の重み調整パネル -->
-    <div class="weight-adjustment-panel" id="weight-panel" style="display: none;">
-        <!-- ...既存コード... -->
-    </div>
-    
-    <!-- 既存のプロンプト出力エリア -->
-    <!-- ...既存コード... -->
-</div>
+                    <!-- ★ タグビジュアルプレビュー -->
+                    <div class="visual-preview-card card" id="visual-preview-panel">
+                        <div class="preview-header">
+                            <h3>🎨 タグビジュアル</h3>
+                            <div class="preview-controls">
+                                <button id="edit-visual-btn" class="edit-btn" title="画像を編集">✏️</button>
+                                <button id="close-preview-btn" class="close-btn" title="閉じる">✕</button>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-content" id="preview-content">
+                            <div class="preview-placeholder">
+                                <div class="placeholder-icon">🖼️</div>
+                                <p>タグにマウスを合わせると<br>ビジュアルが表示されます</p>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-info" id="preview-info" style="display: none;">
+                            <div class="tag-name" id="preview-tag-name"></div>
+                            <div class="tag-value" id="preview-tag-value"></div>
+                        </div>
+                    </div>
 
-<!-- ★ 画像編集モーダル -->
-<div class="image-edit-modal" id="image-edit-modal" style="display: none;">
-    <div class="modal-backdrop" onclick="closeImageModal()"></div>
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>画像を編集：<span id="modal-tag-name"></span></h3>
-            <button class="modal-close" onclick="closeImageModal()">✕</button>
-        </div>
-        
-        <div class="modal-body">
-            <div class="upload-tabs">
-                <button class="tab-btn active" data-tab="url">🔗 URL</button>
-                <button class="tab-btn" data-tab="file">📁 ファイル</button>
-            </div>
-            
-            <div class="tab-content">
-                <div id="url-tab" class="tab-panel active">
-                    <label>画像URL:</label>
-                    <input type="text" id="image-url-input" placeholder="https://example.com/image.jpg">
-                    <small>※ Danbooru、Pixiv、Twitterなどの画像URLが使用できます</small>
-                </div>
-                
-                <div id="file-tab" class="tab-panel">
-                    <label>ファイルアップロード:</label>
-                    <input type="file" id="image-file-input" accept="image/*">
-                    <small>※ JPG, PNG, WebP形式対応（推奨サイズ：400x400px以下）</small>
-                </div>
-            </div>
-            
-            <div class="current-preview" id="modal-preview" style="display: none;">
-                <label>プレビュー:</label>
-                <img id="modal-preview-img" alt="プレビュー">
-            </div>
-        </div>
-        
-        <div class="modal-footer">
-            <button class="btn-secondary" onclick="closeImageModal()">キャンセル</button>
-            <button class="btn-danger" id="delete-image-btn" onclick="deleteTagImage()" style="display: none;">削除</button>
-            <button class="btn-primary" onclick="saveTagImage()">保存</button>
-        </div>
-    </div>
                     <!-- 重み調整パネル -->
                     <div class="weight-adjustment-panel" id="weight-panel" style="display: none;">
                         <div class="card">
@@ -385,10 +329,51 @@
         </div> <!-- /main-layout -->
     </div>
 
+    <!-- ★ 画像編集モーダル -->
+    <div class="image-edit-modal" id="image-edit-modal" style="display: none;">
+        <div class="modal-backdrop" onclick="closeImageModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>画像を編集：<span id="modal-tag-name"></span></h3>
+                <button class="modal-close" onclick="closeImageModal()">✕</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="upload-tabs">
+                    <button class="tab-btn active" data-tab="url">🔗 URL</button>
+                    <button class="tab-btn" data-tab="file">📁 ファイル</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="url-tab" class="tab-panel active">
+                        <label>画像URL:</label>
+                        <input type="text" id="image-url-input" placeholder="https://example.com/image.jpg">
+                        <small>※ Danbooru、Pixiv、Twitterなどの画像URLが使用できます</small>
+                    </div>
+                    
+                    <div id="file-tab" class="tab-panel">
+                        <label>ファイルアップロード:</label>
+                        <input type="file" id="image-file-input" accept="image/*">
+                        <small>※ JPG, PNG, WebP形式対応（推奨サイズ：400x400px以下）</small>
+                    </div>
+                </div>
+                
+                <div class="current-preview" id="modal-preview" style="display: none;">
+                    <label>プレビュー:</label>
+                    <img id="modal-preview-img" alt="プレビュー">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeImageModal()">キャンセル</button>
+                <button class="btn-danger" id="delete-image-btn" onclick="deleteTagImage()" style="display: none;">削除</button>
+                <button class="btn-primary" onclick="saveTagImage()">保存</button>
+            </div>
+        </div>
+    </div>
+
     <script src="database.js"></script>
     <script src="app.js"></script>
 </body>
 
 </html>
-
-
