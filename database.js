@@ -939,6 +939,12 @@ const PROMPT_DATABASE = {
         { id: "sp_fn", label: "フルネルソン", value: "full nelson", nsfw: true, weight: 1.2 },
         { id: "sp_pin", label: "押し倒し体位", value: "pinning down, mounted", nsfw: true },
         { id: "sp_wh", label: "手首固定", value: "wrist hold, pinning wrists", nsfw: true },
+
+    // ★ 深挿入特化体位（追加）
+    { id: "sp_legs_shoulder", label: "肩に足をかける", value: "legs on shoulders", nsfw: true, weight: 1.2 },
+    { id: "sp_piledriver", label: "パイルドライバー", value: "piledriver position", nsfw: true, weight: 1.3 },
+    { id: "sp_nelson", label: "ネルソンホールド", value: "nelson hold", nsfw: true, weight: 1.3 },
+        
         
         // 複数・特殊
         { id: "sp_sr", label: "串刺し（二穴攻め）", value: "spitroast", nsfw: true, weight: 1.2 },
@@ -1314,6 +1320,7 @@ const PROMPT_DATABASE = {
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
 
