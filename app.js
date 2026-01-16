@@ -124,7 +124,7 @@ const TagVisualManager = {
             closeBtn.onclick = () => hideVisualPreview();
         }
         
-        // モーダル内のボタン（JavaScript側で確実に制御）
+        // モーダル内のボタン制御
         setTimeout(() => {
             const saveBtn = document.getElementById('modal-save-btn');
             if (saveBtn) saveBtn.onclick = saveTagImage;
@@ -201,7 +201,6 @@ function showVisualPreview(tag, isPermanent = false) {
     };
     
     img.onerror = () => {
-        // 404エラーを静かに処理
         content.innerHTML = `
             <div class="preview-placeholder">
                 <div class="placeholder-icon">📷</div>
@@ -375,7 +374,7 @@ function deleteTagImage() {
 }
 
 // ==========================================
-// 初期化処理（★統合版）
+// 初期化処理
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
@@ -392,56 +391,67 @@ function initializeApp() {
     
     renderCharacters();
     
-    if (PROMPT_DATABASE.emotions) renderTags('emotions-tags', PROMPT_DATABASE.emotions, 'global');
-    if (PROMPT_DATABASE.actions) renderTags('actions-tags', PROMPT_DATABASE.actions, 'global');
-    if (PROMPT_DATABASE.props) renderTags('props-tags', PROMPT_DATABASE.props, 'global');
-    if (PROMPT_DATABASE.fantasy) renderTags('fantasy-tags', PROMPT_DATABASE.fantasy, 'global');
-    if (PROMPT_DATABASE.body_features) renderTags('body-features-tags', PROMPT_DATABASE.body_features, 'global');
-    if (PROMPT_DATABASE.environment) renderTags('environment-tags', PROMPT_DATABASE.environment, 'global');
-    if (PROMPT_DATABASE.visual_effects) renderTags('visual-effects-tags', PROMPT_DATABASE.visual_effects, 'global');
-    if (PROMPT_DATABASE.hand_details) renderTags('hand-details-tags', PROMPT_DATABASE.hand_details, 'global');
+    // 基本カテゴリのレンダリング
+    const basicCategories = [
+        { id: 'emotions-tags', data: PROMPT_DATABASE.emotions },
+        { id: 'actions-tags', data: PROMPT_DATABASE.actions },
+        { id: 'props-tags', data: PROMPT_DATABASE.props },
+        { id: 'fantasy-tags', data: PROMPT_DATABASE.fantasy },
+        { id: 'body-features-tags', data: PROMPT_DATABASE.body_features },
+        { id: 'environment-tags', data: PROMPT_DATABASE.environment },
+        { id: 'visual-effects-tags', data: PROMPT_DATABASE.visual_effects },
+        { id: 'hand-details-tags', data: PROMPT_DATABASE.hand_details },
+        { id: 'daily-life-tags', data: PROMPT_DATABASE.daily_life }
+    ];
+
+    basicCategories.forEach(cat => {
+        if (cat.data) renderTags(cat.id, cat.data, 'global');
+    });
     
     renderTags('camera-tags', PROMPT_DATABASE.camera, 'camera');
     renderTags('background-tags', PROMPT_DATABASE.background, 'background');
     renderTags('lighting-tags', PROMPT_DATABASE.lighting, 'lighting');
     
-    if (PROMPT_DATABASE.sexual_positions) renderTags('sexual-positions-tags', PROMPT_DATABASE.sexual_positions, 'global');
-    if (PROMPT_DATABASE.sex_acts) renderTags('sex-acts-tags', PROMPT_DATABASE.sex_acts, 'global');
-    if (PROMPT_DATABASE.cum) renderTags('cum-tags', PROMPT_DATABASE.cum, 'global');
-    if (PROMPT_DATABASE.bondage) renderTags('bondage-tags', PROMPT_DATABASE.bondage, 'global');
-    if (PROMPT_DATABASE.nsfw_context) renderTags('nsfw-context-tags', PROMPT_DATABASE.nsfw_context, 'global');
-    if (PROMPT_DATABASE.nsfw_masturbation) renderTags('nsfw-masturbation-tags', PROMPT_DATABASE.nsfw_masturbation, 'global');
-    if (PROMPT_DATABASE.nsfw_toys) renderTags('nsfw-toys-tags', PROMPT_DATABASE.nsfw_toys, 'global');
-    if (PROMPT_DATABASE.nsfw_fluids) renderTags('nsfw-fluids-tags', PROMPT_DATABASE.nsfw_fluids, 'global');
-    if (PROMPT_DATABASE.nsfw_advanced) renderTags('nsfw-advanced-tags', PROMPT_DATABASE.nsfw_advanced, 'global');
-    if (PROMPT_DATABASE.foreplay) renderTags('foreplay-tags', PROMPT_DATABASE.foreplay, 'global');
-if (PROMPT_DATABASE.bodily_fluids) renderTags('bodily-fluids-tags', PROMPT_DATABASE.bodily_fluids, 'global');
-if (PROMPT_DATABASE.yuri_acts) renderTags('yuri-acts-tags', PROMPT_DATABASE.yuri_acts, 'global');
-if (PROMPT_DATABASE.yaoi_acts) renderTags('yaoi-acts-tags', PROMPT_DATABASE.yaoi_acts, 'global');
-    if (PROMPT_DATABASE.physiology) renderTags('physiology-tags', PROMPT_DATABASE.physiology, 'global');
-    if (PROMPT_DATABASE.clothing_disarray) renderTags('clothing-disarray-tags', PROMPT_DATABASE.clothing_disarray, 'global');
-    if (PROMPT_DATABASE.erotic_camera) renderTags('erotic-camera-tags', PROMPT_DATABASE.erotic_camera, 'global');
-    if (PROMPT_DATABASE.intense_expressions) renderTags('intense-expressions-tags', PROMPT_DATABASE.intense_expressions, 'global');
-    if (PROMPT_DATABASE.aftermath) renderTags('aftermath-tags', PROMPT_DATABASE.aftermath, 'global');
-    if (PROMPT_DATABASE.daily_life) renderTags('daily-life-tags', PROMPT_DATABASE.daily_life, 'global');
+    // NSFW関連カテゴリのレンダリング
+    const nsfwCategories = [
+        { id: 'sexual-positions-tags', data: PROMPT_DATABASE.sexual_positions },
+        { id: 'sex-acts-tags', data: PROMPT_DATABASE.sex_acts },
+        { id: 'cum-tags', data: PROMPT_DATABASE.cum },
+        { id: 'bondage-tags', data: PROMPT_DATABASE.bondage },
+        { id: 'nsfw-context-tags', data: PROMPT_DATABASE.nsfw_context },
+        { id: 'nsfw-masturbation-tags', data: PROMPT_DATABASE.nsfw_masturbation },
+        { id: 'nsfw-toys-tags', data: PROMPT_DATABASE.nsfw_toys },
+        { id: 'nsfw-fluids-tags', data: PROMPT_DATABASE.nsfw_fluids },
+        { id: 'nsfw-advanced-tags', data: PROMPT_DATABASE.nsfw_advanced },
+        { id: 'foreplay-tags', data: PROMPT_DATABASE.foreplay },
+        { id: 'bodily-fluids-tags', data: PROMPT_DATABASE.bodily_fluids },
+        { id: 'yuri-acts-tags', data: PROMPT_DATABASE.yuri_acts },
+        { id: 'yaoi-acts-tags', data: PROMPT_DATABASE.yaoi_acts },
+        { id: 'physiology-tags', data: PROMPT_DATABASE.physiology },
+        { id: 'clothing-disarray-tags', data: PROMPT_DATABASE.clothing_disarray },
+        { id: 'erotic-camera-tags', data: PROMPT_DATABASE.erotic_camera },
+        { id: 'intense-expressions-tags', data: PROMPT_DATABASE.intense_expressions },
+        { id: 'aftermath-tags', data: PROMPT_DATABASE.aftermath }
+    ];
+
+    nsfwCategories.forEach(cat => {
+        if (cat.data) renderTags(cat.id, cat.data, 'global');
+    });
     
     document.getElementById('negative-output').value = PROMPT_DATABASE.negative.base;
     
-    // ★ ビジュアル機能の初期化（安全版）
+    // ビジュアル機能の初期化
     if (typeof TagVisualManager !== 'undefined' && document.getElementById('visual-preview-panel')) {
         TagVisualManager.init();
     }
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // ★ ここから4行追加★
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    
+    // レイアウトマネージャーの初期化
     if (typeof Sortable !== 'undefined') {
         LayoutManager.init();
     } else {
         console.warn('⚠️ SortableJSが読み込まれていません');
     }
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    // ★ ここまで追加★
-    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
     updateTranslationDisplay();
 }
 
@@ -481,12 +491,11 @@ function renderTags(containerId, tags, stateKey) {
         const weight = tag.weight;
         btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
-        // ★ ホバー表示
+        // ホバー表示
         btn.addEventListener('mouseenter', () => {
             showVisualPreview(tag, false);
         });
         
-        // ★ 修正：現在のボタン状態を動的に確認
         btn.addEventListener('mouseleave', () => {
             if (!btn.classList.contains('selected')) {
                 setTimeout(() => {
@@ -611,12 +620,11 @@ function appendCharacterSection(parent, title, tags, targetSet, charIndex) {
         const weight = tag.weight;
         btn.textContent = (weight && weight !== 1.0) ? `${tag.label} (${weight.toFixed(1)})` : tag.label;
 
-        // ★ ホバー表示
+        // ホバー表示
         btn.addEventListener('mouseenter', () => {
             showVisualPreview(tag, false);
         });
         
-        // ★ 修正：現在のボタン状態を動的に確認
         btn.addEventListener('mouseleave', () => {
             if (!btn.classList.contains('selected')) {
                 setTimeout(() => {
@@ -716,9 +724,9 @@ function findTagsByContainerId(id) {
         'lighting-tags': PROMPT_DATABASE.lighting,
         'sexual-positions-tags': PROMPT_DATABASE.sexual_positions,
         'foreplay-tags': PROMPT_DATABASE.foreplay,
-'bodily-fluids-tags': PROMPT_DATABASE.bodily_fluids,
-'yuri-acts-tags': PROMPT_DATABASE.yuri_acts,
-'yaoi-acts-tags': PROMPT_DATABASE.yaoi_acts,
+        'bodily-fluids-tags': PROMPT_DATABASE.bodily_fluids,
+        'yuri-acts-tags': PROMPT_DATABASE.yuri_acts,
+        'yaoi-acts-tags': PROMPT_DATABASE.yaoi_acts,
         'sex-acts-tags': PROMPT_DATABASE.sex_acts,
         'cum-tags': PROMPT_DATABASE.cum,
         'bondage-tags': PROMPT_DATABASE.bondage,
@@ -808,7 +816,73 @@ function updateWeight() {
     setWeight(value);
 }
 
-undefined
+// ==========================================
+// ★ プロンプト生成・出力更新（核となる修正）
+// ==========================================
+
+function updateOutput() {
+    const segments = [];
+
+    // 1. グローバルタグ（品質・スタイル・レーティング）
+    if (appState.global.size > 0) {
+        const globalTags = Array.from(appState.global).map(getWeightedValue);
+        segments.push(globalTags.join(', '));
+    }
+
+    // 2. キャラクター（BREAK区切り）
+    appState.characters.forEach((character) => {
+        const charTags = [];
+        
+        // Crody推奨順序でタグを出力
+        const order = [
+            'hair_color', 'hair_length', 'hair_style',
+            'eyes', 'eye_shape', 'eye_details', 'eyebrows',
+            'breasts', 'nipples', 'clothing_color', 'clothing', 'pose',
+            'male_body_type', 'male_facial', 'male_age_type',
+            'male_clothing', 'male_body_hair', 'male_genitalia', 'male_poses'
+        ];
+        
+        order.forEach(key => {
+            if (character[key] && character[key].size > 0) {
+                const tags = Array.from(character[key]).map(getWeightedValue);
+                charTags.push(...tags);
+            }
+        });
+        
+        if (charTags.length > 0) {
+            segments.push(charTags.join(', '));
+        }
+    });
+
+    // 3. カメラ・背景・照明
+    const environmentTags = [
+        ...Array.from(appState.camera),
+        ...Array.from(appState.background),
+        ...Array.from(appState.lighting)
+    ].map(getWeightedValue);
+    
+    if (environmentTags.length > 0) {
+        segments.push(environmentTags.join(', '));
+    }
+
+    // 4. セグメントモードに応じて出力形式を切り替え
+    let output;
+    if (appState.segmentMode && segments.length > 1) {
+        output = segments.join(' BREAK ');
+    } else {
+        output = segments.join(', ');
+    }
+
+    // 5. テキストエリアに出力
+    const positiveOutput = document.getElementById('positive-output');
+    if (positiveOutput) {
+        positiveOutput.value = output;
+    }
+
+    // 6. 関連機能の更新
+    updateNegativePrompt();
+    updateTranslationDisplay();
+}
 
 function updateNegativePrompt() {
     let negative = PROMPT_DATABASE.negative.base;
@@ -1098,9 +1172,6 @@ function loadPresetList() {
     }
 }
 
-
-// 既存のapp.jsの内容はそのまま残して、以下を末尾に追加
-
 // ==========================================
 // レイアウト管理システム（SortableJS版）
 // ==========================================
@@ -1121,7 +1192,6 @@ const LayoutManager = {
             return;
         }
         
-        // SortableJS が読み込まれているかチェック
         if (typeof Sortable === 'undefined') {
             console.warn('⚠️ SortableJSが読み込まれていません');
             return;
@@ -1129,11 +1199,11 @@ const LayoutManager = {
         
         const sortableOptions = {
             animation: 200,
-            handle: 'h2', // セクションタイトルをドラッグハンドルにする
+            handle: 'h2',
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
-            forceFallback: true, // より安定した動作
+            forceFallback: true,
             fallbackTolerance: 3,
             
             onStart: (evt) => {
@@ -1183,7 +1253,6 @@ const LayoutManager = {
             
             if (!container) return;
             
-            // 保存された順序で要素を並び替え
             order.forEach(id => {
                 const element = document.getElementById(id);
                 if (element && container) {
@@ -1223,7 +1292,7 @@ const LayoutManager = {
 ║  ✅ プロンプト: Crody推奨順序で固定生成            ║
 ║                                                    ║
 ║  📐 使い方:                                        ║
-║  1. セクションタイトル（⋮⋮マーク）をドラッグ      ║
+║  1. セクションタイトル（h2）をドラッグ             ║
 ║  2. 好きな位置にドロップ                           ║
 ║  3. 自動的に保存されます                           ║
 ║                                                    ║
@@ -1236,34 +1305,3 @@ const LayoutManager = {
         `);
     }
 };
-
-// ==========================================
-// 既存のinitializeApp関数への追加
-// ==========================================
-
-// 既存のinitializeApp関数の最後に以下の1行を追加してください
-// （関数全体を置き換えるのではなく、最後に追加）
-
-/*
-function initializeApp() {
-    // ...既存の処理はそのまま...
-    
-    // ★ 以下を最後に追加
-    if (typeof Sortable !== 'undefined') {
-        LayoutManager.init();
-    } else {
-        console.warn('⚠️ SortableJSが読み込まれていません');
-    }
-    
-    updateTranslationDisplay();
-}
-*/
-
-
-
-
-
-
-
-
-
