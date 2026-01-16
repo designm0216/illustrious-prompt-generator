@@ -426,7 +426,17 @@ function initializeApp() {
     if (typeof TagVisualManager !== 'undefined' && document.getElementById('visual-preview-panel')) {
         TagVisualManager.init();
     }
-    
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // ★ ここから4行追加★
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    if (typeof Sortable !== 'undefined') {
+        LayoutManager.init();
+    } else {
+        console.warn('⚠️ SortableJSが読み込まれていません');
+    }
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    // ★ ここまで追加★
+    // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     updateTranslationDisplay();
 }
 
@@ -1309,5 +1319,6 @@ function initializeApp() {
     updateTranslationDisplay();
 }
 */
+
 
 
