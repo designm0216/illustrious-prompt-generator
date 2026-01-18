@@ -1437,6 +1437,82 @@ sound_effects: [
         { id: "cd8", label: "濡れて透ける", value: "wet clothes, see-through", nsfw: true, weight: 1.3 }
     ],
 
+// ★ 脱衣・着替え専用カテゴリを追加
+undressing: [
+    // ==========================
+    // 👕 基本的な脱衣動作
+    // ==========================
+    { id: "und1", label: "服を脱ぐ", value: "undressing", nsfw: true, weight: 1.2 },
+    { id: "und2", label: "服を脱がされる", value: "undressed by another", nsfw: true, weight: 1.3 },
+    { id: "und3", label: "脱ぎかけ", value: "partially undressed", nsfw: true, weight: 1.1 },
+    { id: "und4", label: "脱いでいる途中", value: "in the process of undressing", nsfw: true, weight: 1.2 },
+    { id: "und5", label: "脱ぎ捨てた", value: "clothes removed", nsfw: true },
+    
+    // ==========================
+    // 👔 上半身の脱衣
+    // ==========================
+    { id: "und10", label: "シャツを脱ぐ", value: "removing shirt", nsfw: true },
+    { id: "und11", label: "シャツをたくし上げ", value: "shirt lift", nsfw: true, weight: 1.2 },
+    { id: "und12", label: "シャツのボタンを外す", value: "unbuttoning shirt", nsfw: true },
+    { id: "und13", label: "トップスを脱ぐ", value: "removing top", nsfw: true },
+    { id: "und14", label: "ブラを外す", value: "removing bra, unclasping bra", nsfw: true, weight: 1.2 },
+    { id: "und15", label: "ブラを外される", value: "bra removed by another", nsfw: true, weight: 1.3 },
+    { id: "und16", label: "肩紐を下ろす", value: "strap slip, lowering strap", nsfw: true },
+    
+    // ==========================
+    // 👖 下半身の脱衣
+    // ==========================
+    { id: "und20", label: "スカートを脱ぐ", value: "removing skirt", nsfw: true },
+    { id: "und21", label: "パンツを脱ぐ", value: "removing pants", nsfw: true },
+    { id: "und22", label: "ショーツを脱ぐ", value: "removing panties", nsfw: true, weight: 1.3 },
+    { id: "und23", label: "ショーツを下ろす", value: "lowering panties, panties down", nsfw: true, weight: 1.2 },
+    { id: "und24", label: "ショーツを脱がされる", value: "panties removed by another", nsfw: true, weight: 1.3 },
+    { id: "und25", label: "ズボンを下ろす", value: "pants down, lowering pants", nsfw: true },
+    
+    // ==========================
+    // 🫣 めくる・チラ見せ系
+    // ==========================
+    { id: "und30", label: "スカート捲り", value: "skirt lift", nsfw: true, weight: 1.2 },
+    { id: "und31", label: "ドレス捲り", value: "dress lift", nsfw: true },
+    { id: "und32", label: "シャツをはだける", value: "open shirt", nsfw: true },
+    { id: "und33", label: "口でシャツを捲る", value: "shirt in mouth", nsfw: true, weight: 1.3 },
+    { id: "und34", label: "口で手袋を外す", value: "glove biting, removing gloves", nsfw: true, weight: 1.2 },
+    
+    // ==========================
+    // 🛁 シチュエーション別
+    // ==========================
+    { id: "und40", label: "入浴前", value: "before bath, undressing for bath", nsfw: true },
+    { id: "und41", label: "着替え中", value: "changing clothes, dressing" },
+    { id: "und42", label: "制服を脱ぐ", value: "removing school uniform", nsfw: true },
+    { id: "und43", label: "水着を脱ぐ", value: "removing swimsuit", nsfw: true },
+    { id: "und44", label: "寝間着に着替え", value: "changing into pajamas" },
+    
+    // ==========================
+    // 🤝 相互作用・手伝い
+    // ==========================
+    { id: "und50", label: "服を脱がせる", value: "undressing another", nsfw: true, weight: 1.3 },
+    { id: "und51", label: "服を脱がせ合う", value: "undressing each other", nsfw: true, weight: 1.3 },
+    { id: "und52", label: "ボタンを外してあげる", value: "helping undress, unbuttoning another", nsfw: true },
+    { id: "und53", label: "服を引っ張る", value: "pulling clothes, clothes pull", nsfw: true, weight: 1.2 },
+    
+    // ==========================
+    // 😳 感情・表情との組み合わせ
+    // ==========================
+    { id: "und60", label: "恥ずかしがりながら", value: "embarrassed undressing", nsfw: true, weight: 1.2 },
+    { id: "und61", label: "隠す仕草", value: "covering while undressing", nsfw: true },
+    { id: "und62", label: "躊躇しながら", value: "hesitant undressing", nsfw: true },
+    { id: "und63", label: "誘惑的に", value: "seductive undressing", nsfw: true, weight: 1.2 },
+    
+    // ==========================
+    // 📐 段階的表現（レベル別）
+    // ==========================
+    { id: "und70", label: "レベル1（軽く脱ぐ）", value: "clothes loosened, unbuttoning", nsfw: true },
+    { id: "und71", label: "レベル2（半分脱いだ）", value: "half undressed, partially nude", nsfw: true, weight: 1.2 },
+    { id: "und72", label: "レベル3（ほぼ裸）", value: "mostly nude, almost naked", nsfw: true, weight: 1.3 },
+    { id: "und73", label: "レベル4（完全に脱いだ）", value: "completely nude, fully naked", nsfw: true, weight: 1.4 }
+],
+    
+
     // ==========================================
     // ★ Phase 4: エロ特化カメラアングル
     // ==========================================
@@ -1518,6 +1594,7 @@ sound_effects: [
         nsfw_safe: "censored, bar_censor, mosaic_censor"
     }
 };
+
 
 
 
