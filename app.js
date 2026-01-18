@@ -442,6 +442,7 @@ function initializeApp() {
         { id: 'yaoi-acts-tags', data: PROMPT_DATABASE.yaoi_acts },
         { id: 'physiology-tags', data: PROMPT_DATABASE.physiology },
         { id: 'clothing-disarray-tags', data: PROMPT_DATABASE.clothing_disarray },
+          { id: 'undressing-tags', data: PROMPT_DATABASE.undressing }, 
         { id: 'erotic-camera-tags', data: PROMPT_DATABASE.erotic_camera },
         { id: 'intense-expressions-tags', data: PROMPT_DATABASE.intense_expressions },
         { id: 'aftermath-tags', data: PROMPT_DATABASE.aftermath }
@@ -1241,6 +1242,7 @@ function loadPresetList() {
         }
     }
 }
+
 
 
 
