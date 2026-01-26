@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日常・一般描写 - プロンプト生成ツール</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, #1a2332 100%);
+        }
+        .back-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダー -->
+        <header class="header page-header">
+            <a href="../index.html" class="back-link">← ポータルに戻る</a>
+            <h1>☀️ 日常・一般描写プロンプト生成</h1>
+            <p>学校・職場・趣味など、健全な日常シーン専用</p>
+        </header>
+
+        <!-- メイン2カラムレイアウト -->
+        <div class="main-layout">
+            <!-- 左カラム -->
+            <div class="left-column">
+                
+                <!-- 基本設定（共通） -->
+                <section class="card">
+                    <h2>1. 品質・スタイル設定</h2>
+                    <div class="subsection">
+                        <h3>品質タグ</h3>
+                        <div id="quality-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>スタイル・時代</h3>
+                        <div id="style-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>レーティング</h3>
+                        <div id="rating-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- キャラクター設定（共通） -->
+                <section class="card">
+                    <h2>2. キャラクター設定</h2>
+                    <div id="characters-wrapper"></div>
+                    <button id="add-character" class="add-btn">+ キャラクター追加</button>
+                </section>
+
+                <!-- 日常描写専用セクション -->
+                <section class="card">
+                    <h2>3. 📚 日常アクション・動作</h2>
+                    <div id="daily-life-tags" class="tag-container"></div>
+                </section>
+
+                <section class="card">
+                    <h2>4. 😊 感情・表情</h2>
+                    <div id="emotions-tags" class="tag-container"></div>
+                </section>
+
+                <section class="card">
+                    <h2>5. 🎒 小道具・アイテム</h2>
+                    <div id="props-tags" class="tag-container"></div>
+                </section>
+
+                <section class="card">
+                    <h2>6. 🏫 学校・職場シーン</h2>
+                    <div id="school-work-tags" class="tag-container"></div>
+                </section>
+
+                <!-- カメラ・背景（共通） -->
+                <section class="card">
+                    <h2>7. カメラ・背景</h2>
+                    <div class="subsection">
+                        <h3>カメラアングル</h3>
+                        <div id="camera-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>背景</h3>
+                        <div id="background-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 照明（共通） -->
+                <section class="card">
+                    <h2>8. 照明・仕上げ</h2>
+                    <div id="lighting-tags" class="tag-container"></div>
+                </section>
+
+            </div>
+
+            <!-- 右カラム（出力エリア）※既存コードをそのまま使用 -->
+            <div class="right-column">
+                <div class="sticky-output">
+                    
+                    <!-- ビジュアルプレビュー -->
+                    <div class="visual-preview-card card" id="visual-preview-panel">
+                        <div class="preview-header">
+                            <h3>🎨 タグビジュアル</h3>
+                            <div class="preview-controls">
+                                <button id="edit-visual-btn" class="edit-btn" title="画像を編集">✏️</button>
+                                <button id="close-preview-btn" class="close-btn" title="閉じる">✕</button>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-content" id="preview-content">
+                            <div class="preview-placeholder">
+                                <div class="placeholder-icon">🖼️</div>
+                                <p>タグにマウスを合わせると<br>ビジュアルが表示されます</p>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-info" id="preview-info" style="display: none;">
+                            <div class="tag-name" id="preview-tag-name"></div>
+                            <div class="tag-value" id="preview-tag-value"></div>
+                        </div>
+                    </div>
+
+                    <!-- 重み調整パネル -->
+                    <div class="weight-adjustment-panel" id="weight-panel" style="display: none;">
+                        <div class="card">
+                            <h3>⚖️ 重み調整: <span id="current-tag-name" class="tag-highlight">選択してください</span></h3>
+                            <div class="weight-controls">
+                                <div class="weight-input-group">
+                                    <button onclick="adjustWeight(-0.1)" class="weight-btn decrease">－</button>
+                                    <input type="number" id="weight-input" value="1.0" step="0.1" min="0.1" max="3.0"
+                                        onchange="updateWeight()">
+                                    <button onclick="adjustWeight(0.1)" class="weight-btn increase">＋</button>
+                                </div>
+                                <div class="weight-presets">
+                                    <button onclick="setWeight(0.8)" class="preset-btn weak">0.8 弱</button>
+                                    <button onclick="setWeight(1.0)" class="preset-btn normal">1.0 標準</button>
+                                    <button onclick="setWeight(1.2)" class="preset-btn strong">1.2 強</button>
+                                    <button onclick="setWeight(1.4)" class="preset-btn very-strong">1.4 激</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- プロンプト出力エリア -->
+                    <div class="output-area">
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>📝 生成されたプロンプト</h3>
+                                <div class="controls">
+                                    <label>
+                                        <input type="checkbox" id="segment-mode" checked> セグメント表示
+                                    </label>
+                                    <button id="clear-all" class="clear-btn">🗑️ 全クリア</button>
+                                </div>
+                            </div>
+
+                            <div class="output-group">
+                                <h4>ポジティブプロンプト（英語）:</h4>
+                                <textarea id="positive-output" rows="10"
+                                    placeholder="タグを選択するとここに英語プロンプトが表示されます..."></textarea>
+                                <button onclick="copyToClipboard('positive-output')" class="copy-btn">📋
+                                    ポジティブをコピー</button>
+                            </div>
+
+                            <div class="output-group">
+                                <h4>ネガティブプロンプト（英語）:</h4>
+                                <textarea id="negative-output" rows="4"></textarea>
+                                <button onclick="copyToClipboard('negative-output')" class="copy-btn">📋
+                                    ネガティブをコピー</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 日本語訳確認エリア -->
+                    <div class="translation-verification-area">
+                        <div class="card">
+                            <div class="output-header">
+                                <h3>🇯🇵 選択内容確認（日本語）</h3>
+                                <div class="controls">
+                                    <button onclick="toggleTranslationArea()" id="toggle-translation"
+                                        class="preset-btn">表示/非表示</button>
+                                </div>
+                            </div>
+                            <div id="translation-display" class="translation-display">
+                                <div class="translation-content">
+                                    <p class="placeholder-text">タグを選択すると、ここに日本語で内容が表示されます...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- プリセット管理 -->
+                    <div class="preset-area card">
+                        <h3>💾 プリセット管理</h3>
+                        <div class="preset-controls">
+                            <input type="text" id="preset-name" placeholder="プリセット名を入力...">
+                            <div class="preset-buttons">
+                                <button id="save-preset" class="preset-btn">保存</button>
+                                <button id="load-preset" class="preset-btn">読み込み</button>
+                                <button id="delete-preset" class="preset-btn delete-btn">削除</button>
+                            </div>
+                            <select id="preset-list">
+                                <option value="">プリセットを選択...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 画像編集モーダル（既存コード） -->
+    <div class="image-edit-modal" id="image-edit-modal" style="display: none;">
+        <!-- 既存のモーダルHTMLをそのまま配置 -->
+    </div>
+
+    <!-- スクリプト読み込み -->
+    <script src="../js/shared/database-core.js"></script>
+    <script src="../js/databases/db-general.js"></script>
+    <script src="../js/shared/state-sync.js"></script>
+    <script src="../js/shared/core.js"></script>
+</body>
+</html>
