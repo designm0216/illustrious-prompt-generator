@@ -1,239 +1,432 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Illustrious/NoobAI プロンプト生成ツール - ポータル</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .portal-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .portal-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 32px;
-            margin-top: 40px;
-        }
-
-        .portal-card {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .portal-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .portal-card.general { 
-            border-color: #58a6ff; 
-        }
-        .portal-card.general:hover { 
-            border-color: #79c0ff; 
-            background: linear-gradient(135deg, #0d1117 0%, #1a2332 100%); 
-        }
-
-        .portal-card.nsfw { 
-            border-color: #f85149; 
-        }
-        .portal-card.nsfw:hover { 
-            border-color: #ff6b9d; 
-            background: linear-gradient(135deg, #0d1117 0%, #2a1a1a 100%); 
-        }
-
-        .portal-card.manga { 
-            border-color: #ff6b35; 
-        }
-        .portal-card.manga:hover { 
-            border-color: #ff8c5a; 
-            background: linear-gradient(135deg, #0d1117 0%, #2a1f1a 100%); 
-        }
-
-        .portal-icon {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .portal-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .portal-description {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-size: 1rem;
-        }
-
-        .portal-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .portal-tag {
-            background: var(--bg-tertiary);
-            padding: 6px 14px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        .data-status {
-            background: var(--bg-tertiary);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .data-status h3 {
-            color: var(--accent-blue);
-            margin-bottom: 12px;
-        }
-
-        .clear-data-btn {
-            background: var(--accent-red);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .portal-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-            .portal-card {
-                padding: 30px;
-            }
-            .portal-icon {
-                font-size: 4rem;
-            }
-        }
-    </style>
+    <title>Illustrious/NoobAI プロンプト生成ツール</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="portal-container">
+    <div class="container">
+        <!-- ヘッダー -->
         <header class="header">
             <h1>🎨 Illustrious/NoobAI プロンプト生成ツール</h1>
-            <p>用途に応じて最適なページを選択してください</p>
+            <p>ひろき様専用 - Phase 3 完全版 + ビジュアル機能 + レイアウト自由化</p>
+            
         </header>
 
-        <div class="portal-grid">
-            <!-- 日常・一般描写 -->
-            <div class="portal-card general" onclick="location.href='pages/general.html'">
-                <div class="portal-icon">☀️</div>
-                <h2 class="portal-title">日常・一般描写</h2>
-                <p class="portal-description">
-                    学校、仕事、趣味など、日常的なシーンの生成に最適化。<br>
-                    健全で自然な表現に特化したタグセット。
-                </p>
-                <div class="portal-tags">
-                    <span class="portal-tag">日常動作</span>
-                    <span class="portal-tag">感情表現</span>
-                    <span class="portal-tag">学校・職場</span>
-                    <span class="portal-tag">小道具</span>
+        <!-- メイン2カラムレイアウト -->
+        <div class="main-layout">
+
+            <!-- 左カラム：タグ選択エリア（★ソート可能） -->
+            <div class="left-column" id="left-sortable">
+
+                <!-- 1. 品質・スタイル・評価 -->
+                <section class="card" id="section-1">
+                    <h2>1. 品質・スタイル・レーティング設定</h2>
+                    <div class="subsection">
+                        <h3>品質タグ</h3>
+                        <div id="quality-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>スタイル・時代</h3>
+                        <div id="style-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>レーティング（年齢制限）</h3>
+                        <div id="rating-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 2. 人数とインタラクション -->
+                <section class="card" id="section-2">
+                    <h2>2. 人数・キャラクター間の関係性</h2>
+                    <div class="subsection">
+                        <h3>人数</h3>
+                        <div id="count-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>インタラクション</h3>
+                        <div id="interaction-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 3. キャラクター管理 -->
+                <section class="card" id="section-3">
+                    <h2>3. キャラクター設定（BREAK自動挿入）</h2>
+                    <div id="characters-wrapper"></div>
+                    <button id="add-character" class="add-btn">+ キャラクター追加（BREAK区切り）</button>
+                </section>
+
+                <!-- 3.5 Danbooru拡張セクション -->
+                <section class="card" id="section-danbooru">
+                    <h2>3.5 詳細設定・アクション・小道具</h2>
+
+                    <div class="subsection">
+                        <h3>感情・表情詳細</h3>
+                        <div id="emotions-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>アクション・動作</h3>
+                        <div id="actions-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>小道具・アイテム</h3>
+                        <div id="props-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>ファンタジー・人外要素</h3>
+                        <div id="fantasy-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- Phase 2.0 拡張セクション -->
+                <section class="card" id="section-phase2">
+                    <h2>Phase 2.0 表現力拡張セクション</h2>
+
+                    <div class="subsection">
+                        <h3>身体的特徴・体型</h3>
+                        <div id="body-features-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>時間帯・天候・場所</h3>
+                        <div id="environment-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>画像効果・エフェクト</h3>
+                        <div id="visual-effects-tags" class="tag-container"></div>
+                    </div>
+
+                    <!-- 既存の画像効果・エフェクト -->
+<div class="subsection">
+    <h3>画像効果・エフェクト</h3>
+    <div id="visual-effects-tags" class="tag-container"></div>
+</div>
+
+<!-- ★ 音響・サウンドエフェクトを追加（ここから） -->
+<div class="subsection">
+    <h3>🔊 音響・サウンドエフェクト（視覚表現）</h3>
+    <div id="sound-effects-tags" class="tag-container"></div>
+</div>
+<!-- ★ ここまで追加 -->
+
+<!-- 既存の手・指の詳細 -->
+<div class="subsection">
+    <h3>手・指の詳細</h3>
+    <div id="hand-details-tags" class="tag-container"></div>
+</div>
+
+
+                    <div class="subsection">
+                        <h3>手・指の詳細</h3>
+                        <div id="hand-details-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 日常・生活ポーズセクション -->
+                <section class="card" id="section-daily-life">
+                    <h2>☕ 日常・生活アクション（Danbooru準拠）</h2>
+                    <div id="daily-life-tags" class="tag-container"></div>
+                </section>
+
+                <!-- 4. カメラ・背景 -->
+                <section class="card" id="section-4">
+                    <h2>4. カメラ・構図・背景</h2>
+                    <div class="subsection">
+                        <h3>カメラアングル・距離</h3>
+                        <div id="camera-tags" class="tag-container"></div>
+                    </div>
+                    <div class="subsection">
+                        <h3>背景</h3>
+                        <div id="background-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+                <!-- 5. 照明・詳細・仕上げ -->
+                <section class="card" id="section-5">
+                    <h2>5. 照明・詳細・仕上げ効果</h2>
+                    <div id="lighting-tags" class="tag-container"></div>
+                </section>
+
+                <!-- NSFW専用セクション -->
+                <section class="card nsfw-section" id="section-nsfw">
+                    <h2>🔞 NSFW専用セクション</h2>
+                    
+                    <div class="subsection">
+                        <h3>💦 質感・生理現象（最重要）</h3>
+                        <div id="physiology-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>👗 着衣の乱れ（破壊力大）</h3>
+                        <div id="clothing-disarray-tags" class="tag-container"></div>
+                    </div>
+
+                    <!-- ★ 脱衣・着替えセクションを追加 -->
+<div class="subsection">
+    <h3>👙 脱衣・着替えアクション（段階的表現）</h3>
+    <div id="undressing-tags" class="tag-container"></div>
+</div>
+
+                    <div class="subsection">
+                        <h3>📸 エロ特化カメラアングル</h3>
+                        <div id="erotic-camera-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>😵‍💫 激しい表情（ガチ度強化）</h3>
+                        <div id="intense-expressions-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>💤 事後・余韻</h3>
+                        <div id="aftermath-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>性的体位</h3>
+                        <div id="sexual-positions-tags" class="tag-container"></div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>性行為</h3>
+                        <div id="sex-acts-tags" class="tag-container"></div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>射精関連</h3>
+                        <div id="cum-tags" class="tag-container"></div>
+                    </div>
+
+                    <!-- NSFW専用セクション内に追加 -->
+
+<div class="subsection">
+    <h3>前戯・愛撫</h3>
+    <div id="foreplay-tags" class="tag-container"></div>
+</div>
+
+<div class="subsection">
+    <h3>体液・分泌物</h3>
+    <div id="bodily-fluids-tags" class="tag-container"></div>
+</div>
+
+<div class="subsection">
+    <h3>百合・レズビアン</h3>
+    <div id="yuri-acts-tags" class="tag-container"></div>
+</div>
+
+<div class="subsection">
+    <h3>やおい・ゲイ</h3>
+    <div id="yaoi-acts-tags" class="tag-container"></div>
+</div>
+
+                    <div class="subsection">
+                        <h3>ボンデージ</h3>
+                        <div id="bondage-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>シチュエーション・フェチ</h3>
+                        <div id="nsfw-context-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>オナニー・セルフプレイ</h3>
+                        <div id="nsfw-masturbation-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>おもちゃ・道具</h3>
+                        <div id="nsfw-toys-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>体液・マーキング</h3>
+                        <div id="nsfw-fluids-tags" class="tag-container"></div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>高度・特殊（上級者向け）</h3>
+                        <div id="nsfw-advanced-tags" class="tag-container"></div>
+                    </div>
+                </section>
+
+            </div> <!-- /left-column -->
+
+            <!-- 右カラム：プロンプト出力エリア -->
+            <div class="right-column">
+                <div class="sticky-output">
+
+                    <!-- ★ タグビジュアルプレビュー -->
+                    <div class="visual-preview-card card" id="visual-preview-panel">
+                        <div class="preview-header">
+                            <h3>🎨 タグビジュアル</h3>
+                            <div class="preview-controls">
+                                <button id="edit-visual-btn" class="edit-btn" title="画像を編集">✏️</button>
+                                <button id="close-preview-btn" class="close-btn" title="閉じる">✕</button>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-content" id="preview-content">
+                            <div class="preview-placeholder">
+                                <div class="placeholder-icon">🖼️</div>
+                                <p>タグにマウスを合わせると<br>ビジュアルが表示されます</p>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-info" id="preview-info" style="display: none;">
+                            <div class="tag-name" id="preview-tag-name"></div>
+                            <div class="tag-value" id="preview-tag-value"></div>
+                        </div>
+                    </div>
+
+                    <!-- 重み調整パネル -->
+                    <div class="weight-adjustment-panel" id="weight-panel" style="display: none;">
+                        <div class="card">
+                            <h3>⚖️ 重み調整: <span id="current-tag-name" class="tag-highlight">選択してください</span></h3>
+                            <div class="weight-controls">
+                                <div class="weight-input-group">
+                                    <button onclick="adjustWeight(-0.1)" class="weight-btn decrease">－</button>
+                                    <input type="number" id="weight-input" value="1.0" step="0.1" min="0.1" max="3.0"
+                                        onchange="updateWeight()">
+                                    <button onclick="adjustWeight(0.1)" class="weight-btn increase">＋</button>
+                                </div>
+                                <div class="weight-presets">
+                                    <button onclick="setWeight(0.8)" class="preset-btn weak">0.8 弱</button>
+                                    <button onclick="setWeight(1.0)" class="preset-btn normal">1.0 標準</button>
+                                    <button onclick="setWeight(1.2)" class="preset-btn strong">1.2 強</button>
+                                    <button onclick="setWeight(1.4)" class="preset-btn very-strong">1.4 激</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- プロンプト出力エリア -->
+                    <div class="output-area">
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>📝 生成されたプロンプト</h3>
+                                <div class="controls">
+                                    <label>
+                                        <input type="checkbox" id="segment-mode" checked> セグメント表示
+                                    </label>
+                                    <button id="clear-all" class="clear-btn">🗑️ 全クリア</button>
+                                </div>
+                            </div>
+
+                            <div class="output-group">
+                                <h4>ポジティブプロンプト（英語）:</h4>
+                                <textarea id="positive-output" rows="10"
+                                    placeholder="タグを選択するとここに英語プロンプトが表示されます..."></textarea>
+                                <button onclick="copyToClipboard('positive-output')" class="copy-btn">📋
+                                    ポジティブをコピー</button>
+                            </div>
+
+                            <div class="output-group">
+                                <h4>ネガティブプロンプト（英語）:</h4>
+                                <textarea id="negative-output" rows="4"></textarea>
+                                <button onclick="copyToClipboard('negative-output')" class="copy-btn">📋
+                                    ネガティブをコピー</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 日本語訳確認エリア -->
+                    <div class="translation-verification-area">
+                        <div class="card">
+                            <div class="output-header">
+                                <h3>🇯🇵 選択内容確認（日本語）</h3>
+                                <div class="controls">
+                                    <button onclick="toggleTranslationArea()" id="toggle-translation"
+                                        class="preset-btn">表示/非表示</button>
+                                </div>
+                            </div>
+                            <div id="translation-display" class="translation-display">
+                                <div class="translation-content">
+                                    <p class="placeholder-text">タグを選択すると、ここに日本語で内容が表示されます...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- プリセット管理 -->
+                    <div class="preset-area card">
+                        <h3>💾 プリセット管理</h3>
+                        <div class="preset-controls">
+                            <input type="text" id="preset-name" placeholder="プリセット名を入力...">
+                            <div class="preset-buttons">
+                                <button id="save-preset" class="preset-btn">保存</button>
+                                <button id="load-preset" class="preset-btn">読み込み</button>
+                                <button id="delete-preset" class="preset-btn delete-btn">削除</button>
+                            </div>
+                            <select id="preset-list">
+                                <option value="">プリセットを選択...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div> <!-- /sticky-output -->
+            </div> <!-- /right-column -->
+
+        </div> <!-- /main-layout -->
+    </div>
+
+    <!-- ★ 画像編集モーダル -->
+    <div class="image-edit-modal" id="image-edit-modal" style="display: none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>画像を編集：<span id="modal-tag-name"></span></h3>
+                <button class="modal-close" id="modal-close-btn">✕</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="upload-tabs">
+                    <button class="tab-btn active" data-tab="url">🔗 URL</button>
+                    <button class="tab-btn" data-tab="file">📁 ファイル</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="url-tab" class="tab-panel active">
+                        <label>画像URL:</label>
+                        <input type="text" id="image-url-input" placeholder="https://example.com/image.jpg">
+                        <small>※ Danbooru、Imgur、Pixivなどの画像URLが使用できます</small>
+                    </div>
+                    
+                    <div id="file-tab" class="tab-panel">
+                        <label>ファイルアップロード:</label>
+                        <input type="file" id="image-file-input" accept="image/*">
+                        <small>※ JPG, PNG, WebP形式対応（推奨サイズ：2MB以下）</small>
+                    </div>
+                </div>
+                
+                <div class="current-preview" id="modal-preview" style="display: none;">
+                    <label>プレビュー:</label>
+                    <img id="modal-preview-img" alt="プレビュー">
                 </div>
             </div>
-
-            <!-- NSFW専用 -->
-            <div class="portal-card nsfw" onclick="location.href='pages/nsfw.html'">
-                <div class="portal-icon">🔞</div>
-                <h2 class="portal-title">NSFW専用</h2>
-                <p class="portal-description">
-                    成人向けコンテンツ専用ページ。<br>
-                    年齢確認後に、性的描写に特化したタグを提供。
-                </p>
-                <div class="portal-tags">
-                    <span class="portal-tag">体位・行為</span>
-                    <span class="portal-tag">質感・生理</span>
-                    <span class="portal-tag">着衣の乱れ</span>
-                    <span class="portal-tag">激しい表情</span>
-                </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" id="modal-cancel-btn">キャンセル</button>
+                <button class="btn-danger" id="delete-image-btn" style="display: none;">削除</button>
+                <button class="btn-primary" id="modal-save-btn">保存</button>
             </div>
-
-            <!-- 漫画制作 -->
-            <div class="portal-card manga" onclick="location.href='pages/manga.html'">
-                <div class="portal-icon">📖</div>
-                <h2 class="portal-title">漫画制作</h2>
-                <p class="portal-description">
-                    コマ割り、吹き出し、効果線など、<br>
-                    漫画・コミック制作に必要な要素を完備。
-                </p>
-                <div class="portal-tags">
-                    <span class="portal-tag">コマ割り</span>
-                    <span class="portal-tag">吹き出し</span>
-                    <span class="portal-tag">効果線</span>
-                    <span class="portal-tag">トーン</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- データ管理セクション -->
-        <div class="data-status">
-            <h3>💾 データ管理</h3>
-            <p id="storage-info">データサイズを確認中...</p>
-            <button class="clear-data-btn" onclick="clearAllData()">
-                🗑️ 全データをクリア
-            </button>
         </div>
     </div>
 
-    <script src="js/shared/state-sync.js"></script>
-    <script>
-        // データサイズ表示
-        function updateStorageInfo() {
-            const info = StateSyncManager.getStorageInfo();
-            const infoEl = document.getElementById('storage-info');
-            if (info.size === 0) {
-                infoEl.textContent = '保存されたデータはありません';
-            } else {
-                infoEl.textContent = `保存データ: ${info.sizeKB}KB`;
-            }
-        }
-
-        // 全データクリア
-        function clearAllData() {
-            if (confirm('⚠️ 全ての保存データ（キャラクター設定、プリセット等）が削除されます。\n\n本当に実行しますか？')) {
-                StateSyncManager.clear();
-                // ビジュアル画像データもクリア
-                const keys = Object.keys(localStorage);
-                keys.forEach(key => {
-                    if (key.startsWith('tag_visuals') || key.startsWith('preset_')) {
-                        localStorage.removeItem(key);
-                    }
-                });
-                alert('✅ 全データを削除しました');
-                updateStorageInfo();
-            }
-        }
-
-        // ページロード時
-        document.addEventListener('DOMContentLoaded', () => {
-            updateStorageInfo();
-        });
-    </script>
+    <script src="database.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
+
+
+
+
